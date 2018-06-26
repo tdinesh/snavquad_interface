@@ -93,4 +93,38 @@ sudo cp snav_params.xml /usr/share/data/adsp/
 If ESC Update is needed `force_firmware_update` and `force_config_update` have to be set in /usr/share/data/adsp/snav_params.xml and rebooted. On reboot boards updates ESC
 Reset params to 0 to disable update on every boot
 
+```
+cd /etc/snav
+sudo ./configure_vio.sh
+```
 
+Static and dynamic calibration (Vehicle will takeoff!!!)
+```
+sudo stop snav
+sudo start snav
+sudo snav_calibration_manager -s
+sudo snav_calibration_manager -d
+```
+
+To check vio and other status
+```
+snav_inspector
+```
+
+Setup other snav ros packages
+```
+cd ~/ws_ros
+mkdir src
+cd src
+mkdir snav
+git clone https://github.com/ATLFlight/ros-examples
+git clone https://github.com/ATLFlight/snav_ros
+git clone https://github.com/ATLFlight/snav_msgs
+git clone https://github.com/ATLFlight/snap_vio
+git clone https://github.com/ATLFlight/snap_imu
+git clone https://github.com/ATLFlight/snap_cpa
+git clone https://github.com/ATLFlight/snap_cam_ros
+git clone https://github.com/ATLFlight/qflight_descriptions
+git clone https://github.com/ATLFlight/snap_msgs
+git clone https://github.com/ATLFlight/dfs-ros-example
+```
