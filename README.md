@@ -77,7 +77,7 @@ mkdir ws_ros
 cd ws_ros
 mkdir src
 catkin init
-catkin config -DCMAKE_BUILD_TYPE=Release -j1
+catkin config -j1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS=-std=c++11 -DCMAKE_C_FLAGS=-std=gnu99
 ```
 
 Setup Machine Vision SDK and Snapdragon Navigator SDK
@@ -127,4 +127,26 @@ git clone https://github.com/ATLFlight/snap_cam_ros
 git clone https://github.com/ATLFlight/qflight_descriptions
 git clone https://github.com/ATLFlight/snap_msgs
 git clone https://github.com/ATLFlight/dfs-ros-example
+```
+
+
+```
+cd ~/ws_ros/src
+git clone https://github.com/ros-perception/vision_opencv.git
+cd vision_opencv
+git checkout origin/indigo
+cd ~/ws_ros/src
+git clone https://github.com/tdinesh/apriltag.git
+git checkout -t origin/devel_snav
+
+```
+
+OpenCV3 deb file (Not needed)
+```
+cd ~/Downloads
+wget http://px4-tools.s3.amazonaws.com/opencv3_20160222-1_armhf.deb
+```
+
+```
+roslaunch ddk_launch snav_interface.launch
 ```
