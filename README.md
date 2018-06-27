@@ -132,6 +132,7 @@ git clone https://github.com/ATLFlight/dfs-ros-example
 
 ```
 cd ~/ws_ros/src
+git clone https://github.com/ros-perception/image_common
 git clone https://github.com/ros-perception/vision_opencv.git
 cd vision_opencv
 git checkout origin/indigo
@@ -141,7 +142,7 @@ git checkout -t origin/devel_snav
 
 ```
 
-OpenCV3 deb file (Not needed)
+OpenCV3 deb file (Not needed) https://github.com/PX4/snap_cam/blob/master/README.md
 ```
 cd ~/Downloads
 wget http://px4-tools.s3.amazonaws.com/opencv3_20160222-1_armhf.deb
