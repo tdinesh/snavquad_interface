@@ -72,7 +72,7 @@ sudo rosdep init
 rosdep update
 sudo dpkg -r libhwloc-plugins
 sudo dpkg -r ocl-icd-libopencl1:armhf
-sudo apt-get install ros-indigo-tf2-ros python-catkin-tools
+sudo apt-get install ros-indigo-tf2-ros ros-indigo-geometry python-catkin-tools
 mkdir ws_ros
 cd ws_ros
 mkdir src
@@ -131,6 +131,7 @@ git clone https://github.com/ATLFlight/dfs-ros-example
 
 
 ```
+sudo apt-get install libeigen3-dev
 cd ~/ws_ros/src
 git clone https://github.com/ros-perception/image_common
 git clone https://github.com/ros-perception/vision_opencv.git
