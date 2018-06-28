@@ -40,6 +40,7 @@ cp wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 [Put the board in station mode](https://docs.px4.io/en/flight_controller/snapdragon_flight_advanced.html#wifi-settings)
 ```
 /usr/local/qr-linux/wificonfig.sh -s station
+echo "wireless-power off" >> /etc/network/interfaces.d/.qca6234.cfg.station
 ```
 
 Reeboot and try ssh 
@@ -72,7 +73,7 @@ sudo rosdep init
 rosdep update
 sudo dpkg -r libhwloc-plugins
 sudo dpkg -r ocl-icd-libopencl1:armhf
-sudo apt-get install ros-indigo-tf2-ros ros-indigo-geometry python-catkin-tools
+sudo apt-get install ros-indigo-tf2-ros ros-indigo-tf2-geometry-msgs ros-indigo-geometry python-catkin-tools ros-indigo-camera-info-manager
 mkdir ws_ros
 cd ws_ros
 mkdir src
@@ -117,7 +118,7 @@ cd ~/ws_ros
 mkdir src
 cd src
 mkdir snav
-git clone https://github.com/ATLFlight/ros-examples
+cd snav
 git clone https://github.com/ATLFlight/snav_ros
 git clone https://github.com/ATLFlight/snav_msgs
 git clone https://github.com/ATLFlight/snap_vio
@@ -127,15 +128,24 @@ git clone https://github.com/ATLFlight/snap_cam_ros
 git clone https://github.com/ATLFlight/qflight_descriptions
 git clone https://github.com/ATLFlight/snap_msgs
 git clone https://github.com/ATLFlight/dfs-ros-example
+cd ~/ws_ros/src/snav/snap_cam_ros
+git submodule init
+git submodule update
+cd ~/ws_ros/src/snav/snav_ros
+git submodule init
+git submodule update
 ```
 
 
 ```
-sudo apt-get install libeigen3-dev
+sudo apt-get install libeigen3-dev htop
 cd ~/ws_ros/src
 git clone https://github.com/ros-perception/image_common
+cd ~/ws_ros/src/image_common/
+touch CATKIN_IGNORE
+cd ~/ws_ros/src/
 git clone https://github.com/ros-perception/vision_opencv.git
-cd vision_opencv
+cd ~/ws_ros/src/vision_opencv
 git checkout origin/indigo
 cd ~/ws_ros/src
 git clone https://github.com/tdinesh/apriltag.git
