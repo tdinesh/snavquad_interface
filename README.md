@@ -59,6 +59,7 @@ sudo apt-get update
 ros-indigo-opencv3 has a conflict
 ```
 sudo apt purge --auto-remove libxcb1 libfreetype6
+sudo apt-get install -y libcairo-gobject2 libcairo2 libxft2 libfontconfig1 libharfbuzz0b libfreetype6 libxcursor1 libxdamage1 libxcb-render0 libxcb-shm0 libxfixes3 libxcomposite1 libxrandr2 xauth libxext6:armhf libxmuu1:armhf  libxrender1 libx11-6:armhf libxcb1 libgtkglextmm-x11-1.2-0 libgtk-3-0
 ```
 
 ```
@@ -74,9 +75,8 @@ rosdep update
 sudo dpkg -r libhwloc-plugins
 sudo dpkg -r ocl-icd-libopencl1:armhf
 sudo apt-get install ros-indigo-tf2-ros ros-indigo-tf2-geometry-msgs ros-indigo-geometry python-catkin-tools ros-indigo-camera-info-manager
-mkdir ws_ros
-cd ws_ros
-mkdir src
+mkdir -p ws_ros/src
+cd ws_src
 catkin init
 catkin config -j1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS=-std=c++11 -DCMAKE_C_FLAGS=-std=gnu99
 ```
@@ -116,9 +116,7 @@ snav_inspector
 
 Setup other snav ros packages
 ```
-cd ~/ws_ros
-mkdir src
-cd src
+cd ~/ws_ros/src
 mkdir snav
 cd snav
 git clone https://github.com/ATLFlight/snav_ros
