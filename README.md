@@ -145,6 +145,7 @@ cd ~/ws_ros/src/image_common/
 touch CATKIN_IGNORE
 cd ~/ws_ros/src/
 git clone https://github.com/ros-perception/vision_opencv.git
+git clone https://github.com/ros-perception/image_transport_plugins.git
 cd ~/ws_ros/src/vision_opencv
 git checkout origin/indigo
 cd ~/ws_ros/src
