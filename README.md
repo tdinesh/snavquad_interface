@@ -88,6 +88,8 @@ sudo dpkg -i mv_1.1.8_8x74.deb
 sudo dpkg -i snav_1.2.58_8x74.deb
 sudo dpkg -i snav-esc_1.2.0.deb
 sudo cp snapdragon-flight-license.bin /usr/lib
+sudo mkdir -p /opt/qcom-licenses/
+sudo cp snapdragon-flight-license.bin /opt/qcom-licenses/
 sudo cp snav_params.xml /usr/share/data/adsp/
 ```
 
