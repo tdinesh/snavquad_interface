@@ -33,8 +33,8 @@ adb push snav_setup /home/linaro/snav_setup
 Modify /etc/network/interfaces and /etc/wpa_supplicant/wpa_supplicant.conf to connect to WiFi network
 ```
 cd ~/snav_setup
-cp interface /etc/network/interface
-cp wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
+sudo cp interfaces /etc/network/interface
+sudo cp wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 ```
 
 [Put the board in station mode](https://docs.px4.io/en/flight_controller/snapdragon_flight_advanced.html#wifi-settings)
