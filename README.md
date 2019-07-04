@@ -48,6 +48,13 @@ Reeboot and try ssh
 ssh linaro@dragon65
 ```
 
+Update dpkg
+```
+cd ~/
+wget http://launchpadlibrarian.net/359699571/dpkg_1.17.5ubuntu5.8_armhf.deb
+sudo dpkg -i dpkg_1.17.5ubuntu5.8_armhf.deb
+```
+
 [ROS Installation](https://github.com/ATLFlight/ATLFlightDocs/blob/master/SnapdragonROSInstallation.md)
 ```
 sudo apt-get install -f
@@ -60,13 +67,6 @@ ros-indigo-opencv3 has a conflict
 ```
 sudo apt purge --auto-remove libxcb1 libfreetype6
 sudo apt-get install -y libcairo-gobject2 libcairo2 libxft2 libfontconfig1 libharfbuzz0b libfreetype6 libxcursor1 libxdamage1 libxcb-render0 libxcb-shm0 libxfixes3 libxcomposite1 libxrandr2 xauth libxext6:armhf libxmuu1:armhf  libxrender1 libx11-6:armhf libxcb1 libgtkglextmm-x11-1.2-0 libgtk-3-0
-```
-
-Update dpkg
-```
-cd ~/
-wget http://launchpadlibrarian.net/359699571/dpkg_1.17.5ubuntu5.8_armhf.deb
-sudo dpkg -i dpkg_1.17.5ubuntu5.8_armhf.deb
 ```
 
 ```
