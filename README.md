@@ -43,7 +43,7 @@ sudo cp wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 echo "wireless-power off" >> /etc/network/interfaces.d/.qca6234.cfg.station
 ```
 
-Reeboot and try ssh 
+Reboot and try ssh 
 ```
 ssh linaro@dragon65
 ```
@@ -83,7 +83,7 @@ sudo dpkg -r libhwloc-plugins
 sudo dpkg -r ocl-icd-libopencl1:armhf
 sudo apt-get install ros-indigo-tf2-ros ros-indigo-tf2-geometry-msgs ros-indigo-geometry python-catkin-tools ros-indigo-camera-info-manager
 mkdir -p ws_ros/src
-cd ws_src
+cd ws_ros
 catkin init
 catkin config -j1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS=-std=c++11 -DCMAKE_C_FLAGS=-std=gnu99
 ```
@@ -120,6 +120,13 @@ To check vio and other status
 ```
 snav_inspector
 ```
+
+Disable apps
+```
+cd /etc/snav
+sudo ./disable_apps.sh
+```
+Reboot and proceed
 
 Setup other snav ros packages
 ```
