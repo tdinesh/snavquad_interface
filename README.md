@@ -63,6 +63,12 @@ sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C
 sudo apt-get update
 ```
 
+If you get a NO_PUBKEY error with a alphanumeric key, run:
+
+```
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys <key>
+```
+
 ros-indigo-opencv3 has a conflict
 ```
 sudo apt purge --auto-remove libxcb1 libfreetype6
