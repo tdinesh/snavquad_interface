@@ -33,7 +33,7 @@ adb push snav_setup /home/linaro/snav_setup
 Modify /etc/network/interfaces and /etc/wpa_supplicant/wpa_supplicant.conf to connect to WiFi network
 ```
 cd ~/snav_setup
-sudo cp interfaces /etc/network/interface
+sudo cp interfaces /etc/network/interfaces
 sudo cp wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 ```
 
