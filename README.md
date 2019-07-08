@@ -33,7 +33,7 @@ adb push snav_setup /home/linaro/snav_setup
 Modify /etc/network/interfaces and /etc/wpa_supplicant/wpa_supplicant.conf to connect to WiFi network
 ```
 cd ~/snav_setup
-sudo cp interfaces /etc/network/interface
+sudo cp interfaces /etc/network/interfaces
 sudo cp wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 ```
 
@@ -43,7 +43,7 @@ sudo cp wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 echo "wireless-power off" >> /etc/network/interfaces.d/.qca6234.cfg.station
 ```
 
-Reeboot and try ssh 
+Reboot and try ssh 
 ```
 ssh linaro@dragon65
 ```
@@ -61,6 +61,12 @@ sudo apt-get install -f
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt/sources.list.d/ros-latest.list'
 sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
 sudo apt-get update
+```
+
+If you get a NO_PUBKEY error with a alphanumeric key, run:
+
+```
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys <key>
 ```
 
 ros-indigo-opencv3 has a conflict
@@ -83,7 +89,7 @@ sudo dpkg -r libhwloc-plugins
 sudo dpkg -r ocl-icd-libopencl1:armhf
 sudo apt-get install ros-indigo-tf2-ros ros-indigo-tf2-geometry-msgs ros-indigo-geometry python-catkin-tools ros-indigo-camera-info-manager
 mkdir -p ws_ros/src
-cd ws_src
+cd ws_ros
 catkin init
 catkin config -j1 -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_CXX_FLAGS=-std=c++11 -DCMAKE_C_FLAGS=-std=gnu99
 ```
@@ -120,6 +126,13 @@ To check vio and other status
 ```
 snav_inspector
 ```
+
+Disable apps
+```
+cd /etc/snav
+sudo ./disable_apps.sh
+```
+Reboot and proceed
 
 Setup other snav ros packages
 ```
