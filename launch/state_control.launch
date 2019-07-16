@@ -1,0 +1,98 @@
+<launch>
+  <arg name="mav_name" default="$(env MAV_NAME)"/>
+  <arg name="mass" default="0.253"/>
+  <arg name="show_down_img" default="false"/>
+  <arg name="control_rate" default="100"/>
+  <arg name="down_img_pub_rate" default="5"/>
+
+  <arg name="odom_topic" value="/$(arg mav_name)/quadrotor_ukf/control_odom"/>
+
+  <group ns="$(arg mav_name)">
+
+    <param name="mass" value="$(arg mass)"/>
+
+    <node pkg="nodelet"
+      type="nodelet"
+      name="standalone_nodelet"
+      args="manager"
+      output="screen">
+     <rosparam file="$(find snavquad_interface)/config/mav_manager_params.yaml" />
+   </node>
+
+    <node pkg="nodelet"
+      type="nodelet"
+      name="trackers_manager"
+      args="load trackers_manager/TrackersManager standalone_nodelet"
+      output="screen">
+      <rosparam file="$(find snavquad_interface)/config/trackers.yaml"/>
+      <rosparam file="$(find snavquad_interface)/config/tracker_params.yaml"/>
+      <rosparam file="$(find snavquad_interface)/config/ddk_gains.yaml"/>
+      <remap from="~odom" to="$(arg odom_topic)"/>
+      <remap from="~cmd" to="position_cmd"/>
+    </node>
+
+    <node pkg="nodelet"
+      type="nodelet"
+      args="load so3_control/SO3ControlNodelet standalone_nodelet"
+      name="so3_control"
+      required="true"
+      output="screen">
+      <rosparam file="$(find snavquad_interface)/config/ddk_gains.yaml"/>
+      <param name="mass" value="$(arg mass)"/>
+      <param name="use_external_yaw" value="false"/>
+      <remap from="~odom" to="$(arg odom_topic)"/>
+      <remap from="~position_cmd" to="position_cmd"/>
+      <remap from="~so3_cmd" to="so3_cmd"/>
+      <remap from="~motors" to="motors"/>
+    </node>
+
+    <node pkg="nodelet"
+      type="nodelet"
+      args="standalone qualcomm_interface/SO3CmdToQualcomm"
+      name="so3cmd_to_qualcomm_nodelet"
+      required="true"
+      clear_params="true"
+      output="screen">
+      <remap from="~odom" to="$(arg odom_topic)"/>
+      <remap from="~so3_cmd" to="so3_cmd"/>
+    </node>
+
+    <node pkg="vio_qc"
+      type="MVSampleVISLAMEagle"
+      name="MVSampleVISLAMEagle"
+      output="screen" args = "-a">
+      <remap from="~vio_pose" to="vio_pose"/>
+      <remap from="~imu" to="imu"/>
+      <param name="show_img_ros" type="bool" value="$(arg show_down_img)" />
+      <param name="down_img_pub_rate" type="int" value="$(arg down_img_pub_rate)" />
+      <param name="control_rate" type="int" value="$(arg control_rate)" />
+    </node>
+
+    <node pkg="quadrotor_ukf"
+      type="quadrotor_ukf"
+      name="quadrotor_ukf"
+      output="screen">
+      <remap from="~odom_slam" to="vio_pose"/>
+      <remap from="~imu" to="imu"/>
+    </node>
+
+    <node pkg="mav_manager"
+      type="mav_services"
+      name="mav_services"
+      output="screen">
+      <rosparam file="$(find snavquad_interface)/config/mav_manager_params.yaml"/>
+      <remap from="odom" to="$(arg odom_topic)"/>
+    </node>
+
+    <node name="odom_throttler"
+      type="throttle"
+      pkg="topic_tools"
+      args="messages quadrotor_ukf/control_odom 30 quadrotor_ukf/control_odom_throttled"/>
+
+    <!--
+    <node name="vioqc_map_pc_pub" pkg="groundstation_vio_qc" type="vioqc_map_pc_pub" output="screen">
+      <remap from="~current_vio_map" to="MVSampleVISLAMEagle/vio_pc"/>
+    </node> -->
+
+  </group>
+</launch>

@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
-
 <package format="2">
-	<name>snavquad_interface</name>
-	<version>0.0.1</version>
-	<description>Quadrotor control to Qualcomm Snav Interface</description>
-	<maintainer email="tdinesh@seas.upenn.edu">Dinesh Thakur</maintainer>
-	<license>BSD</license>
-	<buildtool_depend>catkin</buildtool_depend>
+  <name>snavquad_interface</name>
+  <version>0.0.0</version>
+  <description>The qualcomm_interface package</description>
 
-	<depend>roscpp</depend>
-	<depend>quadrotor_msgs</depend>
+  <maintainer email="tdinesh@seas.upenn.edu">Dinesh Thakur</maintainer>
+
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>cmake_modules</build_depend>
   <depend>nav_msgs</depend>
   <depend>nodelet</depend>
+  <depend>quadrotor_msgs</depend>
+  <depend>roscpp</depend>
   <depend>tf_conversions</depend>
-
-	<export>
+  <export>
     <nodelet plugin="${prefix}/nodelet_plugin.xml"/>
-	</export>
-
+  </export>
 </package>
