@@ -70,12 +70,12 @@ sudo halt
 Check SSH
   * unpower the vehicle and remove ADB cable
   * repower the vehicle
-  * (password: linaro) 
+  * (password: linaro)
 ```
 ssh linaro@dragonfly$1
 sudo -s
 ```
-  * If ssh fails, likely the hostname is not resolving. 
+  * If ssh fails, likely the hostname is not resolving.
   * Only for 18.04 (on laptop)
 ```
 sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
@@ -137,12 +137,12 @@ cd /etc/snav
 
 Update package listing
   * This step assumes the vehicle has an internet connection!!!
-``` 
+```
 sudo apt-get update
 ```
   * If you get a NO_PUBKEY error with a alphanumeric key, run:
 ```
-sudo apt-key adv * keyserver keyserver.ubuntu.com * recv-keys <key> 
+sudo apt-key adv * keyserver keyserver.ubuntu.com * recv-keys <key>
 ```
 
 Install ROS
@@ -175,7 +175,6 @@ echo "source /home/linaro/ws_ros/devel/setup.bash" >> /home/linaro/.bashrc
 Clone ATLFlight repos
 ```
 cd ~/ws_ros/src
-git clone https://github.com/ATLFlight/snap_msgs.git
 git clone https://github.com/ATLFlight/snav_msgs
 git clone https://github.com/ATLFlight/snap_vio
 git clone https://github.com/ATLFlight/snap_imu
@@ -185,7 +184,6 @@ git clone https://github.com/ATLFlight/qflight_descriptions
 git clone https://github.com/ATLFlight/snap_msgs
 git clone https://github.com/ATLFlight/dfs-ros-example
 git clone https://github.com/ATLFlight/snav_ros
-git clone https://github.com/ATLFlight/snap_cam_ros.git
 ```
 
 ```
