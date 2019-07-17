@@ -207,6 +207,8 @@ git clone -b hydro-devel https://github.com/ros-perception/image_common.git
 Clone KumarRobotics repos
 ```
 git clone https://github.com/KumarRobotics/quadrotor_control.git
+git submodule init
+git submodule update
 ```
 
 Clone `vio_qc` packages. If you dont have git access skip to next step
