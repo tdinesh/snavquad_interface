@@ -231,16 +231,15 @@ rm ukf_packages.zip
 Clone launch files repo
 ```
 cd ~/ws_ros/src
-git clone https://github.com/tdinesh/snavquad_interface.git
-git checkout devel_fixes
+git clone -b devel_fixes https://github.com/tdinesh/snavquad_interface.git
 ```
 
 Compile ros packages
 ```
 cd ~/ws_ros
-catkin build
+catkin build -c
 ```
- * Grab a cup of coffee or two. This will take some time
+ * Grab a cup of coffee; this will take about 40 minutes.
 
 Once compiled run the following launch files in `tmux`
 ```
