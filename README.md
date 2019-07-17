@@ -215,9 +215,15 @@ git clone https://github.com/loiannog/vio_qc.git
 git checkout version_12
 ```
 
-Clone/get ukf_packages.zip in `~/ws_ros/src` folder
+Copy ukf_packages.zip into `~/ws_ros/src` folder and unzip.
+  * For example, from your laptop copy over the file.
+```
+scp ukf_packages.zip linaro@dragonfly$1:~/ws_ros/src/
+```
+  * Then from the device unzip and clean up.
 ```
 unzip ukf_packages.zip
+rm ukf_packages.zip
 ```
 
 Clone launch files repo
