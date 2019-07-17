@@ -196,15 +196,12 @@ git submodule update
 ```
 
 Clone opencv/image_transport repos
-  * Make sure to get right branch
+  * Clone and select correct branch (currently Indigo if available).
 ```
 cd ~/ws_ros/src
-git clone https://github.com/ros-perception/vision_opencv.git
-cd vision_opencv
-git checkout origin/indigo
-cd ..
-git clone https://github.com/ros-perception/image_transport_plugins.git
-git clone https://github.com/ros-perception/image_common.git
+git clone -b indigo https://github.com/ros-perception/vision_opencv.git
+git clone -b indigo-devel https://github.com/ros-perception/image_transport_plugins.git
+git clone -b hydro-devel https://github.com/ros-perception/image_common.git
 ```
 
 Clone KumarRobotics repos
