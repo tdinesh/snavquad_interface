@@ -124,7 +124,7 @@ Somehow related to the parameters that were just set.
 ```
 cd /etc/snav
 sudo ./configure_vio.sh -c downward
-'''
+```
 
 ```
 sudo stop snav
