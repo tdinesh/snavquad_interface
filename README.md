@@ -120,6 +120,12 @@ For dragonfly vehicle
 sudo cp snav_params.xml /usr/share/data/adsp/snav_params.xml
 ```
 
+Somehow related to the parameters that were just set.
+```
+cd /etc/snav
+sudo ./configure_vio.sh -c downward
+'''
+
 ```
 sudo stop snav
 sudo start snav
@@ -167,7 +173,7 @@ Create ros workspace
 mkdir -p ~/ws_ros/src
 cd ~/ws_ros
 catkin init
-catkin config -DCMAKE_BUILD_TYPE=Release
+catkin config -DCMAKE_BUILD_TYPE=Release -j3
 catkin build
 echo "source /home/linaro/ws_ros/devel/setup.bash" >> /home/linaro/.bashrc
 ```
@@ -234,7 +240,8 @@ cd ~/ws_ros/src
 git clone -b devel_fixes https://github.com/tdinesh/snavquad_interface.git
 ```
 
-Compile ros packages
+Compile ROS Packages
+  * Run a fan while compiling (onboard or offboard) to avoid damaging the board.
 ```
 cd ~/ws_ros
 catkin build -c
