@@ -70,12 +70,12 @@ sudo halt
 Check SSH
   * unpower the vehicle and remove ADB cable
   * repower the vehicle
-  * (password: linaro) 
+  * (password: linaro)
 ```
 ssh linaro@dragonfly$1
 sudo -s
 ```
-  * If ssh fails, likely the hostname is not resolving. 
+  * If ssh fails, likely the hostname is not resolving.
   * Only for 18.04 (on laptop)
 ```
 sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
@@ -120,6 +120,12 @@ For dragonfly vehicle
 sudo cp snav_params.xml /usr/share/data/adsp/snav_params.xml
 ```
 
+Somehow related to the parameters that were just set.
+```
+cd /etc/snav
+sudo ./configure_vio.sh -c downward
+```
+
 ```
 sudo stop snav
 sudo start snav
@@ -137,12 +143,12 @@ cd /etc/snav
 
 Update package listing
   * This step assumes the vehicle has an internet connection!!!
-``` 
+```
 sudo apt-get update
 ```
   * If you get a NO_PUBKEY error with a alphanumeric key, run:
 ```
-sudo apt-key adv * keyserver keyserver.ubuntu.com * recv-keys <key> 
+sudo apt-key adv * keyserver keyserver.ubuntu.com * recv-keys <key>
 ```
 
 Install ROS
@@ -167,7 +173,7 @@ Create ros workspace
 mkdir -p ~/ws_ros/src
 cd ~/ws_ros
 catkin init
-catkin config -DCMAKE_BUILD_TYPE=Release
+catkin config -DCMAKE_BUILD_TYPE=Release -j3
 catkin build
 echo "source /home/linaro/ws_ros/devel/setup.bash" >> /home/linaro/.bashrc
 ```
@@ -175,7 +181,6 @@ echo "source /home/linaro/ws_ros/devel/setup.bash" >> /home/linaro/.bashrc
 Clone ATLFlight repos
 ```
 cd ~/ws_ros/src
-git clone https://github.com/ATLFlight/snap_msgs.git
 git clone https://github.com/ATLFlight/snav_msgs
 git clone https://github.com/ATLFlight/snap_vio
 git clone https://github.com/ATLFlight/snap_imu
@@ -185,7 +190,6 @@ git clone https://github.com/ATLFlight/qflight_descriptions
 git clone https://github.com/ATLFlight/snap_msgs
 git clone https://github.com/ATLFlight/dfs-ros-example
 git clone https://github.com/ATLFlight/snav_ros
-git clone https://github.com/ATLFlight/snap_cam_ros.git
 ```
 
 ```
@@ -198,20 +202,19 @@ git submodule update
 ```
 
 Clone opencv/image_transport repos
-  * Make sure to get right branch
+  * Clone and select correct branch (currently Indigo if available).
 ```
 cd ~/ws_ros/src
-git clone https://github.com/ros-perception/vision_opencv.git
-cd vision_opencv
-git checkout origin/indigo
-cd ..
-git clone https://github.com/ros-perception/image_transport_plugins.git
-git clone https://github.com/ros-perception/image_common.git
+git clone -b indigo https://github.com/ros-perception/vision_opencv.git
+git clone -b indigo-devel https://github.com/ros-perception/image_transport_plugins.git
+git clone -b hydro-devel https://github.com/ros-perception/image_common.git
 ```
 
 Clone KumarRobotics repos
 ```
 git clone https://github.com/KumarRobotics/quadrotor_control.git
+git submodule init
+git submodule update
 ```
 
 Clone `vio_qc` packages. If you dont have git access skip to next step
@@ -220,24 +223,30 @@ git clone https://github.com/loiannog/vio_qc.git
 git checkout version_12
 ```
 
-Clone/get ukf_packages.zip in `~/ws_ros/src` folder
+Copy ukf_packages.zip into `~/ws_ros/src` folder and unzip.
+  * For example, from your laptop copy over the file.
+```
+scp ukf_packages.zip linaro@dragonfly$1:~/ws_ros/src/
+```
+  * Then from the device unzip and clean up.
 ```
 unzip ukf_packages.zip
+rm ukf_packages.zip
 ```
 
 Clone launch files repo
 ```
 cd ~/ws_ros/src
-git clone https://github.com/tdinesh/snavquad_interface.git
-git checkout devel_fixes
+git clone -b devel_fixes https://github.com/tdinesh/snavquad_interface.git
 ```
 
-Compile ros packages
+Compile ROS Packages
+  * Run a fan while compiling (onboard or offboard) to avoid damaging the board.
 ```
 cd ~/ws_ros
-catkin build
+catkin build -c
 ```
- * Grab a cup of coffee or two. This will take some time
+ * Grab a cup of coffee; this will take about 40 minutes.
 
 Once compiled run the following launch files in `tmux`
 ```
