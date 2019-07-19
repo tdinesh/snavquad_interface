@@ -292,6 +292,12 @@ Once compiled run the following launch files in `tmux` on the board
 cd /etc/snav
 sudo ./configure_vio.sh -c downward
 ```
+ * Always stop/start Snapdragon Navigator `snav` before starting a new flight. There is also a bash alias `restart_snav` that combines the two commands. This command also attempts to start any other processes that are configured to autostart. By default, Qualcomm Navigator is configured to autostart with Visual Inertial Odometry (VIO) and Qualcomm DroneController companion processes. DroneController (Android app) can be used to control a vehicle running Qualcomm Navigator. Read [Qualcomm Navigator User Guide (8x96)](https://developer.qualcomm.com/downloads/qualcomm-navigator-user-guide-8x96?referrer=node/34698) for detailed information on all the apps, etc. 
+ 
+```
+sudo stop snav
+sudo start snav
+```
 
 ```
 sudo -s
@@ -305,17 +311,19 @@ cd /etc/snav
 sudo ./disable_apps.sh
 ```
 
+ * Always stop/start Snapdragon Navigator `snav` before starting a new flight. There is a bash alias `restart_snav` that combines the two commands. This command also attempts to start any other processes that are configured to autostart.  
 ```
+restart_snav
 sudo -s
 roslaunch snavquad_interface vio_qc.launch mav_type:=ddk mass:=0.394 use_vicon:=false
 roslaunch snavquad_interface snav_tf_pub.launch
 ```
-
  * set `use_vicon:=true` if flying in motion_capture.
  * vehicle type can be `ddk` or `dragonfly` based on the frame. Set `mass:=0.24` for dragonfly platform.
  * vehicle ready to fly with `rqt_mav_manager`. Refer to `quadrotor_control` for further detailed instructions.
 
-On your laptop, setup `ROS_MASTER_URI` for example assuming `dragonfly60` and `quadrotor_control` compiled in your laptop workspace
+On your laptop, setup `ROS_MASTER_URI` for example, assuming `quadrotor_control` is compiled in your laptop workspace `dragonfly60` platform
+
 ```
 export ROS_MASTER_URI=http://dragonfly60:11311
 rosrun rqt_mav_manager rqt_mav_manager
