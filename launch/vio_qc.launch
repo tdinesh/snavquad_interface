@@ -1,11 +1,16 @@
 <launch>
   <arg name="mav_name" default="$(env MAV_NAME)"/>
-  <arg name="mass" default="0.253"/>
+  <arg name="mav_type" default="ddk"/>
+  <arg name="mass" default="0.392"/>
+
+  <arg name="use_vicon" default="false"/>
+
   <arg name="show_down_img" default="false"/>
-  <arg name="control_rate" default="100"/>
+  <arg name="control_rate" default="150"/>
   <arg name="down_img_pub_rate" default="5"/>
 
-  <arg name="odom_topic" value="/$(arg mav_name)/quadrotor_ukf/control_odom"/>
+  <arg name="odom_topic" value="/$(arg mav_name)/odom" if="$(arg use_vicon)"/>
+  <arg name="odom_topic" value="/$(arg mav_name)/quadrotor_ukf/control_odom" unless="$(arg use_vicon)"/>
 
   <group ns="$(arg mav_name)">
 
@@ -57,25 +62,6 @@
       <remap from="~so3_cmd" to="so3_cmd"/>
     </node>
 
-    <node pkg="vio_qc"
-      type="MVSampleVISLAMEagle"
-      name="MVSampleVISLAMEagle"
-      output="screen" args = "-a">
-      <remap from="~vio_pose" to="vio_pose"/>
-      <remap from="~imu" to="imu"/>
-      <param name="show_img_ros" type="bool" value="$(arg show_down_img)" />
-      <param name="down_img_pub_rate" type="int" value="$(arg down_img_pub_rate)" />
-      <param name="control_rate" type="int" value="$(arg control_rate)" />
-    </node>
-
-    <node pkg="quadrotor_ukf"
-      type="quadrotor_ukf"
-      name="quadrotor_ukf"
-      output="screen">
-      <remap from="~odom_slam" to="vio_pose"/>
-      <remap from="~imu" to="imu"/>
-    </node>
-
     <node pkg="mav_manager"
       type="mav_services"
       name="mav_services"
@@ -84,15 +70,36 @@
       <remap from="odom" to="$(arg odom_topic)"/>
     </node>
 
-    <node name="odom_throttler"
-      type="throttle"
-      pkg="topic_tools"
-      args="messages quadrotor_ukf/control_odom 30 quadrotor_ukf/control_odom_throttled"/>
+    <group unless="$(arg use_vicon)">
+      <node pkg="vio_qc"
+        type="MVSampleVISLAMEagle"
+        name="MVSampleVISLAMEagle"
+        output="screen" args = "-a">
+        <remap from="~vio_pose" to="vio_pose"/>
+        <remap from="~imu" to="imu"/>
+        <param name="show_img_ros" type="bool" value="$(arg show_down_img)" />
+        <param name="down_img_pub_rate" type="int" value="$(arg down_img_pub_rate)" />
+        <param name="control_rate" type="int" value="$(arg control_rate)" />
+      </node>
 
-    <!--
-    <node name="vioqc_map_pc_pub" pkg="groundstation_vio_qc" type="vioqc_map_pc_pub" output="screen">
-      <remap from="~current_vio_map" to="MVSampleVISLAMEagle/vio_pc"/>
-    </node> -->
+      <node pkg="quadrotor_ukf"
+        type="quadrotor_ukf"
+        name="quadrotor_ukf"
+        output="screen">
+        <remap from="~odom_slam" to="vio_pose"/>
+        <remap from="~imu" to="imu"/>
+      </node>
+
+      <node name="odom_throttler"
+        type="throttle"
+        pkg="topic_tools"
+        args="messages quadrotor_ukf/control_odom 30 quadrotor_ukf/control_odom_throttled"/>
+
+      <!--
+      <node name="vioqc_map_pc_pub" pkg="groundstation_vio_qc" type="vioqc_map_pc_pub" output="screen">
+        <remap from="~current_vio_map" to="MVSampleVISLAMEagle/vio_pc"/>
+      </node> -->
+    </group>
 
   </group>
 </launch>

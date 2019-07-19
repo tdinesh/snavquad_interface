@@ -1,10 +1,10 @@
 # Snapdragon Flight Documentation/Interface
 
-These pages provide some information about the [Snapdragon Flight™](https://developer.qualcomm.com/hardware/snapdragon-flight) platform (developer’s edition) including how to setup the build environment, interface with quadrotor_control and more. 
+These pages provide some information about the [Snapdragon Flight™](https://developer.qualcomm.com/hardware/snapdragon-flight) platform (developer’s edition) including how to setup the build environment, interface with quadrotor_control and more.
 
-Our board setup is slightly different than the [official documentation](https://github.com/ATLFlight/ATLFlightDocs). 
+Our board setup is slightly different than the [official documentation](https://github.com/ATLFlight/ATLFlightDocs).
 
-We have two hardware platforms available in the lab for use. 
+We have two hardware platforms available in the lab for use.
 * [Dragon Drone Development Kit](https://worldsway.com/product/dragon-drone-development-kit/) DDK
 * Dragonfly
 
@@ -18,7 +18,7 @@ User Guides:
 * [Tools & Resources](https://developer.qualcomm.com/software/qualcomm-navigator/tools)
 * [Qualcomm Navigator User Guide (8x96)](https://developer.qualcomm.com/downloads/qualcomm-navigator-user-guide-8x96?referrer=node/34698)
 * [Qualcomm Navigator Developer Guide v1.2.53.1](https://developer.qualcomm.com/download/qualcomm-flight/navigator-developer-guide-1.2.53.1.pdf?referrer=node/34698)
-* [Guides on Intrinsyc](https://tech.intrinsyc.com/projects/snapdragon-flight/documents) - Needs Login. 
+* [Guides on Intrinsyc](https://tech.intrinsyc.com/projects/snapdragon-flight/documents) - Needs Login.
 * [Qualcomm Flight Debug Connector Pin-out and Hardware User Guide](https://developer.qualcomm.com/download/qualcomm-flight/qcflight-debug-connector-pin-out-hw-user-guide.pdf?referrer=node/30229)
 
 ## Snapdragon Flight board setup
@@ -270,33 +270,33 @@ catkin build -c
 ```
  * Grab a cup of coffee; this will take about 40 minutes.
 
-## Flying with the flight board and DDK (platform). 
+## Flying with the flight board and DDK (platform).
 
 There are couple of ways to fly the platform
  1. Using snapdragons internal apps for [`VISLAM`](https://developer.qualcomm.com/software/qualcomm-navigator) and control.
  2. Using `VIO_QC` and `quadrotor_control`.
  3. Using vicon as odometry source with snapdragons internal app for control.
  4. Using vicon as odometry source with `quadrotor_control`.
- 
- * `VIO_QC` is basically `VISLAM` with ROS interface. 
- 
+
+ * `VIO_QC` is basically `VISLAM` with ROS interface.
+
 Once compiled run the following launch files in `tmux` on the board
 
 1. Using snapdragons internal apps for [`VISLAM`]
 
 ```
-roslaunch snavquad_interface vislam.launch mav_type:=dragonfly use_vicon:=false
+roslaunch snavquad_interface vislam.launch mav_type:=ddk mass:=0.394 use_vicon:=false
 roslaunch snavquad_interface snav_tf_pub.launch
 ```
 
 2. Using `VIO_QC` and `quadrotor_control`.
 ```
-roslaunch snavquad_interface vio_qc.launch mav_type:=dragonfly use_vicon:=false
+roslaunch snavquad_interface vio_qc.launch mav_type:=ddk mass:=0.394 use_vicon:=false
 roslaunch snavquad_interface snav_tf_pub.launch
 ```
 
- * set `use_vicon:=true` if flying in motion_capture. 
- * vehicle type can be `ddk` or `dragonfly` based on the frame.
+ * set `use_vicon:=true` if flying in motion_capture.
+ * vehicle type can be `ddk` or `dragonfly` based on the frame. Set `mass:=0.24` for dragonfly platform.
  * vehicle ready to fly with `rqt_mav_manager`. Refer to `quadrotor_control` for further detailed instructions.
 
 On your laptop, setup `ROS_MASTER_URI` for example assuming `dragonfly60` and `quadrotor_control` compiled in your laptop workspace

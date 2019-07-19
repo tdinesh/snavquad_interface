@@ -1,0 +1,48 @@
+<launch>
+  <arg name="model" default="$(env MAV_NAME)"/>
+  <arg name="mav_type" default="ddk"/>
+  <arg name="mass" default="0.392"/>
+
+  <arg name="use_vicon" default="false"/>
+
+  <group ns="$(arg model)">
+
+    <param name="mass" value="$(arg mass)"/>
+
+    <node pkg="mav_manager"
+      type="mav_services"
+      name="mav_services"
+      clear_params="true"
+      output="screen">
+      <rosparam file="$(find snavquad_interface)/config/mav_manager_params.yaml" />
+    </node>
+
+    <node pkg="nodelet"
+      type="nodelet"
+      name="standalone_nodelet"
+      args="manager"
+      output="screen"/>
+
+    <node pkg="nodelet"
+      type="nodelet"
+      name="trackers_manager"
+      args="load trackers_manager/TrackersManager standalone_nodelet"
+      clear_params="true"
+      output="screen">
+      <rosparam file="$(find snavquad_interface)/config/trackers.yaml"/>
+      <rosparam file="$(find snavquad_interface)/config/tracker_params.yaml"/>
+      <remap from="~odom" to="odom"/>
+      <remap from="~cmd" to="position_cmd"/>
+    </node>
+
+    <node pkg="qualcomm_interface" type="pos_cmd_subscriber" name="pos_cmd_subscriber" output="screen"/>
+
+    <group unless="$(arg use_vicon)">
+
+      <!-- Node that publishes snav pose as odom -->
+      <node pkg="qualcomm_interface" type="vio_odom_publisher" name="vio_odom_publisher" output="screen"/>
+
+    </group>
+
+  </group>
+</launch>
