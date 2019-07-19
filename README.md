@@ -142,7 +142,7 @@ For dragonfly vehicle
 sudo cp snav_params.xml /usr/share/data/adsp/snav_params.xml
 ```
 
-Somehow related to the parameters that were just set.
+Following enables Snapdragon VIO app with downward facing camera. Without the `downward` flag, downward camera mounted with 45 deg tilt is used. 
 ```
 cd /etc/snav
 sudo ./configure_vio.sh -c downward
@@ -157,7 +157,13 @@ sudo snav_calibration_manager -s
 * Update vehicle specific parameters...vehicle length dx, dy, basethrust in /usr/share/data/adsp/snav_params.xml
 * Vehicle should be flyable with RC at this point
 
-Disable snav apps
+If needed perform dynamic calibration with props mounted.
+```
+sudo snav_calibration_manager -d 
+```
+ * Warning!! Vehicle will automatically takeoff and land after few mins. Make sure you have copied the correct `snav_params` files. 
+ 
+Disable snav apps (`snav_dft`, `snav_dft_vio`, `snav_dft_vio_apriltag`, `snav_voa`). This allows external ROS interfaces we use to have acess to the camera/imu. (Note, dynamic calibration won't work after these apps are disabled)
 ```
 cd /etc/snav
 ./disable_apps.sh
@@ -282,14 +288,23 @@ There are couple of ways to fly the platform
 
 Once compiled run the following launch files in `tmux` on the board
 
-1. Using snapdragons internal apps for [`VISLAM`]
+1. Using snapdragons internal apps for [`VISLAM`]. For this VIO app has to be enabled and running. 
+```
+cd /etc/snav
+sudo ./configure_vio.sh -c downward
+```
 
 ```
 roslaunch snavquad_interface vislam.launch mav_type:=ddk mass:=0.394 use_vicon:=false
 roslaunch snavquad_interface snav_tf_pub.launch
 ```
 
-2. Using `VIO_QC` and `quadrotor_control`.
+2. Using `VIO_QC` and `quadrotor_control`. For using `VIO_QC`, the internal `VIO` and other apps have to be disabled to allow access to camera/imu. `VIO_QC` grabs downward camera images and imu directly and provides a ROS interface for VIO. 
+```
+cd /etc/snav
+sudo ./disable_apps.sh
+```
+
 ```
 roslaunch snavquad_interface vio_qc.launch mav_type:=ddk mass:=0.394 use_vicon:=false
 roslaunch snavquad_interface snav_tf_pub.launch
