@@ -270,9 +270,39 @@ catkin build -c
 ```
  * Grab a cup of coffee; this will take about 40 minutes.
 
-Once compiled run the following launch files in `tmux`
+## Flying with the flight board and DDK (platform). 
+
+There are couple of ways to fly the platform
+ 1. Using snapdragons internal apps for [`VISLAM`](https://developer.qualcomm.com/software/qualcomm-navigator) and control.
+ 2. Using `VIO_QC` and `quadrotor_control`.
+ 3. Using vicon as odometry source with snapdragons internal app for control.
+ 4. Using vicon as odometry source with `quadrotor_control`.
+ 
+ * `VIO_QC` is basically `VISLAM` with ROS interface. 
+ 
+Once compiled run the following launch files in `tmux` on the board
+
+1. Using snapdragons internal apps for [`VISLAM`]
+
 ```
-roslaunch snavquad_interface state_control.launch
+roslaunch snavquad_interface vislam.launch mav_type:=dragonfly use_vicon:=false
 roslaunch snavquad_interface snav_tf_pub.launch
 ```
- * vehicle ready to fly with rqt_mav_manager. Refer to quadrotor_control for further instructions
+
+2. Using `VIO_QC` and `quadrotor_control`.
+```
+roslaunch snavquad_interface vio_qc.launch mav_type:=dragonfly use_vicon:=false
+roslaunch snavquad_interface snav_tf_pub.launch
+```
+
+ * set `use_vicon:=true` if flying in motion_capture. 
+ * vehicle type can be `ddk` or `dragonfly` based on the frame.
+ * vehicle ready to fly with `rqt_mav_manager`. Refer to `quadrotor_control` for further detailed instructions.
+
+On your laptop, setup `ROS_MASTER_URI` for example assuming `dragonfly60` and `quadrotor_control` compiled in your laptop workspace
+```
+export ROS_MASTER_URI=http://dragonfly60:11311
+rosrun rqt_mav_manager rqt_mav_manager
+```
+
+
