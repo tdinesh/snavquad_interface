@@ -95,7 +95,6 @@ Check SSH
   * (password: linaro)
 ```
 ssh linaro@dragonfly$1
-sudo -s
 ```
   * If ssh fails, likely the hostname is not resolving.
   * Only for 18.04 (on laptop)
@@ -107,7 +106,7 @@ Set the vehicle in performance mode (enables 2 additional cores)
 ```
 cd ~/snav_setup
 chmod +x setperfmode.sh
-./setperfmode.sh
+sudo ./setperfmode.sh
 ```
   * ignore "Invalid argument" write error
 
@@ -166,7 +165,7 @@ sudo snav_calibration_manager -d
 Disable snav apps (`snav_dft`, `snav_dft_vio`, `snav_dft_vio_apriltag`, `snav_voa`). This allows external ROS interfaces we use to have acess to the camera/imu. (Note, dynamic calibration won't work after these apps are disabled)
 ```
 cd /etc/snav
-./disable_apps.sh
+sudo ./disable_apps.sh
 ```
 
 Update package listing
@@ -196,7 +195,7 @@ mv _vimrc ~/.vimrc
 ```
   * basic installation complete
 
-Create ros workspace
+Create ros workspace (Make sure you are not `sudo`)
 ```
 mkdir -p ~/ws_ros/src
 cd ~/ws_ros
@@ -295,6 +294,7 @@ sudo ./configure_vio.sh -c downward
 ```
 
 ```
+sudo -s
 roslaunch snavquad_interface vislam.launch mav_type:=ddk mass:=0.394 use_vicon:=false
 roslaunch snavquad_interface snav_tf_pub.launch
 ```
@@ -306,6 +306,7 @@ sudo ./disable_apps.sh
 ```
 
 ```
+sudo -s
 roslaunch snavquad_interface vio_qc.launch mav_type:=ddk mass:=0.394 use_vicon:=false
 roslaunch snavquad_interface snav_tf_pub.launch
 ```
