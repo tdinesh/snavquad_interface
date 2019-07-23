@@ -271,6 +271,20 @@ catkin build -c
 ```
  * Grab a cup of coffee; this will take about 40 minutes.
 
+Assign swap space. 
+ * If you compiling large templated libraries, sometimes the board will run out of memory. 
+ * Use following command to assign swap space to be used as virtual memory
+ 
+```
+sudo fallocate -l 1G /mnt/1GB.swap
+sudo chmod 600 /mnt/1GB.swap
+sudo mkswap /mnt/1GB.swap
+sudo swapon /mnt/1GB.swap
+# TO Make swap permanent
+sudo cp /etc/fstab /etc/fstab.bak
+echo '/mnt/1GB.swap none swap sw 0 0' | sudo tee -a /etc/fstab
+```
+
 ## Flying with the flight board and DDK (platform).
 
 There are couple of ways to fly the platform
