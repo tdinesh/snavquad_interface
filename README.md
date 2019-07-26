@@ -5,7 +5,9 @@ These pages provide some information about the [Snapdragon Flight™](https://de
 User Guides:
 * [Tools & Resources](https://developer.qualcomm.com/software/qualcomm-navigator/tools)
 * [Qualcomm Navigator User Guide (8x96)](https://developer.qualcomm.com/downloads/qualcomm-navigator-user-guide-8x96?referrer=node/34698)
+    * Includes documentation for parameters in snav_params.xml.
 * [Qualcomm Navigator Developer Guide v1.2.53.1](https://developer.qualcomm.com/download/qualcomm-flight/navigator-developer-guide-1.2.53.1.pdf?referrer=node/34698)
+    * Includes documentation for low level Snapdragon Navigator API.
 * [Guides on Intrinsyc](https://tech.intrinsyc.com/projects/snapdragon-flight/documents) - Needs Login.
 * [Qualcomm Flight Debug Connector Pin-out and Hardware User Guide](https://developer.qualcomm.com/download/qualcomm-flight/qcflight-debug-connector-pin-out-hw-user-guide.pdf?referrer=node/30229)
 * Common FAQs are addressed in the [forums](https://developer.qualcomm.com/forums/hardware/qualcomm-flight).
