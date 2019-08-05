@@ -196,6 +196,7 @@ mv _vimrc ~/.vimrc
 
 Create ros workspace (Make sure you are not `sudo`)
 ```
+source ~/.bashrc
 mkdir -p ~/ws_ros/src
 cd ~/ws_ros
 catkin init
