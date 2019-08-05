@@ -240,15 +240,15 @@ git clone -b hydro-devel https://github.com/ros-perception/image_common.git
 Clone KumarRobotics repos
 ```
 git clone https://github.com/KumarRobotics/quadrotor_control.git
-cd cd ~/ws_ros/src/quadrotor_control
+cd ~/ws_ros/src/quadrotor_control
 git submodule init
 git submodule update
 ```
 
 Clone `vio_qc` packages. If you dont have git access skip to next step
 ```
-git clone https://github.com/loiannog/vio_qc.git
-git checkout version_12
+cd ~/ws_ros/src
+git clone -b version_12 https://github.com/loiannog/vio_qc.git
 ```
 
 Copy ukf_packages.zip into `~/ws_ros/src` folder and unzip.
@@ -265,7 +265,7 @@ rm ukf_packages.zip
 Clone launch files repo
 ```
 cd ~/ws_ros/src
-git clone -b devel_fixes https://github.com/tdinesh/snavquad_interface.git
+git clone https://github.com/tdinesh/snavquad_interface.git
 ```
 
 Compile ROS Packages
