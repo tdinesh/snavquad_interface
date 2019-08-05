@@ -102,6 +102,7 @@ sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 
 Set the vehicle in performance mode (enables 2 additional cores)
 ```
+sudo chown -R linaro:linaro ~/snav_setup
 cd ~/snav_setup
 chmod +x setperfmode.sh
 sudo ./setperfmode.sh
