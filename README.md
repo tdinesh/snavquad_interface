@@ -240,6 +240,7 @@ git clone -b hydro-devel https://github.com/ros-perception/image_common.git
 Clone KumarRobotics repos
 ```
 git clone https://github.com/KumarRobotics/quadrotor_control.git
+cd cd ~/ws_ros/src/quadrotor_control
 git submodule init
 git submodule update
 ```
