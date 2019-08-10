@@ -1,0 +1,37 @@
+<launch>
+  <arg name="mav_name" default="$(optenv MAV_NAME)"/>
+
+  <arg name="board" default="sdf_tray"/>
+  <arg name="vehicle" default="ddk_tray"/>
+  <arg name="imu_is_root_tf" default="false"/>
+
+  <arg name="rviz" default="false"/>
+
+  <group ns="$(arg mav_name)">
+    <node pkg="snavquad_interface" type="tf_pub" name="tf_pub">
+      <remap from="~odom" to="quadrotor_ukf/control_odom_throttled"/>
+    </node>
+
+    <param name="board_description" textfile="$(find qflight_descriptions)/urdf/$(arg board).urdf"/>
+    <node name="board_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+      <remap from="robot_description" to="board_description"/>
+    </node>
+
+    <param name="vehicle_description" textfile="$(find qflight_descriptions)/urdf/$(arg vehicle).urdf"/>
+    <node name="vehicle_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+      <remap from="robot_description" to="vehicle_description"/>
+    </node>
+
+    <node name="base_link_imu_static_publisher" pkg="qflight_descriptions"
+          type="base_link_imu_static_publisher.py" output="screen">
+      <param name="board_mounts" value="$(find qflight_descriptions)/urdf/board_mounts.yaml"/>
+      <param name="imu_is_root_tf" type="bool" value="$(arg imu_is_root_tf)"/>
+      <param name="board" value="$(arg board)"/>
+      <param name="vehicle" value="$(arg vehicle)"/>
+    </node>
+
+    <node name="rviz" pkg="rviz" type="rviz" output="screen" if="$(arg rviz)"
+          args="-d $(find qflight_descriptions)/launch/qflight_urdf.rviz"/>
+
+  </group>
+</launch>
