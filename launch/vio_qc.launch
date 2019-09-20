@@ -1,16 +1,18 @@
 <launch>
-  <arg name="mav_name" default="$(env MAV_NAME)"/>
+  <arg name="mav_name" default="$(optenv MAV_NAME)"/>
   <arg name="mav_type" default="ddk"/>
   <arg name="mass" default="0.392"/>
 
-  <arg name="use_vicon" default="false"/>
-
-  <arg name="show_down_img" default="false"/>
   <arg name="control_rate" default="150"/>
+  <arg name="show_down_img" default="false"/>
   <arg name="down_img_pub_rate" default="5"/>
+  <arg name="publish_vioqc_map" default="false"/>
 
-  <arg name="odom_topic" value="/$(arg mav_name)/odom" if="$(arg use_vicon)"/>
-  <arg name="odom_topic" value="/$(arg mav_name)/quadrotor_ukf/control_odom" unless="$(arg use_vicon)"/>
+  <arg name="use_vicon" default="false"/>
+  <arg name="odom_topic" value="odom" if="$(arg use_vicon)"/>
+  <arg name="odom_topic" value="quadrotor_ukf/control_odom" unless="$(arg use_vicon)"/>
+  <arg name="odom_topic_throttled" value="quadrotor_ukf/control_odom_throttled"/>
+  <arg name="odom_throttle_rate" default="30"/>
 
   <group ns="$(arg mav_name)">
 
@@ -31,7 +33,6 @@
       output="screen">
       <rosparam file="$(find snavquad_interface)/config/trackers.yaml"/>
       <rosparam file="$(find snavquad_interface)/config/tracker_params.yaml"/>
-      <rosparam file="$(find snavquad_interface)/config/ddk_gains.yaml"/>
       <remap from="~odom" to="$(arg odom_topic)"/>
       <remap from="~cmd" to="position_cmd"/>
     </node>
@@ -42,7 +43,7 @@
       name="so3_control"
       required="true"
       output="screen">
-      <rosparam file="$(find snavquad_interface)/config/ddk_gains.yaml"/>
+      <rosparam file="$(find snavquad_interface)/config/$(arg mav_type)_gains.yaml"/>
       <param name="mass" value="$(arg mass)"/>
       <param name="use_external_yaw" value="false"/>
       <remap from="~odom" to="$(arg odom_topic)"/>
@@ -93,12 +94,11 @@
       <node name="odom_throttler"
         type="throttle"
         pkg="topic_tools"
-        args="messages quadrotor_ukf/control_odom 30 quadrotor_ukf/control_odom_throttled"/>
+        args="messages $(arg odom_topic) $(arg odom_throttle_rate) $(arg odom_topic_throttled)"/>
 
-      <!--
-      <node name="vioqc_map_pc_pub" pkg="groundstation_vio_qc" type="vioqc_map_pc_pub" output="screen">
+      <node name="vioqc_map_pc_pub" pkg="groundstation_vio_qc" type="vioqc_map_pc_pub" output="screen" if="$(arg publish_vioqc_map)">
         <remap from="~current_vio_map" to="MVSampleVISLAMEagle/vio_pc"/>
-      </node> -->
+      </node>
     </group>
 
   </group>

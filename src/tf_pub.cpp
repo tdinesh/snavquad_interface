@@ -1,5 +1,5 @@
 #include <ros/ros.h>
-#include <tf/transform_broadcaster.h>
+#include <tf2_ros/transform_broadcaster.h>
 #include <nav_msgs/Odometry.h>
 
 class TfPub
@@ -9,7 +9,7 @@ public:
 private:
   ros::NodeHandle nh_, pnh_;
   ros::Subscriber odom_sub_;
-  tf::TransformBroadcaster tf_broadcaster_;
+  tf2_ros::TransformBroadcaster tf_broadcaster_;
   void OdometryCallback(const nav_msgs::Odometry::ConstPtr& odometry_msg);
 };
 

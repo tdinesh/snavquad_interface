@@ -13,7 +13,7 @@ User Guides:
 * Common FAQs are addressed in the [forums](https://developer.qualcomm.com/forums/hardware/qualcomm-flight).
 * Another resource on using the SDF can be found [here](https://docs.px4.cc/zh/flight_controller/snapdragon_flight.html).
 
-Our board setup is slightly different than the [official documentation](https://github.com/ATLFlight/ATLFlightDocs). Following instructions have been pooled together from above guides, forums, etc. 
+Our board setup is slightly different than the [official documentation](https://github.com/ATLFlight/ATLFlightDocs). Following instructions have been pooled together from above guides, forums, etc.
 
 We have two hardware platforms available in the lab for use.
 * [Dragon Drone Development Kit](https://worldsway.com/product/dragon-drone-development-kit/) DDK. [Assembly Instructions](https://worldsway.com/wp-content/uploads/2017/08/DragonDDK-End-User-Assembly-Instructions_V3.pdf).
@@ -100,6 +100,13 @@ ssh linaro@dragonfly$1
 sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 ```
 
+Another issue with ssh `ssh Connection closed by port 22`
+```
+adb shell
+ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
+ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+```
+
 Set the vehicle in performance mode (enables 2 additional cores)
 ```
 sudo chown -R linaro:linaro ~/snav_setup
@@ -140,7 +147,7 @@ For dragonfly vehicle
 sudo cp snav_params.xml /usr/share/data/adsp/snav_params.xml
 ```
 
-Following enables Snapdragon VIO app with downward facing camera. Without the `downward` flag, downward camera mounted with 45 deg tilt is used. 
+Following enables Snapdragon VIO app with downward facing camera. Without the `downward` flag, downward camera mounted with 45 deg tilt is used.
 ```
 cd /etc/snav
 sudo ./configure_vio.sh -c downward
@@ -157,10 +164,10 @@ sudo snav_calibration_manager -s
 
 If needed perform dynamic calibration with props mounted.
 ```
-sudo snav_calibration_manager -d 
+sudo snav_calibration_manager -d
 ```
- * Warning!! Vehicle will automatically takeoff and land after few mins. Make sure you have copied the correct `snav_params` files. 
- 
+ * Warning!! Vehicle will automatically takeoff and land after few mins. Make sure you have copied the correct `snav_params` files.
+
 Disable snav apps (`snav_dft`, `snav_dft_vio`, `snav_dft_vio_apriltag`, `snav_voa`). This allows external ROS interfaces we use to have acess to the camera/imu. (Note, dynamic calibration won't work after these apps are disabled)
 ```
 cd /etc/snav
@@ -174,12 +181,13 @@ sudo apt-get update
 ```
   * If you get a NO_PUBKEY error with a alphanumeric key, run:
 ```
-sudo apt-key adv * keyserver keyserver.ubuntu.com * recv-keys <key>
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys <key>
 ```
 
 Install ROS
   * This step assumes the vehicle has an internet connection!!!
 ```
+cd ~/snav_setup
 chmod +x ros_setup_snap.sh
 ./ros_setup_snap.sh $1
 ```
@@ -188,9 +196,9 @@ Copy config files
 ```
 ssh linaro@dragonfly$1
 cd snav_setup
-mv _tmux.conf ~/.tmux_conf
-mv _bash_aliases ~/.bash_aliases
-mv _vimrc ~/.vimrc
+cp _tmux.conf ~/.tmux.conf
+cp _bash_aliases ~/.bash_aliases
+cp _vimrc ~/.vimrc
 ```
   * basic installation complete
 
@@ -276,10 +284,10 @@ catkin build -c
 ```
  * Grab a cup of coffee; this will take about 40 minutes.
 
-Assign swap space. 
- * If you compiling large templated libraries, sometimes the board will run out of memory. 
+Assign swap space.
+ * If you compiling large templated libraries, sometimes the board will run out of memory.
  * Use following command to assign swap space to be used as virtual memory
- 
+
 ```
 sudo fallocate -l 1G /mnt/1GB.swap
 sudo chmod 600 /mnt/1GB.swap
@@ -302,13 +310,13 @@ There are couple of ways to fly the platform
 
 Once compiled run the following launch files in `tmux` on the board
 
-1. Using snapdragons internal apps for [`VISLAM`]. For this VIO app has to be enabled and running. 
+1. Using snapdragons internal apps for [`VISLAM`]. For this VIO app has to be enabled and running.
 ```
 cd /etc/snav
 sudo ./configure_vio.sh -c downward
 ```
- * Always stop/start Snapdragon Navigator `snav` before starting a new flight. There is also a bash alias `restart_snav` that combines the two commands. This command also attempts to start any other processes that are configured to autostart. By default, Qualcomm Navigator is configured to autostart with Visual Inertial Odometry (VIO) and Qualcomm DroneController companion processes. DroneController (Android app) can be used to control a vehicle running Qualcomm Navigator. Read [Qualcomm Navigator User Guide (8x96)](https://developer.qualcomm.com/downloads/qualcomm-navigator-user-guide-8x96?referrer=node/34698) for detailed information on all the apps, etc. 
- 
+ * Always stop/start Snapdragon Navigator `snav` before starting a new flight. There is also a bash alias `restart_snav` that combines the two commands. This command also attempts to start any other processes that are configured to autostart. By default, Qualcomm Navigator is configured to autostart with Visual Inertial Odometry (VIO) and Qualcomm DroneController companion processes. DroneController (Android app) can be used to control a vehicle running Qualcomm Navigator. Read [Qualcomm Navigator User Guide (8x96)](https://developer.qualcomm.com/downloads/qualcomm-navigator-user-guide-8x96?referrer=node/34698) for detailed information on all the apps, etc.
+
 ```
 sudo stop snav
 sudo start snav
@@ -320,13 +328,13 @@ roslaunch snavquad_interface vislam.launch mav_type:=ddk mass:=0.394 use_vicon:=
 roslaunch snavquad_interface snav_tf_pub.launch
 ```
 
-2. Using `VIO_QC` and `quadrotor_control`. For using `VIO_QC`, the internal `VIO` and other apps have to be disabled to allow access to camera/imu. `VIO_QC` grabs downward camera images and imu directly and provides a ROS interface for VIO. 
+2. Using `VIO_QC` and `quadrotor_control`. For using `VIO_QC`, the internal `VIO` and other apps have to be disabled to allow access to camera/imu. `VIO_QC` grabs downward camera images and imu directly and provides a ROS interface for VIO.
 ```
 cd /etc/snav
 sudo ./disable_apps.sh
 ```
 
- * Always stop/start Snapdragon Navigator `snav` before starting a new flight. There is a bash alias `restart_snav` that combines the two commands. This command also attempts to start any other processes that are configured to autostart.  
+ * Always stop/start Snapdragon Navigator `snav` before starting a new flight. There is a bash alias `restart_snav` that combines the two commands. This command also attempts to start any other processes that are configured to autostart.
 ```
 restart_snav
 sudo -s
