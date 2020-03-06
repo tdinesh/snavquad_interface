@@ -61,7 +61,9 @@ tmux send-keys -t $SESSION_NAME "$SETUP_ROS_STRING; rosrun rqt_mav_manager rqt_m
 tmux split-window -t $SESSION_NAME
 tmux send-keys -t $SESSION_NAME "$SETUP_ROS_STRING; roslaunch snavquad_interface snav_rviz.launch rviz_config:=$RVIZ_CONFIG_FILE" Enter
 #tmux split-window -t $SESSION_NAME
-#tmux send-keys -t $SESSION_NAME "$SETUP_ROS_STRING; rosrun rqt_gui rqt_gui --perspective-file ~/.ros/${DETECTOR_PERSP}" Enter
+#tmux send-keys -t $SESSION_NAME "$SETUP_ROS_STRING; roslaunch snavquad_interface snav_vio_overlay.launch mav_name:=$MAV_NAME" Enter
+tmux split-window -t $SESSION_NAME
+tmux send-keys -t $SESSION_NAME "$SETUP_ROS_STRING; rosrun rqt_image_view rqt_image_view image:=/$MAV_NAME/image_overlay/compressed" Enter
 tmux select-layout -t $SESSION_NAME tiled
 
 tmux new-window -t $SESSION_NAME -n "Kill"

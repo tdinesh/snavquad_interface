@@ -35,8 +35,8 @@ SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", MODE="0666", GROUP="plugdev"
 
 Restart udev and install platform BSP
 ```
-udevadm control --reload-rules && udevadm trigger
-sudo apt-get install zip unzip default-jdk android-tools-adb
+sudo udevadm control --reload-rules && udevadm trigger
+sudo apt install zip unzip default-jdk android-tools-adb
 cd snav_setup
 unzip Flight_3.1.3.1_JFlash.zip
 cd Flight_3.1.3_JFlash
@@ -215,7 +215,8 @@ echo "source /home/linaro/ws_ros/devel/setup.bash" >> /home/linaro/.bashrc
 
 Clone ATLFlight repos
 ```
-cd ~/ws_ros/src
+mkdir -p ~/ws_ros/src/snap
+cd ~/ws_ros/src/snap
 git clone https://github.com/ATLFlight/snav_msgs
 git clone https://github.com/ATLFlight/snap_vio
 git clone https://github.com/ATLFlight/snap_imu
@@ -225,6 +226,7 @@ git clone https://github.com/ATLFlight/qflight_descriptions
 git clone https://github.com/ATLFlight/snap_msgs
 git clone https://github.com/ATLFlight/dfs-ros-example
 git clone https://github.com/ATLFlight/snav_ros
+git clone https://github.com/ATLFlight/snav_fci.git
 ```
 
 ```

@@ -53,7 +53,7 @@ else
   exit
 fi
 
-MAV_TYPE=ddk
+MAV_TYPE=230
 BOARD=sdf_tray
 MASS=0.430
 

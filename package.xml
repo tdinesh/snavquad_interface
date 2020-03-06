@@ -15,7 +15,11 @@
   <depend>quadrotor_msgs</depend>
   <depend>roscpp</depend>
   <depend>tf_conversions</depend>
-  <export>
+  <depend>cv_bridge</depend>
+  <depend>snap_msgs</depend>
+  <depend>image_transport</depend>
+
+<export>
     <nodelet plugin="${prefix}/nodelet_plugin.xml"/>
   </export>
 </package>

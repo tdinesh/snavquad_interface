@@ -8,6 +8,7 @@
   <arg name="board" default="sdf_tray"/>
 
   <arg name="8074" default="false"/>
+  <arg name="pub_odom_base_link" default="false"/>
 
   <!-- Board/Vehicle URDF -->
   <include file="$(find snavquad_interface)/launch/snav_tf_pub.launch">
@@ -15,6 +16,7 @@
     <arg name="board" value="$(arg board)"/>
     <arg name="mav_type" value="$(arg mav_type)"/>
     <arg name="imu_is_root_tf" value="false"/>
+    <arg name="pub_odom_base_link" value="$(arg pub_odom_base_link)"/>
   </include>
 
   <group ns="$(arg mav_name)">
@@ -62,9 +64,9 @@
     <node pkg="snap_vio" type="snav_vio_injector_node"
 	  name="snav_vio_injector" output="screen"/> -->
 
-    <!-- SNAV ROS -->
+    <!-- SNAV ROS
     <node pkg="snav_ros" type="snav_interface_node"
-	  name="snav_interface_node" output="screen"/>
+	  name="snav_interface_node" output="screen"/> -->
 
     <!-- UKF -->
     <node pkg="quadrotor_ukf"

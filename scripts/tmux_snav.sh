@@ -53,18 +53,21 @@ else
   exit
 fi
 
-MAV_TYPE=ddk
+MAV_TYPE=230
+MASS=0.245
 BOARD=sdf_tray
-MASS=0.430
 
 tmux rename-window -t $SESSION_NAME "Ros"
 tmux send-keys -t $SESSION_NAME "roscore" Enter
 
 tmux new-window -t $SESSION_NAME -n "Main"
-tmux send-keys -t $SESSION_NAME "sleep 4; roslaunch snavquad_interface snav_vio.launch mav_type:=${MAV_TYPE} board:=${BOARD}" Enter
+tmux send-keys -t $SESSION_NAME "sleep 4; roslaunch snavquad_interface snav_vio.launch mav_type:=${MAV_TYPE} board:=${BOARD} pub_odom_base_link:=true" Enter
 tmux split-window -t $SESSION_NAME
 tmux send-keys -t $SESSION_NAME "sleep 7; roslaunch snavquad_interface quad_control.launch mav_type:=${MAV_TYPE} mass:=${MASS} use_vicon:=false" Enter
 
+tmux new-window -t $SESSION_NAME -n "Aux"
+tmux send-keys -t $SESSION_NAME "sleep 9; roslaunch snavquad_interface snav_vio_overlay.launch" Enter
+#tmux select-layout -t $SESSION_NAME tiled
 
 tmux new-window -t $SESSION_NAME -n "Kill"
 tmux send-keys -t $SESSION_NAME "tmux kill-session -t "

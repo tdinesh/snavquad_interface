@@ -12,6 +12,9 @@ find_package(catkin REQUIRED
   nav_msgs
   nodelet
   tf_conversions
+  cv_bridge
+  snap_msgs
+  image_transport
 )
 
 catkin_package(
@@ -21,7 +24,7 @@ catkin_package(
   LIBRARIES
 )
 
-include_directories(${catkin_INCLUDE_DIRS})
+include_directories(${catkin_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS})
 
 find_package(Snav)
 if(NOT ${Snav_FOUND})
@@ -56,6 +59,9 @@ endif()
 
 add_executable(tf_pub src/tf_pub.cpp)
 target_link_libraries(tf_pub ${catkin_LIBRARIES})
+
+add_executable(point_overlay src/point_overlay.cpp)
+target_link_libraries(point_overlay ${OpenCV_LIBS} ${catkin_LIBRARIES})
 
 install(DIRECTORY launch/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
 install(DIRECTORY config/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config)
