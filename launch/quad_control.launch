@@ -1,7 +1,7 @@
 <launch>
   <arg name="mav_name" default="$(optenv MAV_NAME)"/>
-  <arg name="mav_type" default="ddk"/>
-  <arg name="mass" default="0.430"/>
+  <arg name="mav_type" default="$(optenv MAV_TYPE)"/>
+  <arg name="mass" default="$(optenv MAV_MASS)"/>
 
   <arg name="use_vicon" default="false"/>
   <arg name="odom_topic" value="odom" if="$(arg use_vicon)"/>

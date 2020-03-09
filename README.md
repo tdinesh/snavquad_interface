@@ -278,14 +278,6 @@ cd ~/ws_ros/src
 git clone https://github.com/tdinesh/snavquad_interface.git
 ```
 
-Compile ROS Packages
-  * Run a fan while compiling (onboard or offboard) to avoid damaging the board.
-```
-cd ~/ws_ros
-catkin build -c
-```
- * Grab a cup of coffee; this will take about 40 minutes.
-
 Assign swap space.
  * If you compiling large templated libraries, sometimes the board will run out of memory.
  * Use following command to assign swap space to be used as virtual memory
@@ -300,58 +292,70 @@ sudo cp /etc/fstab /etc/fstab.bak
 echo '/mnt/1GB.swap none swap sw 0 0' | sudo tee -a /etc/fstab
 ```
 
+Compile ROS Packages
+  * Run a fan while compiling (onboard or offboard) to avoid damaging the board.
+```
+cd ~/ws_ros
+catkin build -c
+```
+ * Grab a cup of coffee; this will take about 40 minutes.
+
 ## Flying with the flight board and DDK (platform).
 
-There are couple of ways to fly the platform
- 1. Using snapdragons internal apps for [`VISLAM`](https://developer.qualcomm.com/software/qualcomm-navigator) and control.
- 2. Using `VIO_QC` and `quadrotor_control`.
- 3. Using vicon as odometry source with snapdragons internal app for control.
- 4. Using vicon as odometry source with `quadrotor_control`.
+Setup MAV properties type, mass and board_type
 
- * `VIO_QC` is basically `VISLAM` with ROS interface.
+ * MAV_TYPE can be `230`, `ddk` or `tiercel` based on the frame.
+ * Set `MAV_MASS=0.24` for dragonfly(230) platform, `MAV_MASS=0.45` for ddk platform.
+ * Tray type can be `sdf_tray`, `sdf_tray_45`, `sdf_pro`
 
-Once compiled run the following launch files in `tmux` on the board
-
-1. Using snapdragons internal apps for [`VISLAM`]. For this VIO app has to be enabled and running.
-```
-cd /etc/snav
-sudo ./configure_vio.sh -c downward
-```
- * Always stop/start Snapdragon Navigator `snav` before starting a new flight. There is also a bash alias `restart_snav` that combines the two commands. This command also attempts to start any other processes that are configured to autostart. By default, Qualcomm Navigator is configured to autostart with Visual Inertial Odometry (VIO) and Qualcomm DroneController companion processes. DroneController (Android app) can be used to control a vehicle running Qualcomm Navigator. Read [Qualcomm Navigator User Guide (8x96)](https://developer.qualcomm.com/downloads/qualcomm-navigator-user-guide-8x96?referrer=node/34698) for detailed information on all the apps, etc.
+For `dragonfly`
 
 ```
-sudo stop snav
-sudo start snav
+echo "export MAV_TYPE=230" >> ~/.bashrc
+echo "export MAV_MASS=0.245" >> ~/.bashrc
+echo "export MAV_BOARD=sdf_tray" >> ~/.bashrc
 ```
 
+For `ddk`
+
 ```
-sudo -s
-roslaunch snavquad_interface vislam.launch mav_type:=ddk mass:=0.394 use_vicon:=false
-roslaunch snavquad_interface snav_tf_pub.launch
+echo "export MAV_TYPE=ddk" >> ~/.bashrc
+echo "export MAV_MASS=0.45" >> ~/.bashrc
+echo "export MAV_BOARD=sdf_tray" >> ~/.bashrc
 ```
 
-2. Using `VIO_QC` and `quadrotor_control`. For using `VIO_QC`, the internal `VIO` and other apps have to be disabled to allow access to camera/imu. `VIO_QC` grabs downward camera images and imu directly and provides a ROS interface for VIO.
+Internal `VIO` and other apps have to be disabled to allow access to camera/imu.
 ```
 cd /etc/snav
 sudo ./disable_apps.sh
 ```
 
- * Always stop/start Snapdragon Navigator `snav` before starting a new flight. There is a bash alias `restart_snav` that combines the two commands. This command also attempts to start any other processes that are configured to autostart.
+Always stop/start Snapdragon Navigator `snav` before starting a new flight. There is a bash alias `restart_snav` that combines the two commands. This command also attempts to start any other processes that are configured to autostart.
 ```
 restart_snav
-sudo -s
-roslaunch snavquad_interface vio_qc.launch mav_type:=ddk mass:=0.394 use_vicon:=false
-roslaunch snavquad_interface snav_tf_pub.launch
 ```
- * set `use_vicon:=true` if flying in motion_capture.
- * vehicle type can be `ddk` or `dragonfly` based on the frame. Set `mass:=0.24` for dragonfly platform.
- * vehicle ready to fly with `rqt_mav_manager`. Refer to `quadrotor_control` for further detailed instructions.
+
+Use helper tmux scripts to launch necessary launch files. Create symbolic links in home folder
+```
+cd ~/
+ln -s ws_ros/src/snavquad_interface/scripts/tmux_snav.sh tmux_snav.sh
+```
+
+Run the script as sudo. This automatically restarts snav. Enter `y` after snav restarts.
+```
+sudo -s
+./tmux_snav.sh
+```
 
 On your laptop, setup `ROS_MASTER_URI` for example, assuming `quadrotor_control` is compiled in your laptop workspace `dragonfly60` platform
 
 ```
-export ROS_MASTER_URI=http://dragonfly60:11311
+export ROS_MASTER_URI=http://dragonfly4:11311
 rosrun rqt_mav_manager rqt_mav_manager
 ```
 
-
+There are helper scripts for ground station that does the above. Enter the vehicle number accordingly
+```
+roscd snavquad_interface/scripts
+./tmux_ground_station 4
+```

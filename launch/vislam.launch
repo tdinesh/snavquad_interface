@@ -1,7 +1,7 @@
 <launch>
   <arg name="model" default="$(env MAV_NAME)"/>
-  <arg name="mav_type" default="ddk"/>
-  <arg name="mass" default="0.392"/>
+  <arg name="mav_type" default="$(optenv MAV_TYPE)"/>
+  <arg name="mass" default="$(optenv MAV_MASS)"/>
 
   <arg name="use_vicon" default="false"/>
 
