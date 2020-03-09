@@ -1,7 +1,7 @@
 <launch>
   <arg name="model" default="$(env MAV_NAME)"/>
-  <arg name="mav_type" default="ddk"/>
-  <arg name="mass" default="0.392"/>
+  <arg name="mav_type" default="$(optenv MAV_TYPE)"/>
+  <arg name="mass" default="$(optenv MAV_MASS)"/>
 
   <arg name="use_vicon" default="false"/>
 
@@ -19,14 +19,14 @@
 
     <node pkg="nodelet"
       type="nodelet"
-      name="standalone_nodelet"
+      name="snav_standalone_nodelet"
       args="manager"
       output="screen"/>
 
     <node pkg="nodelet"
       type="nodelet"
       name="trackers_manager"
-      args="load trackers_manager/TrackersManager standalone_nodelet"
+      args="load trackers_manager/TrackersManager snav_standalone_nodelet"
       clear_params="true"
       output="screen">
       <rosparam file="$(find snavquad_interface)/config/trackers.yaml"/>
@@ -35,7 +35,20 @@
       <remap from="~cmd" to="position_cmd"/>
     </node>
 
-    <node pkg="qualcomm_interface" type="pos_cmd_subscriber" name="pos_cmd_subscriber" output="screen"/>
+    <node pkg="nodelet"
+      type="nodelet"
+      name="qualcomm_interface"
+      args="load qualcomm_interface/PosCmdToSnav snav_standalone_nodelet"
+      required="true"
+      clear_params="true"
+      output="screen">
+
+      <remap from="~so3_cmd" to="so3_cmd"/>
+      <remap from="~odom" to="odom"/>
+      <remap from="~position_cmd" to="position_cmd"/>
+      <remap from="~imu" to="imu" />
+      <remap from="~motors" to="motors" />
+    </node>
 
     <group unless="$(arg use_vicon)">
 

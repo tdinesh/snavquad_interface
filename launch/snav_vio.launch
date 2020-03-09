@@ -1,0 +1,83 @@
+<launch>
+  <arg name="mav_name" default="$(optenv MAV_NAME)"/>
+
+  <!-- mav_type: 230 for dragonfly, ddk -->
+  <arg name="mav_type" default="$(optenv MAV_TYPE)"/>
+
+  <!-- board: sdf_tray, sdf_tray_45, sdf_pro -->
+  <arg name="board" default="$(optenv MAV_BOARD)"/>
+
+  <arg name="8074" default="false"/>
+  <arg name="pub_odom_base_link" default="false"/>
+
+  <!-- Board/Vehicle URDF -->
+  <include file="$(find snavquad_interface)/launch/snav_tf_pub.launch">
+    <arg name="mav_name" value="$(arg mav_name)"/>
+    <arg name="board" value="$(arg board)"/>
+    <arg name="mav_type" value="$(arg mav_type)"/>
+    <arg name="imu_is_root_tf" value="false"/>
+    <arg name="pub_odom_base_link" value="$(arg pub_odom_base_link)"/>
+  </include>
+
+  <group ns="$(arg mav_name)">
+
+    <param name="image_raw/compressed/jpeg_quality" value="50"/>
+
+    <node pkg="nodelet" type="nodelet" name="vio_nodelet_man" args="manager" output="screen"/>
+
+    <!-- camera nodelet -->
+    <node pkg="nodelet" type="nodelet" name="snap_cam_nodelet"
+       args="load snap_cam_ros/driver vio_nodelet_man">
+      <param name="camera_name" value="downward"/>
+      <param name="format" value="1"/>
+      <param name="camera_number" value="1"/>
+      <param name="width" value="640"/>
+      <param name="height" value="480"/>
+      <param name="frame_id" value="dfc"/>
+      <param name="is_cam_master" value="true"/>
+    </node>
+
+    <!-- VIO nodelet -->
+    <node pkg="nodelet" type="nodelet" name="snap_vio_nodelet"
+          args="load snap_vio/driver vio_nodelet_man" output="screen">
+      <remap from="camera_info" to="fisheye/camera_info"/>
+
+      <param name="delta" value="-0.0068"  if="$(arg 8074)"/>
+      <param name="delta" value=".002" unless="$(arg 8074)"/>
+      <param name="snav_mode" value="true"/>
+    </node>
+
+    <!-- fisheye camera info spoofer -->
+    <include file="$(find snap_vio)/launch/fisheye_camera_info.launch"/>
+
+    <!-- imu nodelet -->
+    <node pkg="nodelet" type="nodelet" name="snap_imu_nodelet"
+          args="load snap_imu/driver vio_nodelet_man" output="screen">
+    </node>
+
+    <!-- imu nodelet -->
+    <node pkg="nodelet" type="nodelet" name="snap_cpa_nodelet"
+          args="load snap_cpa/driver vio_nodelet_man" output="screen">
+    </node>
+
+    <!-- SNAV VIO injector node -->
+    <node pkg="snap_vio" type="snav_vio_injector_node"
+	  name="snav_vio_injector" output="screen"/> -->
+
+    <!-- SNAV ROS
+    <node pkg="snav_ros" type="snav_interface_node"
+	  name="snav_interface_node" output="screen"/> -->
+
+    <!-- UKF -->
+    <node pkg="quadrotor_ukf"
+      type="quadrotor_ukf"
+      name="quadrotor_ukf"
+      output="screen">
+      <remap from="~odom_slam" to="vio/odometry"/>
+      <remap from="~imu" to="imu"/>
+      <param name="frame_id" value="odom"/>
+    </node>
+
+  </group>
+
+</launch>

@@ -1,0 +1,5 @@
+<launch>
+  <arg name="mav_name" default="ddk"/>
+  <arg name="rviz_config" default="$(find snavquad_interface)/config/rviz/$(arg mav_name).rviz"/>
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_config)"/>
+</launch>

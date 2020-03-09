@@ -1,0 +1,11 @@
+<launch>
+  <arg name="mav_name" default="$(optenv MAV_NAME)"/>
+
+  <group ns="$(arg mav_name)">
+
+    <!--<node pkg="snavquad_interface" type="vislam_point_overlay.py" name="vislam_point_overlay" output="screen"/> -->
+    <node pkg="snavquad_interface" type="point_overlay" name="vislam_point_overlay" output="screen"/>
+
+  </group>
+
+</launch>

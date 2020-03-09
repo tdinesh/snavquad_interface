@@ -1,15 +1,30 @@
 <launch>
   <arg name="mav_name" default="$(optenv MAV_NAME)"/>
 
+  <!-- mav_type: 230 for dragonfly, ddk -->
+  <arg name="mav_type" default="ddk"/>
+
+  <!-- board: sdf_tray, sdf_tray_45, sdf_pro -->
   <arg name="board" default="sdf_tray"/>
-  <arg name="vehicle" default="ddk_tray"/>
+
   <arg name="imu_is_root_tf" default="false"/>
+  <arg name="odom_topic" default="quadrotor_ukf/control_odom_throttled"/>
+  <arg name="odom_frame_id" default="odom"/>
+  <arg name="world_frame_id" default="world"/>
 
   <arg name="rviz" default="false"/>
+  <arg name="pub_odom_base_link" default="false"/>
 
   <group ns="$(arg mav_name)">
-    <node pkg="snavquad_interface" type="tf_pub" name="tf_pub">
-      <remap from="~odom" to="quadrotor_ukf/control_odom_throttled"/>
+
+    <!--World to VIO odom TF publisher -->
+    <node pkg="tf" type="static_transform_publisher" name="world_odom_static_publisher" args="0 0 0 0 0 0 1 world $(arg odom_frame_id) 100" />
+
+    <!--VIO odom to base_link TF publisher -->
+    <node pkg="snavquad_interface" type="tf_pub" name="odom_tf_pub" if="$(arg pub_odom_base_link)">
+      <param name="odom_frame_id" value="$(arg odom_frame_id)"/>
+      <param name="base_frame_id" value="base_link"/>
+      <remap from="~odom" to="$(arg odom_topic)"/>
     </node>
 
     <param name="board_description" textfile="$(find qflight_descriptions)/urdf/$(arg board).urdf"/>
@@ -17,7 +32,7 @@
       <remap from="robot_description" to="board_description"/>
     </node>
 
-    <param name="vehicle_description" textfile="$(find qflight_descriptions)/urdf/$(arg vehicle).urdf"/>
+    <param name="vehicle_description" textfile="$(find qflight_descriptions)/urdf/$(arg mav_type).urdf"/>
     <node name="vehicle_state_publisher" pkg="robot_state_publisher" type="state_publisher">
       <remap from="robot_description" to="vehicle_description"/>
     </node>
@@ -27,7 +42,7 @@
       <param name="board_mounts" value="$(find qflight_descriptions)/urdf/board_mounts.yaml"/>
       <param name="imu_is_root_tf" type="bool" value="$(arg imu_is_root_tf)"/>
       <param name="board" value="$(arg board)"/>
-      <param name="vehicle" value="$(arg vehicle)"/>
+      <param name="vehicle" value="$(arg mav_type)"/>
     </node>
 
     <node name="rviz" pkg="rviz" type="rviz" output="screen" if="$(arg rviz)"
