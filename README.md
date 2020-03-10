@@ -118,8 +118,8 @@ sudo ./setperfmode.sh
 
 Install machine vision, snav, snav-esc
 ```
-sudo dpkg -i mv_1.1.8_8x74.deb
-sudo dpkg -i snav_1.2.58_8x74.deb
+sudo dpkg -i mv_1.1.9_8x74.deb
+sudo dpkg -i snav_1.2.59_8x74.deb
 sudo dpkg -i snav-esc_1.2.0.deb
 ```
 
@@ -140,11 +140,15 @@ sudo snav
 
 For DragonDDK vehicle
 ```
-sudo cp dragonddk.xml /usr/share/data/adsp/snav_params.xml
+sudo cp dragonddk.xml /usr/share/data/adsp/snav_params_ddk.xml
 ```
-For dragonfly vehicle
+For dragonfly (230) vehicle
 ```
-sudo cp snav_params.xml /usr/share/data/adsp/snav_params.xml
+sudo cp snav_params.xml /usr/share/data/adsp/snav_params_230.xml
+```
+For tiercel vehicle
+```
+sudo cp snav_params.xml /usr/share/data/adsp/snav_params_tiercel.xml
 ```
 
 Following enables Snapdragon VIO app with downward facing camera. Without the `downward` flag, downward camera mounted with 45 deg tilt is used.
@@ -217,16 +221,16 @@ Clone ATLFlight repos
 ```
 mkdir -p ~/ws_ros/src/snap
 cd ~/ws_ros/src/snap
+git clone https://github.com/ATLFlight/snap_msgs
 git clone https://github.com/ATLFlight/snav_msgs
 git clone https://github.com/ATLFlight/snap_vio
 git clone https://github.com/ATLFlight/snap_imu
 git clone https://github.com/ATLFlight/snap_cpa
-git clone https://github.com/ATLFlight/snap_cam_ros
 git clone https://github.com/ATLFlight/qflight_descriptions
-git clone https://github.com/ATLFlight/snap_msgs
 git clone https://github.com/ATLFlight/dfs-ros-example
 git clone https://github.com/ATLFlight/snav_ros
 git clone https://github.com/ATLFlight/snav_fci.git
+git clone https://github.com/ATLFlight/snap_cam_ros
 ```
 
 ```
@@ -305,7 +309,7 @@ catkin build -c
 Setup MAV properties type, mass and board_type
 
  * MAV_TYPE can be `230`, `ddk` or `tiercel` based on the frame.
- * Set `MAV_MASS=0.24` for dragonfly(230) platform, `MAV_MASS=0.45` for ddk platform.
+ * Set `MAV_MASS=0.24` for dragonfly(230) platform, `MAV_MASS=0.45` for ddk platform, `MAV_MASS=0.191` for Tiercel.
  * Tray type can be `sdf_tray`, `sdf_tray_45`, `sdf_pro`
 
 For `dragonfly`
@@ -321,6 +325,14 @@ For `ddk`
 ```
 echo "export MAV_TYPE=ddk" >> ~/.bashrc
 echo "export MAV_MASS=0.45" >> ~/.bashrc
+echo "export MAV_BOARD=sdf_tray" >> ~/.bashrc
+```
+
+For `Tiercel`
+
+```
+echo "export MAV_TYPE=tiercel" >> ~/.bashrc
+echo "export MAV_MASS=0.191" >> ~/.bashrc
 echo "export MAV_BOARD=sdf_tray" >> ~/.bashrc
 ```
 
