@@ -6,6 +6,14 @@
     <!--<node pkg="snavquad_interface" type="vislam_point_overlay.py" name="vislam_point_overlay" output="screen"/> -->
     <node pkg="snavquad_interface" type="point_overlay" name="vislam_point_overlay" output="screen"/>
 
+    <node pkg="qualcomm_interface" type="rpm_publisher" name="snav_rpm_publisher" output="screen">
+      <param name="rate" type="int" value="150" />
+    </node>
+
+    <node pkg="qualcomm_interface" type="status_publisher" name="snav_status_publisher" output="screen">
+      <param name="rate" type="int" value="150" />
+    </node>
+
   </group>
 
 </launch>

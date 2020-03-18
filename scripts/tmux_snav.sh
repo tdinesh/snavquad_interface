@@ -63,10 +63,10 @@ tmux send-keys -t $SESSION_NAME "roscore" Enter
 tmux new-window -t $SESSION_NAME -n "Main"
 tmux send-keys -t $SESSION_NAME "sleep 4; roslaunch snavquad_interface snav_vio.launch pub_odom_base_link:=true" Enter
 tmux split-window -t $SESSION_NAME
-tmux send-keys -t $SESSION_NAME "sleep 7; roslaunch snavquad_interface quad_control.launch use_vicon:=false" Enter
+tmux send-keys -t $SESSION_NAME "sleep 9; roslaunch snavquad_interface quad_control.launch use_vicon:=false" Enter
 
 tmux new-window -t $SESSION_NAME -n "Aux"
-tmux send-keys -t $SESSION_NAME "sleep 9; roslaunch snavquad_interface snav_vio_overlay.launch" Enter
+tmux send-keys -t $SESSION_NAME "sleep 12; roslaunch snavquad_interface snav_vio_overlay.launch" Enter
 #tmux select-layout -t $SESSION_NAME tiled
 
 tmux new-window -t $SESSION_NAME -n "Kill"
