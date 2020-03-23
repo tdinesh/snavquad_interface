@@ -178,7 +178,7 @@ Copy config files
 ```
 ssh linaro@dragonfly$1
 cd snav_setup
-cp _tmux.conf ~/.tmux.conf
+cp _tmux1.8.conf ~/.tmux.conf
 cp _bash_aliases ~/.bash_aliases
 cp _vimrc ~/.vimrc
 ```
