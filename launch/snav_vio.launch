@@ -35,12 +35,14 @@
       <param name="height" value="480"/>
       <param name="frame_id" value="dfc"/>
       <param name="is_cam_master" value="true"/>
+      <remap from="image_raw" to="dfc/image_raw"/>
     </node>
 
     <!-- VIO nodelet -->
     <node pkg="nodelet" type="nodelet" name="snap_vio_nodelet"
           args="load snap_vio/driver vio_nodelet_man" output="screen">
       <remap from="camera_info" to="fisheye/camera_info"/>
+      <remap from="image_raw" to="dfc/image_raw"/>
 
       <param name="delta" value="-0.0068"  if="$(arg 8074)"/>
       <param name="delta" value=".002" unless="$(arg 8074)"/>
@@ -55,9 +57,10 @@
           args="load snap_imu/driver vio_nodelet_man" output="screen">
     </node>
 
-    <!-- imu nodelet -->
+    <!-- cpa nodelet -->
     <node pkg="nodelet" type="nodelet" name="snap_cpa_nodelet"
           args="load snap_cpa/driver vio_nodelet_man" output="screen">
+      <remap from="image_raw" to="dfc/image_raw"/>
     </node>
 
     <!-- SNAV VIO injector node -->

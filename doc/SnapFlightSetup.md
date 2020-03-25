@@ -207,15 +207,15 @@ git clone https://github.com/ATLFlight/snap_cpa
 git clone https://github.com/ATLFlight/qflight_descriptions
 git clone https://github.com/ATLFlight/dfs-ros-example
 git clone https://github.com/ATLFlight/snav_ros
-git clone https://github.com/ATLFlight/snav_fci.git
+git clone https://github.com/ATLFlight/snav_fci
 git clone https://github.com/ATLFlight/snap_cam_ros
 ```
 
 ```
-cd ~/ws_ros/src/snap_cam_ros
+cd ~/ws_ros/src/snap/snap_cam_ros
 git submodule init
 git submodule update
-cd ~/ws_ros/src/snav_ros
+cd ~/ws_ros/src/snap/snav_ros
 git submodule init
 git submodule update
 ```
