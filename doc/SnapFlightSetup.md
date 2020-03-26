@@ -213,11 +213,9 @@ git clone https://github.com/ATLFlight/snap_cam_ros
 
 ```
 cd ~/ws_ros/src/snap/snap_cam_ros
-git submodule init
-git submodule update
+git submodule update --init
 cd ~/ws_ros/src/snap/snav_ros
-git submodule init
-git submodule update
+git submodule update --init
 ```
 
 Clone opencv/image_transport repos
@@ -233,8 +231,7 @@ Clone KumarRobotics repos
 ```
 git clone https://github.com/KumarRobotics/quadrotor_control.git
 cd ~/ws_ros/src/quadrotor_control
-git submodule init
-git submodule update
+git submodule update --init
 ```
 
 Clone `vio_qc` packages. If you dont have git access skip to next step
