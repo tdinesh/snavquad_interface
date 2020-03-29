@@ -11,7 +11,7 @@
   <arg name="pub_odom_base_link" default="false"/>
 
   <arg name="cam_name" default="downward"/> <!-- sets the topic namespace -->
-  <arg name="cam_id" default="$(env TRACKING_CAM_ID)"/> <!-- configure with voxl-configure-cameras -->
+  <arg name="cam_id" default="1"/>
   <arg name="skip_n_frames" default="0"/>
   <arg name="frame_rate" default="30" />
   <arg name="width" default="640"/>
@@ -36,9 +36,9 @@
 
     <!-- camera nodelet -->
     <node pkg="nodelet" type="nodelet" name="snap_cam_nodelet"
-       args="load voxl_cam_ros/driver vio_nodelet_man">
-        <param name="cam_name" value="$(arg cam_name)"/>
-        <param name="cam_id" value="$(arg cam_id)"/>
+       args="load snap_cam_ros/driver vio_nodelet_man">
+        <param name="camera_name" value="$(arg cam_name)"/>
+        <param name="camera_number" value="$(arg cam_id)"/>
         <param name="skip_n_frames" value="$(arg skip_n_frames)"/>
         <param name="frame_rate" value="$(arg frame_rate)" />
         <param name="width" value="$(arg width)"/>

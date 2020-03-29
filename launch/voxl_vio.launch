@@ -10,6 +10,15 @@
   <arg name="8074" default="false"/>
   <arg name="pub_odom_base_link" default="false"/>
 
+  <arg name="cam_name" default="downward"/> <!-- sets the topic namespace -->
+  <arg name="cam_id" default="$(env TRACKING_CAM_ID)"/> <!-- configure with voxl-configure-cameras -->
+  <arg name="skip_n_frames" default="0"/>
+  <arg name="frame_rate" default="30" />
+  <arg name="width" default="640"/>
+  <arg name="height" default="480"/>
+  <arg name="frame_id" default="dfc"/> <!-- transform frame used by TF2 -->
+  <arg name="is_cam_master" default="true"/>
+
   <!-- Board/Vehicle URDF -->
   <include file="$(find snavquad_interface)/launch/snav_tf_pub.launch">
     <arg name="mav_name" value="$(arg mav_name)"/>
@@ -27,15 +36,18 @@
 
     <!-- camera nodelet -->
     <node pkg="nodelet" type="nodelet" name="snap_cam_nodelet"
-       args="load snap_cam_ros/driver vio_nodelet_man">
-      <param name="camera_name" value="downward"/>
-      <param name="format" value="1"/>
-      <param name="camera_number" value="1"/>
-      <param name="width" value="640"/>
-      <param name="height" value="480"/>
-      <param name="frame_id" value="dfc"/>
-      <param name="is_cam_master" value="true"/>
-      <remap from="image_raw" to="dfc/image_raw"/>
+       args="load voxl_cam_ros/driver vio_nodelet_man">
+        <param name="cam_name" value="$(arg cam_name)"/>
+        <param name="cam_id" value="$(arg cam_id)"/>
+        <param name="skip_n_frames" value="$(arg skip_n_frames)"/>
+        <param name="frame_rate" value="$(arg frame_rate)" />
+        <param name="width" value="$(arg width)"/>
+        <param name="height" value="$(arg height)"/>
+        <param name="frame_id" value="$(arg frame_id)"/>
+        <param name="is_cam_master" value="$(arg is_cam_master)"/>
+        <param name="format" value="1"/>
+        <param name="camera_info_path" value="$(find snavquad_interface)/config/"/>
+        <remap from="image_raw" to="dfc/image_raw"/>
     </node>
 
     <!-- VIO nodelet -->

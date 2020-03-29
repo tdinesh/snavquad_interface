@@ -63,6 +63,12 @@ target_link_libraries(tf_pub ${catkin_LIBRARIES})
 add_executable(point_overlay src/point_overlay.cpp)
 target_link_libraries(point_overlay ${OpenCV_LIBS} ${catkin_LIBRARIES})
 
+install(TARGETS tf_pub point_overlay
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
 install(DIRECTORY scripts/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/scripts)
 install(DIRECTORY launch/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
 install(DIRECTORY config/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config)
