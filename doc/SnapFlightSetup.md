@@ -1,5 +1,5 @@
 Flash the base SnapDragon Flight (SDF)
-  * Request access to `snav_setup` folder (contains platform BSP, firmware, etc)
+  * Request access to `snapdragon_flight_setup` folder (contains platform BSP, firmware, etc)
   * Apply wall power to vehicle.
   * Connect Micro-USB 2.0 cable to SDF to use as the Android Debug Bridge (ADB).
   * Confirm blue "breathing" LED on SDF.
@@ -15,7 +15,7 @@ Restart udev and install platform BSP
 ```
 sudo udevadm control --reload-rules && udevadm trigger
 sudo apt install zip unzip default-jdk android-tools-adb
-cd snav_setup
+cd snapdragon_flight_setup
 unzip Flight_3.1.3.1_JFlash.zip
 cd Flight_3.1.3_JFlash
 ./jflash.sh
@@ -32,9 +32,10 @@ cd Flight_3.1.3.1_qcom_flight_controller_hexagon_sdk_add_on
 ```
   * If the above fails, run `./installfcaddon.sh` again
 
-Copy `snav_setup` folder onto the board
+Copy `snav_setup` & `snav_debs` folder onto the board
 ```
 adb push snav_setup /home/linaro/snav_setup
+adb push snav_debs /home/linaro/snav_debs
 ```
 
 Setup Networking
@@ -49,7 +50,7 @@ vi /etc/hostname
 
 Update dpkg
 ```
-cd ~/snav_setup
+cd ~/snav_debs
 sudo dpkg -i dpkg_1.17.5ubuntu5.8_armhf.deb
 ```
 
@@ -96,6 +97,7 @@ sudo ./setperfmode.sh
 
 Install machine vision, snav, snav-esc
 ```
+cd ~/snav_debs
 sudo dpkg -i mv_1.1.9_8x74.deb
 sudo dpkg -i snav_1.2.59_8x74.deb
 sudo dpkg -i snav-esc_1.2.0.deb
@@ -103,6 +105,7 @@ sudo dpkg -i snav-esc_1.2.0.deb
 
 Install Qualcomm license
 ```
+cd ~/snav_setup
 sudo mkdir -p /opt/qcom-licenses/
 sudo cp snapdragon-flight-license.bin /opt/qcom-licenses/
 ```
