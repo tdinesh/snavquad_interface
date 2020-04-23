@@ -294,6 +294,7 @@ For `dragonfly`
 echo "export MAV_TYPE=230" >> ~/.bashrc
 echo "export MAV_MASS=0.245" >> ~/.bashrc
 echo "export MAV_BOARD=sdf_tray" >> ~/.bashrc
+echo "export IMU_1_USED=false" >> ~/.bashrc
 ```
 
 For `ddk`
@@ -302,6 +303,7 @@ For `ddk`
 echo "export MAV_TYPE=ddk" >> ~/.bashrc
 echo "export MAV_MASS=0.45" >> ~/.bashrc
 echo "export MAV_BOARD=sdf_tray" >> ~/.bashrc
+echo "export IMU_1_USED=false" >> ~/.bashrc
 ```
 
 For `Tiercel`
@@ -310,6 +312,7 @@ For `Tiercel`
 echo "export MAV_TYPE=tiercel" >> ~/.bashrc
 echo "export MAV_MASS=0.191" >> ~/.bashrc
 echo "export MAV_BOARD=sdf_tray" >> ~/.bashrc
+echo "export IMU_1_USED=false" >> ~/.bashrc
 ```
 
 Internal `VIO` and other apps have to be disabled to allow access to camera/imu.
