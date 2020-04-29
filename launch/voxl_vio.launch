@@ -6,6 +6,7 @@
 
   <!-- board: sdf_tray, sdf_tray_45, sdf_pro -->
   <arg name="board" default="$(optenv MAV_BOARD)"/>
+  <arg name="imu_1_used" default="$(optenv IMU_1_USED)"/>
 
   <arg name="8074" default="false"/>
   <arg name="pub_odom_base_link" default="false"/>
@@ -26,6 +27,7 @@
     <arg name="mav_type" value="$(arg mav_type)"/>
     <arg name="imu_is_root_tf" value="false"/>
     <arg name="pub_odom_base_link" value="$(arg pub_odom_base_link)"/>
+    <arg name="imu_1_used" value="$(arg imu_1_used)"/>
   </include>
 
   <group ns="$(arg mav_name)">

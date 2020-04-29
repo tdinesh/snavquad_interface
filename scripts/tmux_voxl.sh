@@ -26,13 +26,14 @@ if [ "$(whoami)" != "root" ]; then
 fi
 
 #Stop cron
-echo "Stop cron job"
-sudo stop cron
+#echo "Stop cron job"
+#sudo stop cron
+
 #Restart snav
 echo "Restarting snav"
-sudo stop snav
+systemctl stop snav
 sleep 1s
-sudo start snav
+systemctl start snav
 sleep 1s
 
 #Get confirmation from user if snav is restarted properly

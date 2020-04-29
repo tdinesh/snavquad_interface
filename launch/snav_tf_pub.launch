@@ -24,7 +24,11 @@
     <!--IMU to base rotated TF publisher, eagle board uses IMU0, voxl uses IMU1-->
     <!-- TF that rotates the IMU to use ROS convention, x forward, y left, z up -->
     <node pkg="tf2_ros" type="static_transform_publisher" name="imu_rotated_static_publisher" args="0 0 0 1 0 0 0 imu imu_rotated_base" unless="$(arg imu_1_used)"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="imu_rotated_static_publisher" args="0 0 0 0 1 0 0 imu imu_rotated_base" unless="$(arg imu_1_used)"/>
+
+    <!-- quaternion issue?
+    <node pkg="tf2_ros" type="static_transform_publisher" name="imu_rotated_static_publisher" args="0 0 0 0 0 -0.707 0.707 imu imu_rotated_base" if="$(arg imu_1_used)"/> -->
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="imu_rotated_static_publisher" args="0 0 0 1.570796327 0 0 imu imu_rotated_base" if="$(arg imu_1_used)"/>
 
 
     <!--VIO odom to base_link TF publisher -->
