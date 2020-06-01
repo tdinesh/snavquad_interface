@@ -4,7 +4,7 @@ camera_name: dfc
 camera_matrix:
   rows: 3
   cols: 3
-  data: [275.00, 0.0, 320.00, 0.0, 275.00, 240.00, 0.0, 0.0, 1.0]
+  data: [275.078, 0.0, 319.625, 0.0, 274.931, 243.144, 0.0, 0.0, 1.0]
 distortion_model: fisheye
 distortion_coefficients:
   rows: 1

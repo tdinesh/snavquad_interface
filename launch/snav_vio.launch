@@ -55,7 +55,7 @@
     <!-- VIO nodelet -->
     <node pkg="nodelet" type="nodelet" name="snap_vio_nodelet"
           args="load snap_vio/driver vio_nodelet_man" output="screen">
-      <remap from="camera_info" to="fisheye/camera_info"/>
+      <remap from="camera_info" to="dfc/fisheye/camera_info"/>
       <remap from="image_raw" to="dfc/image_raw"/>
 
       <param name="delta" value="-0.0068"  if="$(arg 8074)"/>
@@ -64,7 +64,7 @@
     </node>
 
     <!-- fisheye camera info spoofer -->
-    <include file="$(find snap_vio)/launch/fisheye_camera_info.launch"/>
+    <include file="$(find snavquad_interface)/launch/fisheye_camera_info.launch"/>
 
     <!-- imu nodelet -->
     <node pkg="nodelet" type="nodelet" name="snap_imu_nodelet"
