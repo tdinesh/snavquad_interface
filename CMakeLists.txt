@@ -8,7 +8,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
 find_package(catkin REQUIRED
   roscpp
-  quadrotor_msgs
+  kr_mav_msgs
   nav_msgs
   nodelet
   tf_conversions
@@ -19,7 +19,7 @@ find_package(catkin REQUIRED
 
 catkin_package(
   INCLUDE_DIRS
-  CATKIN_DEPENDS roscpp quadrotor_msgs nav_msgs nodelet tf_conversions
+  CATKIN_DEPENDS roscpp kr_mav_msgs nav_msgs nodelet tf_conversions
   DEPENDS
   LIBRARIES
 )
