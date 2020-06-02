@@ -9,7 +9,7 @@
       <remap from="image_overlay" to="dfc/image_overlay"/>
     </node>
 
-    <node pkg="qualcomm_interface" type="snav_publisher" name="snav_publisher" output="screen">
+    <node pkg="kr_qualcomm_interface" type="snav_publisher" name="snav_publisher" output="screen">
       <param name="rpm_rate" value="150" />
       <param name="attitude_rate" value="100" />
       <param name="status_rate" value="5.0" />

@@ -14,3 +14,12 @@ line_tracker_min_jerk:
 trajectory_tracker:
   max_vel_des: 0.5
   max_acc_des: 0.3
+
+velocity_tracker:
+  timeout: 0.5
+
+lissajous_tracker:
+  frame_id: odom
+
+lissajous_adder:
+  frame_id: odom

@@ -26,7 +26,7 @@
     <node pkg="nodelet"
       type="nodelet"
       name="trackers_manager"
-      args="load trackers_manager/TrackersManager snav_standalone_nodelet"
+      args="load kr_trackers_manager/TrackersManager snav_standalone_nodelet"
       clear_params="true"
       output="screen">
       <rosparam file="$(find snavquad_interface)/config/trackers.yaml"/>
@@ -38,7 +38,7 @@
     <node pkg="nodelet"
       type="nodelet"
       name="qualcomm_interface"
-      args="load qualcomm_interface/PosCmdToSnav snav_standalone_nodelet"
+      args="load kr_qualcomm_interface/PosCmdToSnav snav_standalone_nodelet"
       required="true"
       clear_params="true"
       output="screen">
