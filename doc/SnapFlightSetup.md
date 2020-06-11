@@ -205,13 +205,13 @@ cd ~/ws_ros/src/snap
 git clone https://github.com/ATLFlight/snap_msgs
 git clone https://github.com/ATLFlight/snav_msgs
 git clone https://github.com/ATLFlight/snap_vio
-git clone https://github.com/ATLFlight/snap_imu
 git clone https://github.com/ATLFlight/snap_cpa
 git clone https://github.com/ATLFlight/qflight_descriptions
 git clone https://github.com/ATLFlight/dfs-ros-example
 git clone https://github.com/ATLFlight/snav_ros
 git clone https://github.com/ATLFlight/snav_fci
 git clone https://github.com/ATLFlight/snap_cam_ros
+git clone -b fix/publish_rate https://github.com/tdinesh/snap_imu
 ```
 
 ```

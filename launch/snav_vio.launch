@@ -7,6 +7,7 @@
   <!-- board: sdf_tray, sdf_tray_45, sdf_pro -->
   <arg name="board" default="$(optenv MAV_BOARD)"/>
   <arg name="imu_1_used" default="$(optenv IMU_1_USED)"/>
+  <arg name="imu_rate" default="100" />
 
   <arg name="8074" default="false"/>
   <arg name="pub_odom_base_link" default="false"/>
@@ -69,6 +70,8 @@
     <!-- imu nodelet -->
     <node pkg="nodelet" type="nodelet" name="snap_imu_nodelet"
           args="load snap_imu/driver vio_nodelet_man" output="screen">
+      <param name="rate" value="$(arg imu_rate)" />
+      <param name="frame_id" value="imu" />
     </node>
 
     <!-- cpa nodelet -->
