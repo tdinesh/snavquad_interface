@@ -1,17 +1,20 @@
 <launch>
-	<node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
-		<param name="resolution" value="0.05" />
+  <arg name="mav_name" default="$(optenv MAV_NAME)"/>
+  <arg name="pc_topic" default="/$(arg mav_name)/tof/points"/>
+  <arg name="map_frame_id" default="odom"/>
 
-		<!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
-		<param name="frame_id" type="string" value="odom" />
+  <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+    <param name="resolution" value="0.05" />
+
+    <!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
+    <param name="frame_id" type="string" value="$(arg map_frame_id)" />
 
     <param name="resolution" type="double" value="0.05" />
 
-		<!-- maximum range to integrate (speedup!) -->
-		<param name="sensor_model/max_range" value="5.0" />
+    <!-- maximum range to integrate (speedup!) -->
+    <param name="sensor_model/max_range" value="5.0" />
 
-		<!-- data source to integrate (PointCloud2) -->
-		<remap from="cloud_in" to="/dragonfly30/tof/points" />
-
-	</node>
+    <!-- data source to integrate (PointCloud2) -->
+    <remap from="cloud_in" to="$(arg pc_topic)" />
+  </node>
 </launch>
