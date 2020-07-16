@@ -6,15 +6,13 @@
 
   <!-- board: sdf_tray, sdf_tray_45, sdf_pro -->
   <arg name="board" default="$(optenv MAV_BOARD)"/>
-  
   <arg name="imu_1_used" default="$(optenv IMU_1_USED)"/>
-  <arg name="imu_rate" default="100" />
 
   <arg name="8074" default="false"/>
   <arg name="pub_odom_base_link" default="false"/>
 
   <arg name="cam_name" default="downward"/> <!-- sets the topic namespace -->
-  <arg name="cam_id" default="1"/>
+  <arg name="cam_id" default="$(env TRACKING_CAM_ID)"/> <!-- configure with voxl-configure-cameras -->
   <arg name="skip_n_frames" default="0"/>
   <arg name="frame_rate" default="30" />
   <arg name="width" default="640"/>
@@ -40,9 +38,9 @@
 
     <!-- camera nodelet -->
     <node pkg="nodelet" type="nodelet" name="snap_cam_nodelet"
-       args="load snap_cam_ros/driver vio_nodelet_man">
-        <param name="camera_name" value="$(arg cam_name)"/>
-        <param name="camera_number" value="$(arg cam_id)"/>
+       args="load voxl_cam_ros/driver vio_nodelet_man">
+        <param name="cam_name" value="$(arg cam_name)"/>
+        <param name="cam_id" value="$(arg cam_id)"/>
         <param name="skip_n_frames" value="$(arg skip_n_frames)"/>
         <param name="frame_rate" value="$(arg frame_rate)" />
         <param name="width" value="$(arg width)"/>
@@ -50,7 +48,7 @@
         <param name="frame_id" value="$(arg frame_id)"/>
         <param name="is_cam_master" value="$(arg is_cam_master)"/>
         <param name="format" value="1"/>
-        <param name="camera_info_path" value="$(find snavquad_interface)/config/dfc_calib.yaml"/>
+        <param name="camera_info_path" value="$(find snavquad_interface)/config/"/>
         <remap from="image_raw" to="dfc/image_raw"/>
     </node>
 
@@ -71,8 +69,6 @@
     <!-- imu nodelet -->
     <node pkg="nodelet" type="nodelet" name="snap_imu_nodelet"
           args="load snap_imu/driver vio_nodelet_man" output="screen">
-      <param name="rate" value="$(arg imu_rate)" />
-      <param name="frame_id" value="imu" />
     </node>
 
     <!-- cpa nodelet -->

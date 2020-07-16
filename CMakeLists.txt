@@ -8,7 +8,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
 find_package(catkin REQUIRED
   roscpp
-  quadrotor_msgs
+  kr_mav_msgs
   nav_msgs
   nodelet
   tf_conversions
@@ -19,7 +19,7 @@ find_package(catkin REQUIRED
 
 catkin_package(
   INCLUDE_DIRS
-  CATKIN_DEPENDS roscpp quadrotor_msgs nav_msgs nodelet tf_conversions
+  CATKIN_DEPENDS roscpp kr_mav_msgs nav_msgs nodelet tf_conversions
   DEPENDS
   LIBRARIES
 )
@@ -63,5 +63,11 @@ target_link_libraries(tf_pub ${catkin_LIBRARIES})
 add_executable(point_overlay src/point_overlay.cpp)
 target_link_libraries(point_overlay ${OpenCV_LIBS} ${catkin_LIBRARIES})
 
+install(TARGETS tf_pub point_overlay
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+install(DIRECTORY scripts/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/scripts)
 install(DIRECTORY launch/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch)
 install(DIRECTORY config/ DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config)
