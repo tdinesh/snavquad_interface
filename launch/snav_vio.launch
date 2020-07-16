@@ -6,6 +6,7 @@
 
   <!-- board: sdf_tray, sdf_tray_45, sdf_pro -->
   <arg name="board" default="$(optenv MAV_BOARD)"/>
+  
   <arg name="imu_1_used" default="$(optenv IMU_1_USED)"/>
   <arg name="imu_rate" default="100" />
 

@@ -27,6 +27,7 @@
       type="nodelet"
       name="trackers_manager"
       args="load kr_trackers_manager/TrackersManager snav_standalone_nodelet"
+
       clear_params="true"
       output="screen">
       <rosparam file="$(find snavquad_interface)/config/trackers.yaml"/>

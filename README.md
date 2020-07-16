@@ -26,6 +26,14 @@ We have three hardware platforms available in the lab for use.
 
 [VOXL Board](doc/VOXLSetup.md)
 
+Compile ROS Packages
+  * Run a fan while compiling (onboard or offboard) to avoid damaging the board.
+```
+cd ~/ws_ros
+catkin build -c
+```
+ * Grab a cup of coffee; this will take about 40 minutes.
+
 ## Flying with the flight board and DDK (platform).
 
 Run the script as sudo. This automatically restarts snav, launches necessary nodes. Enter `y` after snav restarts.

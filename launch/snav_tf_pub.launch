@@ -8,6 +8,7 @@
   <arg name="board" default="sdf_tray"/>
 
   <arg name="imu_1_used" default="false"/>
+
   <arg name="imu_is_root_tf" default="false"/>
   <arg name="odom_topic" default="quadrotor_ukf/control_odom_throttled"/>
   <arg name="odom_frame_id" default="odom"/>
@@ -29,7 +30,6 @@
     <node pkg="tf2_ros" type="static_transform_publisher" name="imu_rotated_static_publisher" args="0 0 0 0 0 -0.707 0.707 imu imu_rotated_base" if="$(arg imu_1_used)"/> -->
 
     <node pkg="tf2_ros" type="static_transform_publisher" name="imu_rotated_static_publisher" args="0 0 0 1.570796327 0 0 imu imu_rotated_base" if="$(arg imu_1_used)"/>
-
 
     <!--VIO odom to base_link TF publisher -->
     <node pkg="snavquad_interface" type="tf_pub" name="odom_tf_pub" if="$(arg pub_odom_base_link)">
