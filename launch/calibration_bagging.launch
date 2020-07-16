@@ -1,0 +1,11 @@
+ <launch>
+    <group ns="$(env MAV_NAME)">
+    <node name="record" pkg="rosbag" type="record"
+      args=" 
+      imu 
+      MVSampleVISLAMEagle/snap_cam_output_image
+      stereo/left/image_raw
+      stereo/right/image_raw
+      -o $(env HOME)/data/"/>
+    </group>
+</launch>
