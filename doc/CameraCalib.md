@@ -15,6 +15,7 @@ At the least, you probably need
 sudo apt-get install flex
 pip2 install python-igraph
 ```
+
 Installing python-igraph take a long time.
 
 Go to workspace and build as release
@@ -23,16 +24,22 @@ Go to workspace and build as release
 catkin build -DCMAKE_BUILD_TYPE=Release
 ```
 
-## Take a ROS bag using the bagging scripts
+## Take 2 ROS bags using the bagging scripts
 
-Use an April tag or checkerboard grid that we have at PERCH, and take a bag of the camera pointing at it.
+Use an April tag or checkerboard grid that we have at PERCH, and take a bag with the camera pointing at it.
+
+First bag:
+
+- The camera system is fixed and the calibration target is moved in front of the cameras to obtain the calibration images.
+
+Second bag:
 
 - Try to excite all IMU axes (rotation and translation)
 - Avoid shocks, especially at the beginning/end when you pick up the sensor
 - Good illumination
 - Keep the whole grid in the frame (watch playback on RViz)
 
-In the home directory of the drone, run
+To create these bags, in the home directory of the drone, run
 
 ```
 sudo -s
@@ -46,7 +53,7 @@ Once the tmux loads, get the drone in position and manually start the bagging sc
 ```
 roscd snavquad_interface/config/kalibr
 kalibr_calibrate_cameras \
---bag [your bag path] \
+--bag [first bag path] \
 --topics MVSampleVISLAMEagle/snap_cam_output_image \
 --models pinhole-radtan \
 --target aprilgrid.yaml
@@ -56,8 +63,8 @@ This will output `camchain-%BAGNAME%.yaml`: Results in YAML format. This file is
 
 ```
 roscd snavquad_interface/config/kalibr
-kalibr_calibrate_imu_camera --bag [your bag path]  \
---cam camchain-[your_bag_name].yaml \
+kalibr_calibrate_imu_camera --bag [second bag path]  \
+--cam camchain-[first_bag_name].yaml \
 --imu snap_imu.yaml \
 --target aprilgrid.yaml
 ```
