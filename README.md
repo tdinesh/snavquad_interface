@@ -49,5 +49,11 @@ roscd snavquad_interface/scripts
 ./tmux_ground_station 4
 ```
 
+There are helper scripts for recording bag file in the `snavquad_interface/scripts/capture` folder. On the mav tmux session, switch to the `Aux` tab, there should be a pane that already has the following keys. Just hit `Enter` to start recording the bag. If the mav has micro-SD card it will bag it to `/media/sdcard`, else to the home folder `~/`.
+```
+roscd snavquad_interface/scripts/capture
+./record/sh 4
+```
+
 ## Calibrating the cameras.
 [Calibrate](doc/CameraCalib.md)

@@ -20,7 +20,7 @@ fi
 #Check if sudo
 tmux_sudo_suffix=''
 if [ "$(whoami)" != "root" ]; then
-  echo "Run script as sudo"
+  echo "Run 'sudo -s' and then run the script"
   tmux_sudo_suffix='sudo -s'
   exit 1
 fi
@@ -65,9 +65,15 @@ tmux send-keys -t $SESSION_NAME "sleep 4; roslaunch snavquad_interface snav_vio.
 tmux split-window -t $SESSION_NAME
 tmux send-keys -t $SESSION_NAME "sleep 9; roslaunch snavquad_interface quad_control.launch use_vicon:=false" Enter
 
+tmux new-window -t $SESSION_NAME -n "Cams"
+tmux send-keys -t $SESSION_NAME "sleep 12; roslaunch snavquad_interface stereo.launch"
+tmux split-window -t $SESSION_NAME
+tmux send-keys -t $SESSION_NAME "sleep 12; roslaunch snavquad_interface hires.launch"
+
 tmux new-window -t $SESSION_NAME -n "Aux"
 tmux send-keys -t $SESSION_NAME "sleep 12; roslaunch snavquad_interface snav_vio_overlay.launch" Enter
-#tmux select-layout -t $SESSION_NAME tiled
+tmux split-window -t $SESSION_NAME
+tmux send-keys -t $SESSION_NAME "roscd snavquad_interface/scripts/capture; ./record.sh $MAV_ID"
 
 tmux new-window -t $SESSION_NAME -n "Kill"
 tmux send-keys -t $SESSION_NAME "tmux kill-session -t "

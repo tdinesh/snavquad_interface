@@ -26,7 +26,7 @@ bag_folder="/media/sdcard"
 
 if [ ! -d "$bag_folder" ]; then
   echo "*** WARNING *** SD card not present, recording locally"
-  cd /data
+  cd ~/
 else
   echo 'Bag files stored at' $bag_folder
   cd $bag_folder
@@ -78,10 +78,14 @@ SNAV_TOPICS="
 /$MAV_NAME/attitude_estimate"
 
 DFC_TOPICS="
-/$MAV_NAME/fisheye/camera_info
+/$MAV_NAME/dfc/fisheye/camera_info
 /$MAV_NAME/dfc/camera_info
-/$MAV_NAME/dfc/image_raw/compressed
-/$MAV_NAME/dfc/image_overlay/compressed"
+/$MAV_NAME/dfc/image_raw/compressed"
+#/$MAV_NAME/dfc/image_overlay/compressed"
+
+HIGHRES_TOPICS="
+/$MAV_NAME/highres/camera_info
+/$MAV_NAME/highres/image_raw/compressed"
 
 TOF_TOPICS="
 /$MAV_NAME/tof/camera_info
@@ -103,7 +107,15 @@ STEREO_DEPTH_TOPICS="
 /$MAV_NAME/stereo/dfs/depth/image_raw/compressedDepth
 /$MAV_NAME/stereo/dfs/depth/camera_info"
 
-ALL_TOPICS=$TOPICS$CONTROL_TOPICS$PLANNER_TOPICS$UKF_TOPICS$SNAV_TOPICS$DFC_TOPICS$STEREO_TOPICS$TOF_TOPICS
+VICON_TOPICS="
+/$MAV_NAME/odom"
+
+EKF_TOPICS="
+/$MAV_NAME/ekf_measurement
+/$MAV_NAME/ekf_update
+/$MAV_NAME/odom_tag"
+
+ALL_TOPICS=$TOPICS$CONTROL_TOPICS$PLANNER_TOPICS$UKF_TOPICS$SNAV_TOPICS$DFC_TOPICS$STEREO_TOPICS$TOF_TOPICS$VICON_TOPICS$EKF_TOPICS
 
 BAG_STAMP=$(date +%F-%H-%M-%S-%Z)
 CURR_TIMEZONE=$(date +%Z)

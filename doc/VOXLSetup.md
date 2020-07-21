@@ -53,6 +53,8 @@ ssh root@dragonfly30
 ## Installing snav and other ipks
 ```
 cd ~/ipk_emulator_v1.1
+opkg remove voxl-suite
+opkg remove voxl-vision-px4
 opkg remove modalai-vl
 opkg install snav-modalai_1.3.0_8x96.ipk
 opkg install Python_3.6.9_8x96.ipk

@@ -121,15 +121,15 @@ sudo snav
 
 For DragonDDK vehicle
 ```
-sudo cp dragonddk.xml /usr/share/data/adsp/snav_params_ddk.xml
+sudo cp snav_params_ddk.xml /usr/share/data/adsp/snav_params.xml
 ```
 For dragonfly (230) vehicle
 ```
-sudo cp snav_params.xml /usr/share/data/adsp/snav_params_230.xml
+sudo cp snav_params_230.xml /usr/share/data/adsp/snav_params.xml
 ```
 For tiercel vehicle
 ```
-sudo cp snav_params.xml /usr/share/data/adsp/snav_params_tiercel.xml
+sudo cp snav_params_tiercel.xml /usr/share/data/adsp/snav_params.xml
 ```
 
 Following enables Snapdragon VIO app with downward facing camera. Without the `downward` flag, downward camera mounted with 45 deg tilt is used.
@@ -180,7 +180,7 @@ chmod +x ros_setup_snap.sh
 Copy config files
 ```
 ssh linaro@dragonfly$1
-cd snav_setup
+cd ~/snav_setup
 cp _tmux1.8.conf ~/.tmux.conf
 cp _bash_aliases ~/.bash_aliases
 cp _vimrc ~/.vimrc

@@ -35,7 +35,7 @@
 -->
 
 <launch>
-  <arg name="mav_name" default="$(env MAV_NAME)"/>
+  <arg name="mav_name" default="$(optenv MAV_NAME)"/>
   <arg name="namespace_name" default="stereo"/>
   <arg name="nodelet_manager_name" default="stereo_nodelet_manager"/>
   <arg name="camera_number" default="3"/>  <!-- use 3 for 8x74, 2 for 8x96 -->

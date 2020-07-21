@@ -55,22 +55,23 @@
 
   <!-- start tof_cam node with all arguments -->
   <group ns="$(arg mav_name)/$(arg namespace)">
-      <node name="tof_cam_ros_node" type="tof_cam_ros_node" pkg="tof_cam_ros" output="screen">
-          <param name="camera_id" value="$(arg cam_id)" />
-          <param name="frame_rate" value="$(arg frame_rate)" />
-          <param if="$(arg auto_exposure)" name="auto_exposure" value="1" />
-          <param unless="$(arg auto_exposure)" name="auto_exposure" value="0" />
-          <param unless="$(arg auto_exposure)" name="exposure_time" value="$(arg exposure_time)"/>
-          <param name="scan_width_degrees" value="$(arg scan_width_degrees)" />
-          <param name="laser_scan_line" value="$(arg laser_scan_line)" />
-          <param name="ir_image_mode" value="$(arg ir_image_mode)" />
-          <param name="publish_ir_image" value="$(arg publish_ir_image)" />
-          <param name="publish_point_cloud" value="$(arg publish_point_cloud)" />
-          <param name="publish_depth_image" value="$(arg publish_depth_image)" />
-          <param name="publish_laser_scan" value="$(arg publish_laser_scan)" />
-          <!-- for now and to stay compatible with older version, we keep the images upside down -->
-          <param name="flip_image" value="false" />
-      </node>
+    <!--<node name="tof_cam_ros_node" type="tof_cam_ros_node" pkg="tof_cam_ros" output="screen"> -->
+    <node name="voxl_hal3_tof_cam_ros_node" type="voxl_hal3_tof_cam_ros_node" pkg="voxl_hal3_tof_cam_ros" output="screen">
+      <param name="camera_id" value="$(arg cam_id)" />
+      <param name="frame_rate" value="$(arg frame_rate)" />
+      <param if="$(arg auto_exposure)" name="auto_exposure" value="1" />
+      <param unless="$(arg auto_exposure)" name="auto_exposure" value="0" />
+      <param unless="$(arg auto_exposure)" name="exposure_time" value="$(arg exposure_time)"/>
+      <param name="scan_width_degrees" value="$(arg scan_width_degrees)" />
+      <param name="laser_scan_line" value="$(arg laser_scan_line)" />
+      <param name="ir_image_mode" value="$(arg ir_image_mode)" />
+      <param name="publish_ir_image" value="$(arg publish_ir_image)" />
+      <param name="publish_point_cloud" value="$(arg publish_point_cloud)" />
+      <param name="publish_depth_image" value="$(arg publish_depth_image)" />
+      <param name="publish_laser_scan" value="$(arg publish_laser_scan)" />
+      <!-- for now and to stay compatible with older version, we keep the images upside down -->
+      <param name="flip_image" value="false" />
+    </node>
   </group>
 
 </launch>
