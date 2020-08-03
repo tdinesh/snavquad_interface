@@ -282,6 +282,14 @@ catkin build -c
 ```
  * Grab a cup of coffee; this will take about 40 minutes.
 
+Setup Camera IDs
+
+```
+echo "export HIRES_CAM_ID=0" >> ~/.bashrc
+echo "export TRACKING_CAM_ID=1" >> ~/.bashrc
+echo "export STEREO_CAM_ID=3" >> ~/.bashrc
+```
+
 Setup MAV properties type, mass and board_type
 
  * MAV_TYPE can be `230`, `ddk` or `tiercel` based on the frame.

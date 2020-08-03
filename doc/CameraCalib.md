@@ -1,5 +1,10 @@
 ### Camera-IMU Calibration
 
+Snapdragon Flight has 3 sets of cameras that can be calibrated wrt the imu.
+  * Stereo Pair
+  * 4K
+  * Fisheye
+
 ## Install Kalibr
 
 Clone kalibr into a ROS workspace, build, and source.
@@ -28,7 +33,7 @@ catkin build -DCMAKE_BUILD_TYPE=Release
 
 Use an April tag or checkerboard grid that we have at PERCH, and take a bag with the camera pointing at it.
 
-First bag:
+First bag (For camera intrinsics):
 
 - The camera system is fixed and the calibration target is moved in front of the cameras to obtain the calibration images.
 
@@ -43,10 +48,12 @@ To create these bags, in the home directory of the drone, run
 
 ```
 sudo -s
+roscd snavquad_interface/scripts
 ./tmux_calibration.sh
 ```
 
-Once the tmux loads, get the drone in position and manually start the bagging script by hitting `Enter` in the `Bagging` tab.
+Once the tmux loads, choose the correct camera tab and start the cooresponding camera drivers
+Get the drone in position and manually start the bagging script by hitting `Enter` in the `Bagging` tab. The bagging script will record all the cameras if they are launched.
 
 ## Processing the bag in Kalibr
 

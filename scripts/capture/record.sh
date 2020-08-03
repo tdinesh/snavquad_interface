@@ -89,13 +89,12 @@ HIGHRES_TOPICS="
 
 TOF_TOPICS="
 /$MAV_NAME/tof/camera_info
-/$MAV_NAME/tof/image_raw/compressed
-/$MAV_NAME/tof/image_raw/compressedDepth
+/$MAV_NAME/tof/voxl_depth_image_raw
+/$MAV_NAME/tof/voxl_depth_image_raw/compressedDepth
 /$MAV_NAME/tof/ir/camera_info
-/$MAV_NAME/tof/ir/image_raw/compressed
-/$MAV_NAME/tof/ir/image_raw/compressedDepth
-/$MAV_NAME/tof/points
-/$MAV_NAME/tof/scan"
+/$MAV_NAME/tof/voxl_ir_image_raw/compressed
+/$MAV_NAME/tof/voxl_point_cloud
+/$MAV_NAME/tof/voxl_laser_scan"
 
 STEREO_TOPICS="
 /$MAV_NAME/stereo/left/image_raw/compressed

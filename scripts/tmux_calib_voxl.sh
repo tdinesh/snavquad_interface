@@ -28,13 +28,14 @@ if [ "$(whoami)" != "root" ]; then
 fi
 
 #Stop cron
-echo "Stop cron job"
-sudo stop cron
+# echo "Stop cron job"
+# sudo stop cron
+
 #Restart snav
 echo "Restarting snav"
-sudo stop snav
+systemctl stop snav
 sleep 1s
-sudo start snav
+systemctl start snav
 sleep 1s
 
 #Get confirmation from user if snav is restarted properly
@@ -61,24 +62,21 @@ tmux rename-window -t $SESSION_NAME "Ros"
 tmux send-keys -t $SESSION_NAME "roscore" Enter
 
 tmux new-window -t $SESSION_NAME -n "Main"
-tmux send-keys -t $SESSION_NAME "sleep 4; roslaunch snavquad_interface snav_vio.launch pub_odom_base_link:=true" Enter
+tmux send-keys -t $SESSION_NAME "sleep 4; roslaunch snavquad_interface voxl_vio.launch pub_odom_base_link:=true" Enter
 tmux split-window -t $SESSION_NAME
 tmux send-keys -t $SESSION_NAME "sleep 9; roslaunch snavquad_interface quad_control.launch use_vicon:=false" Enter
 
 tmux new-window -t $SESSION_NAME -n "Stereo"
-tmux send-keys -t $SESSION_NAME "roslaunch snavquad_interface stereo.launch exposure:=0.3 width:=640 height:=480"
+tmux send-keys -t $SESSION_NAME "roslaunch snavquad_interface stereo.launch board_type:=voxl exposure:=0.3 width:=640 height:=480"
 
 tmux new-window -t $SESSION_NAME -n "4K"
-tmux send-keys -t $SESSION_NAME "roslaunch snavquad_interface hires.launch exposure:=0.3 width:=640 height:=480"
+tmux send-keys -t $SESSION_NAME "roslaunch snavquad_interface hires.launch board_type:=voxl exposure:=0.3"
 
 tmux new-window -t $SESSION_NAME -n "Bag"
 tmux send-keys -t $SESSION_NAME "roscd snavquad_interface/scripts/capture; ./onboard_camera_only_record.sh $MAV_ID"
 
-# tmux new-window -t $SESSION_NAME -n "Bag"
-# tmux send-keys -t $SESSION_NAME "./onboard_camera_only_record.sh $MAV_ID"
-
 tmux new-window -t $SESSION_NAME -n "Kill"
-tmux send-keys -t $SESSION_NAME "tmux kill-session -t "
+tmux send-keys -t $SESSION_NAME "tmux kill-session -t $SESSION_NAME"
 
 tmux select-layout -t $SESSION_NAME tiled
 

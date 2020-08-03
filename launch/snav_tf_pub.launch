@@ -31,6 +31,19 @@
 
     <node pkg="tf2_ros" type="static_transform_publisher" name="imu_rotated_static_publisher" args="0 0 0 1.570796327 0 0 imu imu_rotated_base" if="$(arg imu_1_used)"/>
 
+    <!-- assumes 230 -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="fb_static_publisher" args="0.01353 0.0 -0.01690 0 0 0 base_link flight_board_center" if="$(arg imu_1_used)"/>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="imu1_static_publisher" args="0.03815 0.0152 -0.00314 -1.570796327 0 0 flight_board_center imu" if="$(arg imu_1_used)"/>
+
+    <node name="base_link_imu_static_publisher" pkg="qflight_descriptions"
+          type="base_link_imu_static_publisher.py" output="screen" unless="$(arg imu_1_used)">
+      <param name="board_mounts" value="$(find qflight_descriptions)/urdf/board_mounts.yaml"/>
+      <param name="imu_is_root_tf" type="bool" value="$(arg imu_is_root_tf)"/>
+      <param name="board" value="$(arg board)"/>
+      <param name="vehicle" value="$(arg mav_type)"/>
+    </node>
+
     <!--VIO odom to base_link TF publisher -->
     <node pkg="snavquad_interface" type="tf_pub" name="odom_tf_pub" if="$(arg pub_odom_base_link)">
       <param name="odom_frame_id" value="$(arg odom_frame_id)"/>
@@ -46,14 +59,6 @@
     <param name="vehicle_description" textfile="$(find qflight_descriptions)/urdf/$(arg mav_type).urdf"/>
     <node name="vehicle_state_publisher" pkg="robot_state_publisher" type="state_publisher">
       <remap from="robot_description" to="vehicle_description"/>
-    </node>
-
-    <node name="base_link_imu_static_publisher" pkg="qflight_descriptions"
-          type="base_link_imu_static_publisher.py" output="screen">
-      <param name="board_mounts" value="$(find qflight_descriptions)/urdf/board_mounts.yaml"/>
-      <param name="imu_is_root_tf" type="bool" value="$(arg imu_is_root_tf)"/>
-      <param name="board" value="$(arg board)"/>
-      <param name="vehicle" value="$(arg mav_type)"/>
     </node>
 
     <node name="rviz" pkg="rviz" type="rviz" output="screen" if="$(arg rviz)"

@@ -17,7 +17,7 @@
   <node   pkg="tf2_ros"
           type="static_transform_publisher"
           name="base_link_tof_cam"
-          args="0.0 0.0 0.0 1.570796 0 1.570796 base_link tof_camera" />
+          args="0.06353 -0.025 -0.006 -1.570796 0 -1.570796 base_link hal3_tof_camera" />
 
   <!-- transforms to tilt TOF points and laser scan forward -->
   <node   pkg="tf2_ros"
@@ -28,7 +28,7 @@
 
   <!-- Arguments for customizing TOF behavior -->
   <arg name="namespace" default="tof" />
-  <arg name="cam_id" default="$(env TOF_CAM_ID)" />
+  <arg name="cam_id" default="$(optenv TOF_CAM_ID)" />
   <arg name="frame_rate" default="5" />
   <arg name="auto_exposure" default="false" />
   <arg name="exposure_time" default="800" />
@@ -71,6 +71,11 @@
       <param name="publish_laser_scan" value="$(arg publish_laser_scan)" />
       <!-- for now and to stay compatible with older version, we keep the images upside down -->
       <param name="flip_image" value="false" />
+
+      <remap from="~voxl_ir_image_raw" to="voxl_ir_image_raw"/>
+      <remap from="~voxl_depth_image_raw" to="voxl_depth_image_raw"/>
+      <remap from="~voxl_point_cloud" to="voxl_point_cloud"/>
+      <remap from="~voxl_laser_scan" to="voxl_laser_scan"/>
     </node>
   </group>
 
