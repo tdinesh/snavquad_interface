@@ -26,7 +26,7 @@ bag_folder="/media/sdcard"
 
 if [ ! -d "$bag_folder" ]; then
   echo "*** WARNING *** SD card not present, recording locally"
-  cd /data
+  cd ~/
 else
   echo 'Bag files stored at' $bag_folder
   cd $bag_folder
@@ -78,20 +78,23 @@ SNAV_TOPICS="
 /$MAV_NAME/attitude_estimate"
 
 DFC_TOPICS="
-/$MAV_NAME/fisheye/camera_info
+/$MAV_NAME/dfc/fisheye/camera_info
 /$MAV_NAME/dfc/camera_info
-/$MAV_NAME/dfc/image_raw/compressed
-/$MAV_NAME/dfc/image_overlay/compressed"
+/$MAV_NAME/dfc/image_raw/compressed"
+#/$MAV_NAME/dfc/image_overlay/compressed"
+
+HIGHRES_TOPICS="
+/$MAV_NAME/highres/camera_info
+/$MAV_NAME/highres/image_raw/compressed"
 
 TOF_TOPICS="
 /$MAV_NAME/tof/camera_info
-/$MAV_NAME/tof/image_raw/compressed
-/$MAV_NAME/tof/image_raw/compressedDepth
+/$MAV_NAME/tof/voxl_depth_image_raw
+/$MAV_NAME/tof/voxl_depth_image_raw/compressedDepth
 /$MAV_NAME/tof/ir/camera_info
-/$MAV_NAME/tof/ir/image_raw/compressed
-/$MAV_NAME/tof/ir/image_raw/compressedDepth
-/$MAV_NAME/tof/points
-/$MAV_NAME/tof/scan"
+/$MAV_NAME/tof/voxl_ir_image_raw/compressed
+/$MAV_NAME/tof/voxl_point_cloud
+/$MAV_NAME/tof/voxl_laser_scan"
 
 STEREO_TOPICS="
 /$MAV_NAME/stereo/left/image_raw/compressed
@@ -103,7 +106,15 @@ STEREO_DEPTH_TOPICS="
 /$MAV_NAME/stereo/dfs/depth/image_raw/compressedDepth
 /$MAV_NAME/stereo/dfs/depth/camera_info"
 
-ALL_TOPICS=$TOPICS$CONTROL_TOPICS$PLANNER_TOPICS$UKF_TOPICS$SNAV_TOPICS$DFC_TOPICS$STEREO_TOPICS$TOF_TOPICS
+VICON_TOPICS="
+/$MAV_NAME/odom"
+
+EKF_TOPICS="
+/$MAV_NAME/ekf_measurement
+/$MAV_NAME/ekf_update
+/$MAV_NAME/odom_tag"
+
+ALL_TOPICS=$TOPICS$CONTROL_TOPICS$PLANNER_TOPICS$UKF_TOPICS$SNAV_TOPICS$DFC_TOPICS$STEREO_TOPICS$TOF_TOPICS$VICON_TOPICS$EKF_TOPICS
 
 BAG_STAMP=$(date +%F-%H-%M-%S-%Z)
 CURR_TIMEZONE=$(date +%Z)

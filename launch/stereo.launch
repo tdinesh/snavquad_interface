@@ -35,10 +35,11 @@
 -->
 
 <launch>
-  <arg name="mav_name" default="$(env MAV_NAME)"/>
-  <arg name="namespace_name" default="stereo"/>
-  <arg name="nodelet_manager_name" default="stereo_nodelet_manager"/>
-  <arg name="camera_number" default="3"/>  <!-- use 3 for 8x74, 2 for 8x96 -->
+  <arg name="board_type" default="snap"/>  <!-- set voxl for new board -->
+  <arg name="mav_name" default="$(optenv MAV_NAME)"/>
+  <arg name="cam_name" default="stereo"/>
+  <arg name="nodelet_manager_name" default="$(arg cam_name)_nodelet_manager"/>
+  <arg name="camera_number" default="$(env STEREO_CAM_ID)"/>  <!-- use 3 for 8x74, 2 for 8x96 -->
   <arg name="skip_n_frames" default="0"/>
 
   <arg name="width" default="640"/>
@@ -47,11 +48,11 @@
   <arg name="frame_rate" default="15"/>
   <arg name="exposure" default="1.0"/>
 
-  <group ns="$(arg mav_name)/$(arg namespace_name)">
+  <group ns="$(arg mav_name)/$(arg cam_name)">
     <node pkg="nodelet" type="nodelet" name="$(arg nodelet_manager_name)" args="manager" output="screen"/>
     <!-- camera driver nodelet -->
-    <node pkg="nodelet" type="nodelet" name="snap_cam_nodelet"
-	  args="load snap_cam_ros/stereo_driver $(arg nodelet_manager_name)">
+    <node pkg="nodelet" type="nodelet" name="$(arg cam_name)_cam_nodelet"
+	  args="load $(arg board_type)_cam_ros/stereo_driver $(arg nodelet_manager_name)">
       <param name="format" value="1"/>
       <param name="camera_number" value="$(arg camera_number)"/>
       <param name="width" value="$(arg width)"/>

@@ -13,7 +13,7 @@
   <arg name="8074" default="false"/>
   <arg name="pub_odom_base_link" default="false"/>
 
-  <arg name="cam_name" default="downward"/> <!-- sets the topic namespace -->
+  <arg name="cam_name" default="dfc"/> <!-- sets the topic namespace -->
   <arg name="cam_id" default="1"/>
   <arg name="skip_n_frames" default="0"/>
   <arg name="frame_rate" default="30" />
@@ -50,7 +50,7 @@
         <param name="frame_id" value="$(arg frame_id)"/>
         <param name="is_cam_master" value="$(arg is_cam_master)"/>
         <param name="format" value="1"/>
-        <param name="camera_info_path" value="$(find snavquad_interface)/config/dfc_calib.yaml"/>
+        <param name="camera_info_path" value="$(find snavquad_interface)/config/"/>
         <remap from="image_raw" to="dfc/image_raw"/>
     </node>
 

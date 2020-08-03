@@ -21,6 +21,7 @@ bag_folder="/media/sdcard"
 
 if [ ! -d "$bag_folder" ]; then
   echo "*** WARNING *** SD card not present, recording locally"
+  cd ~/
 else
   echo 'Bag files stored at' $bag_folder
   cd $bag_folder
@@ -32,28 +33,31 @@ fi
 
 TOPICS="
 /tf
+/$MAV_NAME/imu
 "
 
-DOWN_CAM_TOPIC=" /$MAV_NAME/MVSampleVISLAMEagle/snap_cam_output_image/compressed"
+DFC_TOPICS="
+/$MAV_NAME/dfc/fisheye/camera_info
+/$MAV_NAME/dfc/camera_info
+/$MAV_NAME/dfc/image_raw"
 
-STEREO_TOPIC="
-/$MAV_NAME/stereo/left/image_raw/compressed
+HIGHRES_TOPICS="
+/$MAV_NAME/highres/camera_info
+/$MAV_NAME/highres/image_raw"
+
+STEREO_TOPICS="
+/$MAV_NAME/stereo/left/image_raw
 /$MAV_NAME/stereo/left/camera_info
-/$MAV_NAME/stereo/right/image_raw/compressed
+/$MAV_NAME/stereo/right/image_raw
 /$MAV_NAME/stereo/right/camera_info
 "
 
-ALL_TOPICS=$TOPICS$DOWN_CAM_TOPIC$STEREO_TOPIC
+ALL_TOPICS=$TOPICS$DFC_TOPICS$HIGHRES_TOPICS$STEREO_TOPICS
 
 BAG_STAMP=$(date +%F-%H-%M-%S-%Z)
 CURR_TIMEZONE=$(date +%Z)
 
 BAG_NAME=$BAG_STAMP-V${MAV_ID}.bag
-BAG_PREFIX=V${MAV_ID}-${CURR_TIMEZONE}
+BAG_PREFIX=V${MAV_ID}-${CURR_TIMEZONE}-calib
 
-#Move old back files in backup folder
-backup_folder=old_bags_$BAG_STAMP
-mkdir $backup_folder
-mv *.bag $backup_folder
-
-eval rosbag record --split --duration 5s $ALL_TOPICS -o $BAG_PREFIX
+eval rosbag record -b512 $ALL_TOPICS -o $BAG_PREFIX

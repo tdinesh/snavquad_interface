@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<!--
+NOTES
+
+yuv_remap options are: mono, yuv422, and rgb8
+Note the following limitations:
+
+mono is the most efficient and only uses the Y channel
+from the provided yuv420p image.
+
+yuv422 converts the yuv420p to the ROS-supported yuv422
+encoding.  This allows standard ros transport of a color image,
+but image compression via image transport is not supported.
+
+rgb8 converts the yuv420p image to 3 channel, 8 bit rgb.  This
+supports ros color transport and compression, but it is by far
+the most computationally expensive (4 float operations, 3 mins,
+3 maxes per pixel).  This could result in dropped frames.
+-->
+
+<launch>
+  <!-- cmd line arguments to launch file -->
+  <arg name="board_type" default="snap"/>  <!-- set voxl for new board -->
+  <arg name="mav_name" default="$(optenv MAV_NAME)"/>
+  <arg name="cam_name" default="hires"/> <!-- sets the topic namespace -->
+  <arg name="cam_id" default="$(env HIRES_CAM_ID)"/> <!-- configure with voxl-configure-cameras -->
+  <arg name="skip_n_frames" default="0"/>
+  <arg name="yuv_remap" default="yuv422"/>
+  <arg name="frame_rate" default="15" />
+  <arg name="width" default="1920"/>
+  <arg name="height" default="1080"/>
+  <arg name="frame_id" default="hires_frame"/> <!-- transform frame used by TF2 -->
+  <arg name="is_cam_master" default="true"/>
+  <arg name="do_rectification" default="false"/>
+
+  <!-- start node(s) -->
+  <group ns="$(arg mav_name)/$(arg cam_name)">
+      <node pkg="nodelet" type="nodelet" name="$(arg cam_name)_nodelet_manager"
+          args="manager" output="screen"/>
+
+      <!-- camera driver nodelet -->
+      <node pkg="nodelet" type="nodelet" name="$(arg cam_name)_cam_nodelet"
+          args="load $(arg board_type)_cam_ros/driver $(arg cam_name)_nodelet_manager">
+          <param name="cam_name" value="$(arg cam_name)"/>
+          <param name="format" value="1"/>
+          <param name="cam_id" value="$(arg cam_id)"/>
+          <param name="skip_n_frames" value="$(arg skip_n_frames)"/>
+          <param name="yuv_remap" value="$(arg yuv_remap)"/>
+          <param name="frame_rate" value="$(arg frame_rate)" />
+          <param name="width" value="$(arg width)"/>
+          <param name="height" value="$(arg height)"/>
+          <param name="frame_id" value="$(arg frame_id)"/>
+          <param name="is_cam_master" value="$(arg is_cam_master)"/>
+      </node>
+
+      <!-- mono rectification -->
+      <group if="$(arg do_rectification)">
+          <node pkg="nodelet" type="nodelet" name="image_proc_rect"
+          args="load image_proc/rectify $(arg cam_name)_nodelet_manager">
+              <remap from="image_mono" to="image_raw"/>
+          </node>
+      </group>
+  </group>
+
+</launch>

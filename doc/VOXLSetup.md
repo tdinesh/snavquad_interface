@@ -7,10 +7,11 @@
 ```
 tar -xvf modalai-2-2-0.tar.gz
 cd modalai-2-2-0
-python flash_build_app.py
+python install.py
 ```
 
 ## [Install Software Bundles](https://docs.modalai.com/install-software-bundles/)
+Not required starting System Image 2.3.0
 ```
 tar -xvf voxl-factory-bundle_0.0.4.tar.gz
 tar -xvf voxl-software-bundle_0.0.4.tar.gz
@@ -24,7 +25,7 @@ cd ../voxl-software-bundle_0.0.4
 
 ## Push precompiled ipks to the board and setup files folder to the board
 ```
-adb push ipk_emulator_v1.1 /home/root`
+adb push ipk_emulator_v1.1 /home/root
 adb push snav_setup /home/root
 ```
 
@@ -53,6 +54,8 @@ ssh root@dragonfly30
 ## Installing snav and other ipks
 ```
 cd ~/ipk_emulator_v1.1
+opkg remove voxl-suite
+opkg remove voxl-vision-px4
 opkg remove modalai-vl
 opkg install snav-modalai_1.3.0_8x96.ipk
 opkg install Python_3.6.9_8x96.ipk
@@ -79,10 +82,20 @@ cp _bash_aliases ~/.bash_aliases
 cp _vimrc ~/.vimrc
 ```
 
+```
+cp snav_params_voxl_230_2s_45deg_MT1306-8.xml /usr/lib/rfsa/adsp/
+
+ln -sf /usr/lib/rfsa/adsp/snav_params_voxl_230_2s_45deg_MT1306-8.xml /usr/lib/rfsa/adsp/snav_params.xml
+```
+
 ## Set environment variable based on vehicle ID, example 30
 ```
 export MAV_ID=30
 echo "export MAV_ID=$MAV_ID" >> ~/.bashrc
 echo "export MAV_NAME=dragonfly$MAV_ID" >> ~/.bashrc
+echo "export MAV_TYPE=230" >> ~/.bashrc
+echo "export MAV_MASS=0.245" >> ~/.bashrc
+echo "export MAV_BOARD=sdf_tray" >> ~/.bashrc
 echo "export IMU_1_USED=true" >> ~/.bashrc
 ```
+

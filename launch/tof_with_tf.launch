@@ -17,7 +17,7 @@
   <node   pkg="tf2_ros"
           type="static_transform_publisher"
           name="base_link_tof_cam"
-          args="0.0 0.0 0.0 1.570796 0 1.570796 base_link tof_camera" />
+          args="0.06353 -0.025 -0.006 -1.570796 0 -1.570796 base_link hal3_tof_camera" />
 
   <!-- transforms to tilt TOF points and laser scan forward -->
   <node   pkg="tf2_ros"
@@ -28,7 +28,7 @@
 
   <!-- Arguments for customizing TOF behavior -->
   <arg name="namespace" default="tof" />
-  <arg name="cam_id" default="$(env TOF_CAM_ID)" />
+  <arg name="cam_id" default="$(optenv TOF_CAM_ID)" />
   <arg name="frame_rate" default="5" />
   <arg name="auto_exposure" default="false" />
   <arg name="exposure_time" default="800" />
@@ -55,22 +55,28 @@
 
   <!-- start tof_cam node with all arguments -->
   <group ns="$(arg mav_name)/$(arg namespace)">
-      <node name="tof_cam_ros_node" type="tof_cam_ros_node" pkg="tof_cam_ros" output="screen">
-          <param name="camera_id" value="$(arg cam_id)" />
-          <param name="frame_rate" value="$(arg frame_rate)" />
-          <param if="$(arg auto_exposure)" name="auto_exposure" value="1" />
-          <param unless="$(arg auto_exposure)" name="auto_exposure" value="0" />
-          <param unless="$(arg auto_exposure)" name="exposure_time" value="$(arg exposure_time)"/>
-          <param name="scan_width_degrees" value="$(arg scan_width_degrees)" />
-          <param name="laser_scan_line" value="$(arg laser_scan_line)" />
-          <param name="ir_image_mode" value="$(arg ir_image_mode)" />
-          <param name="publish_ir_image" value="$(arg publish_ir_image)" />
-          <param name="publish_point_cloud" value="$(arg publish_point_cloud)" />
-          <param name="publish_depth_image" value="$(arg publish_depth_image)" />
-          <param name="publish_laser_scan" value="$(arg publish_laser_scan)" />
-          <!-- for now and to stay compatible with older version, we keep the images upside down -->
-          <param name="flip_image" value="false" />
-      </node>
+    <!--<node name="tof_cam_ros_node" type="tof_cam_ros_node" pkg="tof_cam_ros" output="screen"> -->
+    <node name="voxl_hal3_tof_cam_ros_node" type="voxl_hal3_tof_cam_ros_node" pkg="voxl_hal3_tof_cam_ros" output="screen">
+      <param name="camera_id" value="$(arg cam_id)" />
+      <param name="frame_rate" value="$(arg frame_rate)" />
+      <param if="$(arg auto_exposure)" name="auto_exposure" value="1" />
+      <param unless="$(arg auto_exposure)" name="auto_exposure" value="0" />
+      <param unless="$(arg auto_exposure)" name="exposure_time" value="$(arg exposure_time)"/>
+      <param name="scan_width_degrees" value="$(arg scan_width_degrees)" />
+      <param name="laser_scan_line" value="$(arg laser_scan_line)" />
+      <param name="ir_image_mode" value="$(arg ir_image_mode)" />
+      <param name="publish_ir_image" value="$(arg publish_ir_image)" />
+      <param name="publish_point_cloud" value="$(arg publish_point_cloud)" />
+      <param name="publish_depth_image" value="$(arg publish_depth_image)" />
+      <param name="publish_laser_scan" value="$(arg publish_laser_scan)" />
+      <!-- for now and to stay compatible with older version, we keep the images upside down -->
+      <param name="flip_image" value="false" />
+
+      <remap from="~voxl_ir_image_raw" to="voxl_ir_image_raw"/>
+      <remap from="~voxl_depth_image_raw" to="voxl_depth_image_raw"/>
+      <remap from="~voxl_point_cloud" to="voxl_point_cloud"/>
+      <remap from="~voxl_laser_scan" to="voxl_laser_scan"/>
+    </node>
   </group>
 
 </launch>
