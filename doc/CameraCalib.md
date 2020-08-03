@@ -1,10 +1,5 @@
 ### Camera-IMU Calibration
 
-Snapdragon Flight has 3 sets of cameras that can be calibrated wrt the imu.
-  * Stereo Pair
-  * 4K
-  * Fisheye
-
 ## Install Kalibr
 
 Clone kalibr into a ROS workspace, build, and source.

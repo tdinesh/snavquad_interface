@@ -61,6 +61,14 @@
       <remap from="robot_description" to="vehicle_description"/>
     </node>
 
+    <node name="base_link_imu_static_publisher" pkg="qflight_descriptions"
+          type="base_link_imu_static_publisher.py" output="screen">
+      <param name="board_mounts" value="$(find qflight_descriptions)/urdf/board_mounts.yaml"/>
+      <param name="imu_is_root_tf" type="bool" value="$(arg imu_is_root_tf)"/>
+      <param name="board" value="$(arg board)"/>
+      <param name="vehicle" value="$(arg mav_type)"/>
+    </node>
+
     <node name="rviz" pkg="rviz" type="rviz" output="screen" if="$(arg rviz)"
           args="-d $(find qflight_descriptions)/launch/qflight_urdf.rviz"/>
 
