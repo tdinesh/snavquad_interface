@@ -62,22 +62,22 @@ tmux rename-window -t $SESSION_NAME "Ros"
 tmux send-keys -t $SESSION_NAME "roscore" Enter
 
 tmux new-window -t $SESSION_NAME -n "Main"
-tmux send-keys -t $SESSION_NAME "sleep 4; roslaunch snavquad_interface voxl_vio.launch pub_odom_base_link:=true" Enter
+tmux send-keys -t $SESSION_NAME "sws; sleep 4; roslaunch snavquad_interface voxl_vio.launch pub_odom_base_link:=true" Enter
 tmux split-window -t $SESSION_NAME
-tmux send-keys -t $SESSION_NAME "sleep 9; roslaunch snavquad_interface quad_control.launch use_vicon:=false" Enter
+tmux send-keys -t $SESSION_NAME "sws; sleep 9; roslaunch snavquad_interface quad_control_slow.launch use_vicon:=false" Enter
 
 tmux new-window -t $SESSION_NAME -n "Cams"
-tmux send-keys -t $SESSION_NAME "roslaunch snavquad_interface stereo.launch"
+tmux send-keys -t $SESSION_NAME "sws; roslaunch snavquad_interface stereo.launch"
 tmux split-window -t $SESSION_NAME
-tmux send-keys -t $SESSION_NAME "roslaunch snavquad_interface hires.launch"
+tmux send-keys -t $SESSION_NAME "sws; roslaunch snavquad_interface hires.launch"
 tmux split-window -t $SESSION_NAME
-tmux send-keys -t $SESSION_NAME "roslaunch snavquad_interface tof_with_tf.launch"
+tmux send-keys -t $SESSION_NAME "sws; sleep 12; roslaunch snavquad_interface tof_with_tf.launch publish_depth_image:=false" Enter
 tmux select-layout -t $SESSION_NAME tiled
 
 tmux new-window -t $SESSION_NAME -n "Aux"
 tmux send-keys -t $SESSION_NAME "sleep 12; roslaunch snavquad_interface snav_vio_overlay.launch" Enter
 tmux split-window -t $SESSION_NAME
-tmux send-keys -t $SESSION_NAME "roscd snavquad_interface/scripts/capture; ./record.sh $MAV_ID"
+tmux send-keys -t $SESSION_NAME "sws; roscd snavquad_interface/scripts/capture; ./record.sh $MAV_ID"
 #tmux select-layout -t $SESSION_NAME tiled
 
 tmux new-window -t $SESSION_NAME -n "Kill"
