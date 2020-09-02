@@ -1,46 +1,56 @@
 <launch>
   <arg name="mav_name" default="$(optenv MAV_NAME)"/>
-  <arg name="points_topic" default="/$(arg mav_name)/tof/voxl_point_cloud"/>
+  <arg name="points_topic" default="/$(arg mav_name)/tof/points_depth"/>
   <arg name="map_frame_id" default="odom"/>
 
   <arg name="radius_search" default="0.1" />
-  <arg name="min_neighbors" default="45" />
+  <!--<arg name="min_neighbors" default="45" /> -->
+  <arg name="min_neighbors" default="20" />
 
-  <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
+  <group ns="$(arg mav_name)">
 
-  <node pkg="nodelet" type="nodelet" name="z_passthrough" args="load pcl/PassThrough pcl_manager" output="screen">
-    <remap from="~input" to="$(arg points_topic)" />
-    <rosparam>
-      filter_field_name: z
-      filter_limit_min: 0.2
-      filter_limit_max: 2.5
-      filter_limit_negative: False
-    </rosparam>
-  </node>
+    <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
 
-  <node pkg="nodelet" type="nodelet" name="radius_outlier_removal" args="load pcl/RadiusOutlierRemoval pcl_manager" output="screen">
-    <remap from="~input" to="z_passthrough/output" />
-    <param name="radius_search" value="$(arg radius_search)" />
-    <param name="min_neighbors" value="$(arg min_neighbors)" />
-  </node>
+    <node pkg="nodelet" type="nodelet" name="z_passthrough" args="load pcl/PassThrough pcl_manager" output="screen">
+      <remap from="~input" to="$(arg points_topic)" />
+      <rosparam>
+        filter_field_name: z
+        filter_limit_min: 0.2
+        filter_limit_max: 8.5
+        filter_limit_negative: False
+      </rosparam>
+    </node>
 
-  <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+    <node pkg="nodelet" type="nodelet" name="radius_outlier_removal" args="load pcl/RadiusOutlierRemoval pcl_manager" output="screen">
+      <remap from="~input" to="z_passthrough/output" />
+      <param name="radius_search" value="$(arg radius_search)" />
+      <param name="min_neighbors" value="$(arg min_neighbors)" />
+    </node>
 
-    <!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
-    <param name="frame_id" type="string" value="$(arg map_frame_id)" />
+    <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
 
-    <param name="resolution" type="double" value="0.05" />
+      <!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
+      <param name="frame_id" type="string" value="$(arg map_frame_id)" />
 
-    <!-- maximum range to integrate (speedup!) -->
-    <param name="sensor_model/max_range" value="2.5" />
+      <param name="resolution" type="double" value="0.05" />
 
-    <param name="latch" type="bool" value="false"/>
-    <param name="pointcloud_min_z" value="0.5"/>
-    <param name="pointcloud_max_z" value="2.0"/>
-    <param name="occupancy_min_z" value="0.5"/>
-    <param name="occupancy_max_z" value="2.0"/>
+      <param name="base_frame_id" type="string" value="base_link" />
 
-    <!-- data source to integrate (PointCloud2) -->
-    <remap from="cloud_in" to="radius_outlier_removal/output" />
-  </node>
+      <!-- maximum range to integrate (speedup!) -->
+      <param name="sensor_model/max_range" value="1.5" />
+
+      <param name="latch" type="bool" value="false"/>
+      <param name="filter_ground" type="bool" value="false"/>
+      <param name="ground_filter/distance" value="0.1"/>
+      <param name="ground_filter/plane_distance" value="0.07"/>
+
+      <param name="pointcloud_min_z" value="-0.5"/>
+      <param name="pointcloud_max_z" value="1.7"/>
+      <param name="occupancy_min_z" value="0.5"/>
+      <param name="occupancy_max_z" value="1.7"/>
+
+      <!-- data source to integrate (PointCloud2) -->
+      <remap from="cloud_in" to="radius_outlier_removal/output" />
+    </node>
+  </group>
 </launch>

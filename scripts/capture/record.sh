@@ -41,7 +41,7 @@ TOPICS="
 /tf_static"
 
 PLANNER_TOPICS="
-/octomap_full
+/$MAV_NAME/octomap_full
 /waypoint_nav/feedback
 /waypoint_nav/update
 /$MAV_NAME/global_trajectory
@@ -55,6 +55,16 @@ PLANNER_TOPICS="
 /$MAV_NAME/radius_outlier_removal/output
 /$MAV_NAME/dmp_path
 /$MAV_NAME/lookahead_cost"
+
+PLANNER_2D_TOPICS="
+/$MAV_NAME/dmp_path_2d
+/$MAV_NAME/jps_path_2d
+"
+
+EXP_TOPICS="
+/$MAV_NAME/projected_map
+/$MAV_NAME/inflated_map
+"
 
 CONTROL_TOPICS="
 /$MAV_NAME/position_cmd
@@ -90,11 +100,11 @@ HIGHRES_TOPICS="
 TOF_TOPICS="
 /$MAV_NAME/tof/camera_info
 /$MAV_NAME/tof/voxl_depth_image_raw
-/$MAV_NAME/tof/voxl_depth_image_raw/compressedDepth
 /$MAV_NAME/tof/ir/camera_info
 /$MAV_NAME/tof/voxl_ir_image_raw/compressed
 /$MAV_NAME/tof/voxl_point_cloud
-/$MAV_NAME/tof/voxl_laser_scan"
+/$MAV_NAME/tof/voxl_laser_scan
+/$MAV_NAME/tof/points_depth"
 
 STEREO_TOPICS="
 /$MAV_NAME/stereo/left/image_raw/compressed
@@ -114,7 +124,14 @@ EKF_TOPICS="
 /$MAV_NAME/ekf_update
 /$MAV_NAME/odom_tag"
 
-ALL_TOPICS=$TOPICS$CONTROL_TOPICS$PLANNER_TOPICS$UKF_TOPICS$SNAV_TOPICS$DFC_TOPICS$STEREO_TOPICS$TOF_TOPICS$VICON_TOPICS$EKF_TOPICS
+OTHER_TOPICS="
+/wifi_info
+/$MAV_NAME/fov_frontier
+/$MAV_NAME/goal_point
+/$MAV_NAME/frontier_cost
+"
+
+ALL_TOPICS=$TOPICS$CONTROL_TOPICS$PLANNER_TOPICS$UKF_TOPICS$SNAV_TOPICS$DFC_TOPICS$STEREO_TOPICS$TOF_TOPICS$VICON_TOPICS$EKF_TOPICS$PLANNER_2D_TOPICS$EXP_TOPICS$OTHER_TOPICS
 
 BAG_STAMP=$(date +%F-%H-%M-%S-%Z)
 CURR_TIMEZONE=$(date +%Z)

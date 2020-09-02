@@ -52,6 +52,7 @@ the most computationally expensive (4 float operations, 3 mins,
           <param name="height" value="$(arg height)"/>
           <param name="frame_id" value="$(arg frame_id)"/>
           <param name="is_cam_master" value="$(arg is_cam_master)"/>
+          <param name="exposure" value="$(arg exposure)"/>
       </node>
 
       <!-- mono rectification -->
