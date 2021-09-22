@@ -33,6 +33,7 @@ the most computationally expensive (4 float operations, 3 mins,
   <arg name="frame_id" default="hires_frame"/> <!-- transform frame used by TF2 -->
   <arg name="is_cam_master" default="true"/>
   <arg name="do_rectification" default="false"/>
+  <arg name="exposure" default="0.6"/>  
 
   <!-- start node(s) -->
   <group ns="$(arg mav_name)/$(arg cam_name)">

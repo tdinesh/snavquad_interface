@@ -22,7 +22,7 @@ fi
 MAV_NAME="dragonfly$MAV_ID"
 echo "MAV Name $MAV_NAME"
 
-bag_folder="/media/sdcard"
+bag_folder="/sdcard"
 
 if [ ! -d "$bag_folder" ]; then
   echo "*** WARNING *** SD card not present, recording locally"
@@ -90,8 +90,8 @@ SNAV_TOPICS="
 DFC_TOPICS="
 /$MAV_NAME/dfc/fisheye/camera_info
 /$MAV_NAME/dfc/camera_info
-/$MAV_NAME/dfc/image_raw/compressed"
-#/$MAV_NAME/dfc/image_overlay/compressed"
+/$MAV_NAME/dfc/image_raw/compressed
+/$MAV_NAME/dfc/image_overlay/compressed"
 
 HIGHRES_TOPICS="
 /$MAV_NAME/highres/camera_info

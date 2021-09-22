@@ -17,7 +17,7 @@
   <node   pkg="tf2_ros"
           type="static_transform_publisher"
           name="base_link_tof_cam"
-          args="0.06353 -0.025 -0.02 -1.570796 0 -1.570796 base_link hal3_tof_camera" />
+          args="0.06353 0.038 -0.02 -1.570796 0 -1.570796 base_link hal3_tof_camera" />
     <!--
           args="0.05 -0.025 -0.006 -1.570796 0 -1.570796 base_link hal3_tof_camera" /> -->
 
