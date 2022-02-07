@@ -75,12 +75,14 @@ tmux send-keys -t $SESSION_NAME "sws; sleep 12; roslaunch snavquad_interface tof
 tmux select-layout -t $SESSION_NAME tiled
 
 tmux new-window -t $SESSION_NAME -n "Aux"
-tmux send-keys -t $SESSION_NAME "sws; sleep 12; roslaunch snavquad_interface snav_vio_overlay.launch" Enter
+tmux send-keys -t $SESSION_NAME "sws; sleep 12; roslaunch snavquad_interface snav_vio_overlay.launch"
 tmux split-window -t $SESSION_NAME
-tmux send-keys -t $SESSION_NAME "sws; roscd snavquad_interface/scripts/capture; ./record.sh $MAV_ID"
+tmux send-keys -t $SESSION_NAME "sws; roscd snavquad_interface/scripts/capture; ./record_com.sh $MAV_ID"
 tmux split-window -t $SESSION_NAME
 tmux send-keys -t $SESSION_NAME "sws; roslaunch kr_wifi_scan wifi_scan.launch"
-#tmux select-layout -t $SESSION_NAME tiled
+tmux split-window -t $SESSION_NAME
+tmux send-keys -t $SESSION_NAME "sws; roslaunch kr_wifi_measurement iperf3.launch"
+tmux select-layout -t $SESSION_NAME tiled
 
 tmux new-window -t $SESSION_NAME -n "Dock"
 tmux send-keys -t $SESSION_NAME "sws; sleep 12; roscd snavquad_interface/scripts; bash run_docker_plan.sh" Enter

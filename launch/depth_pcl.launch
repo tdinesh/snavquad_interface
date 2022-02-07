@@ -4,13 +4,15 @@
 
   <arg name="mav_name" default="$(optenv MAV_NAME)"/>
   <arg name="cam_name" default="tof"/>
+  <arg name="nodelet_manager_name" default="depth_pcl_nodelet_manager"/>
 
   <group ns="$(arg mav_name)/$(arg cam_name)">
-    <node pkg="nodelet" type="nodelet" name="depth_pcl_nodelet_manager"
-        args="manager" output="screen"/>
+    <node pkg="nodelet" type="nodelet" name="$(arg nodelet_manager_name)" args="manager" output="screen">
+      <param name="num_worker_threads" value="4"/>
+    </node>
 
     <node pkg="nodelet" type="nodelet" name="rectify_depth"
-          args="load image_proc/rectify depth_pcl_nodelet_manager"
+          args="load image_proc/rectify $(arg nodelet_manager_name)"
           respawn="true">
       <remap from="image_mono"  to="voxl_depth_image_raw" />
       <remap from="image_rect"  to="voxl_depth_image_rect" />
@@ -19,13 +21,13 @@
 
     <!--
     <node pkg="nodelet" type="nodelet" name="metric_rect"
-          args="load depth_image_proc/convert_metric depth_pcl_nodelet_manager">
+          args="load depth_image_proc/convert_metric $(arg nodelet_manager_name)">
       <remap from="image_raw" to="voxl_depth_image_rect"/>
       <remap from="image" to="voxl_depth_image_m"/>
     </node> -->
 
     <node pkg="nodelet" type="nodelet" name="depth_image_proc"
-    args="load depth_image_proc/point_cloud_xyz depth_pcl_nodelet_manager">
+    args="load depth_image_proc/point_cloud_xyz $(arg nodelet_manager_name)">
         <remap from="camera_info" to="camera_info"/>
         <remap from="image_rect" to="voxl_depth_image_rect"/>
         <remap from="points"  to="points_depth" />

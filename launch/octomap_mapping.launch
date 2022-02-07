@@ -1,32 +1,14 @@
 <launch>
   <arg name="mav_name" default="$(optenv MAV_NAME)"/>
-  <arg name="points_topic" default="/$(arg mav_name)/tof/points_depth"/>
-  <arg name="map_frame_id" default="odom"/>
+  <arg name="cam_name" default="tof"/>
+  <arg name="map_frame_id" default="$(arg mav_name)/odom"/>
+  <arg name="base_frame_id" default="$(arg mav_name)/base_link"/>
 
-  <arg name="radius_search" default="0.1" />
-  <!--<arg name="min_neighbors" default="45" /> -->
-  <arg name="min_neighbors" default="20" />
+  <!--<arg name="points_topic" default="/$(arg mav_name)/$(arg cam_name)/points_depth"/> -->
+  <arg name="points_topic" default="$(arg cam_name)/radius_outlier_removal/output"/>
+
 
   <group ns="$(arg mav_name)">
-
-    <node pkg="nodelet" type="nodelet" name="pcl_manager" args="manager" output="screen" />
-
-    <node pkg="nodelet" type="nodelet" name="z_passthrough" args="load pcl/PassThrough pcl_manager" output="screen">
-      <remap from="~input" to="$(arg points_topic)" />
-      <rosparam>
-        filter_field_name: z
-        filter_limit_min: 0.2
-        filter_limit_max: 8.5
-        filter_limit_negative: False
-      </rosparam>
-    </node>
-
-    <node pkg="nodelet" type="nodelet" name="radius_outlier_removal" args="load pcl/RadiusOutlierRemoval pcl_manager" output="screen">
-      <remap from="~input" to="z_passthrough/output" />
-      <param name="radius_search" value="$(arg radius_search)" />
-      <param name="min_neighbors" value="$(arg min_neighbors)" />
-    </node>
-
     <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
 
       <!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
@@ -34,7 +16,7 @@
 
       <param name="resolution" type="double" value="0.05" />
 
-      <param name="base_frame_id" type="string" value="base_link" />
+      <param name="base_frame_id" type="string" value="$(arg base_frame_id)" />
 
       <!-- maximum range to integrate (speedup!) -->
       <param name="sensor_model/max_range" value="1.5" />
@@ -50,7 +32,7 @@
       <param name="occupancy_max_z" value="1.7"/>
 
       <!-- data source to integrate (PointCloud2) -->
-      <remap from="cloud_in" to="radius_outlier_removal/output" />
+      <remap from="cloud_in" to="$(arg points_topic)" />
     </node>
   </group>
 </launch>

@@ -10,6 +10,7 @@
   <arg name="odom_throttle_rate" default="30"/>
 
   <arg name="nodelet_manager_name" default="nodelet_manager_control"/>
+  <arg name="launch_prefix" value="nice -n -10"/>
 
   <group ns="$(arg mav_name)">
 
@@ -19,7 +20,7 @@
       type="nodelet"
       name="$(arg nodelet_manager_name)"
       args="manager"
-      output="screen">
+      output="screen" launch-prefix="$(arg launch_prefix)">
     </node>
 
     <node pkg="nodelet"

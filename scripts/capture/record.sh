@@ -83,7 +83,6 @@ SNAV_TOPICS="
 /$MAV_NAME/vio/internal_states
 /$MAV_NAME/vio/map_points
 /$MAV_NAME/vio/odometry
-/$MAV_NAME/vio/point_cloud
 /$MAV_NAME/vio/pose
 /$MAV_NAME/attitude_estimate"
 
@@ -103,8 +102,7 @@ TOF_TOPICS="
 /$MAV_NAME/tof/ir/camera_info
 /$MAV_NAME/tof/voxl_ir_image_raw/compressed
 /$MAV_NAME/tof/voxl_point_cloud
-/$MAV_NAME/tof/voxl_laser_scan
-/$MAV_NAME/tof/points_depth"
+/$MAV_NAME/tof/voxl_laser_scan"
 
 STEREO_TOPICS="
 /$MAV_NAME/stereo/left/image_raw/compressed
@@ -125,13 +123,21 @@ EKF_TOPICS="
 /$MAV_NAME/odom_tag"
 
 OTHER_TOPICS="
-/wifi_info
+/$MAV_NAME/wifi_info
+/$MAV_NAME/station_info
 /$MAV_NAME/fov_frontier
 /$MAV_NAME/goal_point
 /$MAV_NAME/frontier_cost
+/$MAV_NAME/kr_wifi_measurement/wifi_info
 "
 
-ALL_TOPICS=$TOPICS$CONTROL_TOPICS$PLANNER_TOPICS$UKF_TOPICS$SNAV_TOPICS$DFC_TOPICS$STEREO_TOPICS$TOF_TOPICS$VICON_TOPICS$EKF_TOPICS$PLANNER_2D_TOPICS$EXP_TOPICS$OTHER_TOPICS
+SBIM_TOPICS="
+/$MAV_NAME/sbim/scan_aggregator/aggregate_scan
+/$MAV_NAME/sbim/layout_extractor_node/cloud_segments
+/$MAV_NAME/sbim/estimate_cov
+"
+
+ALL_TOPICS=$TOPICS$CONTROL_TOPICS$UKF_TOPICS$SNAV_TOPICS$DFC_TOPICS$STEREO_TOPICS$TOF_TOPICS$VICON_TOPICS$EKF_TOPICS$PLANNER_2D_TOPICS$EXP_TOPICS$OTHER_TOPICS$SBIM_TOPICS
 
 BAG_STAMP=$(date +%F-%H-%M-%S-%Z)
 CURR_TIMEZONE=$(date +%Z)
