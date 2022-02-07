@@ -1,0 +1,38 @@
+<?xml version="1.0" standalone="yes"?>
+
+<launch>
+
+  <arg name="mav_name" default="$(optenv MAV_NAME)"/>
+  <arg name="cam_name" default="tof"/>
+
+  <arg name="nodelet_manager_name" default="depth_pcl_nodelet_manager"/>
+  <arg name="radius_search" default="0.05" />
+  <arg name="min_neighbors" default="20" />
+  <arg name="points_topic" default="points_depth" />
+
+  <group ns="$(arg mav_name)/$(arg cam_name)">
+
+    <!--
+    <node pkg="nodelet" type="nodelet" name="$(arg nodelet_manager_name)" args="manager" output="screen">
+      <param name="num_worker_threads" value="1"/>
+    </node> -->
+
+    <node pkg="nodelet" type="nodelet" name="z_passthrough" args="load pcl/PassThrough $(arg nodelet_manager_name)" output="screen">
+      <remap from="~input" to="$(arg points_topic)" />
+      <rosparam>
+        filter_field_name: z
+        filter_limit_min: 0.1
+        filter_limit_max: 2.5
+        filter_limit_negative: False
+      </rosparam>
+    </node>
+
+    <node pkg="nodelet" type="nodelet" name="radius_outlier_removal" args="load pcl/RadiusOutlierRemoval $(arg nodelet_manager_name)" output="screen">
+      <remap from="~input" to="z_passthrough/output" />
+      <param name="radius_search" value="$(arg radius_search)" />
+      <param name="min_neighbors" value="$(arg min_neighbors)" />
+    </node>
+
+  </group>
+
+</launch>
