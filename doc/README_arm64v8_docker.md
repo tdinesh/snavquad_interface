@@ -16,15 +16,19 @@ sudo apt install qemu-user-static android-tools-adb android-tools-fastboot
 ```
 ---
 
-## Build on an x86 machine
+## Get the arm64v8/melodic-bionic docker
+
+```
+docker pull kumarrobotics/voxl:arm64v8-melodic_bionic_mrsl
+```
+
+## (Alternate) Build arm64v8/melodic-bionic on an x86 machine
 Make sure the you've installed the prerequisites
 
 Following registers new handlers for ELF binaries built for alternative architectures 
 ```
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-```
 
-```
 bash build_docker_image.sh
 ```
 
@@ -83,7 +87,7 @@ sudo docker run -it --privileged \
   -v /dev/ptmx:/opt/ptmx \
   -v /home/voxl_home:/root/voxl_home:rw \
   -w /root/ \
-  arm64v8/melodic:bionic-melodic \
+  kumarrobotics/voxl:arm64v8-melodic_bionic_mrsl \
   /bin/bash
 
 sudo docker start voxl_melodic_docker 
