@@ -20,10 +20,10 @@ SETUP_ROS_STRING="source ~/home_linaro/.bashrc_voxl"
 tmux setw -g mouse on
 
 tmux rename-window -t $SESSION_NAME "Tag"
+tmux send-keys -t $SESSION_NAME "$SETUP_ROS_STRING; sleep 7; roslaunch kr_multi_mav_manager multimaster_dragonfly_remote.launch old_api:=false" Enter
+tmux split-window -t $SESSION_NAME
 tmux send-keys -t $SESSION_NAME "$SETUP_ROS_STRING; sleep 7; roslaunch tag_swarm tag_swarm.launch clamp_tag:=true origin_tag_id:=130 origin_tag_size:=0.96" Enter
-#tmux split-window -t $SESSION_NAME
-#tmux send-keys -t $SESSION_NAME "sleep 7; rosrun kr_trackers twist_to_velocity_goal.py __ns:=${MAV_NAME}" Enter4
-#tmux select-layout -t $SESSION_NAME tiled
+tmux select-layout -t $SESSION_NAME tiled
 
 tmux new-window -t $SESSION_NAME -n "Kill"
 tmux send-keys -t $SESSION_NAME "tmux kill-session -t "
