@@ -74,7 +74,7 @@ ln -s ../../common_pkgs common_pkgs
 
 ### Get noetic packages
 
-git clone https://github.com/ReactorInspection/ewok.git -b devel_replanning
+git clone https://github.com/tdinesh/ewok.git -b devel_replan_noetic
 
 
 ---
