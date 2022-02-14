@@ -195,7 +195,7 @@ It is very important to specify correct fpu flags, otherwise the NEON engine wil
 
 `sudo docker ps -a`
 
-Get the ContainerID corresponding to
+Get the ContainerID corresponding to arm64v8/melodic:bionic-melodic
 
 ```
 sudo docker stop ContainerID
@@ -204,4 +204,15 @@ sudo docker rmi arm64v8/melodic:bionic-melodic
 
 cd /mnt/sdcard
 sudo docker load --input arm64v8-noetic-focal_voxl.tar.gz
+
+sudo docker run -it --privileged \
+  --net=host --name voxl_noetic_docker \
+  -v /dev/ptmx:/opt/ptmx \
+  -v /data/home_linaro:/root/home_linaro:rw \
+  -w /root/ \
+  kumarrobotics/voxl:arm64v8-noetic-focal_voxl \
+  /bin/bash
+
+sudo docker start voxl_noetic_docker
+sudo docker exec -it voxl_noetic_docker /bin/bash
 ```
