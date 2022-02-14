@@ -190,3 +190,18 @@ TODO (need to check compile flags for all ROS pacakges running in indigo). Maybe
 It is very important to specify correct fpu flags, otherwise the NEON engine will not be used for floating-point computations, significantly slowing down floating-point math.
 
 `-march=armv7-a -mfloat-abi=softfp -mfpu=neon-vfpv4`
+
+### Removing old melodic docker on voxl
+
+`sudo docker ps -a`
+
+Get the ContainerID corresponding to
+
+```
+sudo docker stop ContainerID
+sudo docker rm ContainerID
+sudo docker rmi arm64v8/melodic:bionic-melodic
+
+cd /mnt/sdcard
+sudo docker load --input arm64v8-noetic-focal_voxl.tar.gz
+```
