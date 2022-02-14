@@ -16,13 +16,13 @@ sudo apt install qemu-user-static android-tools-adb android-tools-fastboot
 ```
 ---
 
-## Get the arm64v8/melodic-bionic docker
+## Get the arm64v8/noetic-bionic docker
 
 ```
-docker pull kumarrobotics/voxl:arm64v8-melodic_bionic_mrsl
+docker pull kumarrobotics/voxl:arm64v8-noetic_bionic_mrsl
 ```
 
-## (Alternate) Build arm64v8/melodic-bionic on an x86 machine
+## (Alternate) Build arm64v8/noetic-bionic on an x86 machine
 Make sure the you've installed the prerequisites
 
 Following registers new handlers for ELF binaries built for alternative architectures 
@@ -36,7 +36,7 @@ This will take a while. Grab a coffee!
 
 ---
 
-## Setup common package folder (both for indigo/melodic)
+## Setup common package folder (both for indigo/noetic)
 ```
 mkdir -p ~/voxl_home/common_pkgs
 cd ~/voxl_home/common_pkgs
@@ -60,26 +60,26 @@ cd ~/voxl_home/common_pkgs/multi_mav_manager
 git submodule update --init
 ```
 
-## Setup melodic workspace
+## Setup noetic workspace
 ```
-mkdir -p ~/voxl_home/ws_melodic/src
-cd ~/voxl_home/ws_melodic/src
+mkdir -p ~/voxl_home/ws_noetic/src
+cd ~/voxl_home/ws_noetic/src
 ```
 
 ### Create sym-link to common pkgs (outside docker)
 ```
-cd ~/voxl_home/ws_melodic/src
+cd ~/voxl_home/ws_noetic/src
 ln -s ../../common_pkgs common_pkgs
 ```
 
-### Get melodic packages
+### Get noetic packages
 
 git clone https://github.com/ReactorInspection/ewok.git -b devel_replanning
 
 
 ---
 
-## Run the arm64v8 melodic docker
+## Run the arm64v8 noetic docker
 
 ```
 sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
@@ -89,18 +89,18 @@ sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
 ```
 sudo docker run -it --privileged \
-  --net=host --name voxl_melodic_docker \
+  --net=host --name voxl_noetic_docker \
   -v /dev/ptmx:/opt/ptmx \
   -v /home/voxl_home:/root/voxl_home:rw \
   -w /root/ \
-  kumarrobotics/voxl:arm64v8-melodic_bionic_mrsl \
+  kumarrobotics/voxl:arm64v8-noetic_focal_mrsl \
   /bin/bash
 
-sudo docker start voxl_melodic_docker 
-sudo docker exec -it voxl_melodic_docker /bin/bash
+sudo docker start voxl_noetic_docker
+sudo docker exec -it voxl_noetic_docker /bin/bash
 ```
 
-Compile the melodic workspace in the docker
+Compile the noetic workspace in the docker
 
 ```
 catkin config -DCMAKE_BUILD_TYPE=Release
@@ -136,7 +136,7 @@ git clone https://github.com/ros-perception/image_common.git -b hydro-devel
 git clone https://github.com/ros/xacro.git -b indigo-devel
 git clone https://github.com/ros-perception/vision_opencv.git  -b indigo
 
-git clone https://github.com/ros/geometry2.git -b melodic-devel
+git clone https://github.com/ros/geometry2.git -b noetic-devel
 touch geometry2/geometry2/CATKIN_IGNORE geometry2/test_tf2/CATKIN_IGNORE geometry2/tf2/CATKIN_IGNORE geometry2/tf2_bullet/CATKIN_IGNORE geometry2/tf2_kdl/CATKIN_IGNORE geometry2/tf2_msgs/CATKIN_IGNORE geometry2/tf2_py/CATKIN_IGNORE geometry2/tf2_ros/CATKIN_IGNORE geometry2/tf2_sensor_msgs/CATKIN_IGNORE geometry2/tf2_tools/CATKIN_IGNORE
 
 git clone https://github.com/ros/geometry.git -b indigo-devel
