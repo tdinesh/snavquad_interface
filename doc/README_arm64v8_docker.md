@@ -66,6 +66,12 @@ mkdir -p ~/voxl_home/ws_melodic/src
 cd ~/voxl_home/ws_melodic/src
 ```
 
+### Create sym-link to common pkgs (outside docker)
+```
+cd ~/voxl_home/ws_melodic/src
+ln -s ../../common_pkgs common_pkgs
+```
+
 ### Get melodic packages
 
 git clone https://github.com/ReactorInspection/ewok.git -b devel_replanning
@@ -94,14 +100,7 @@ sudo docker start voxl_melodic_docker
 sudo docker exec -it voxl_melodic_docker /bin/bash
 ```
 
-### Create sym-link to common pkgs
-
-```
-cd ~/voxl_home/ws_melodic/src
-ln -s ~/voxl_home/common_pkgs common_pkgs
-```
-
-Compile the melodic workspace in the docker (build it later)
+Compile the melodic workspace in the docker
 
 ```
 catkin config -DCMAKE_BUILD_TYPE=Release
@@ -111,8 +110,20 @@ catkin config --install
 ---
 
 ## Setup indigo workspace
+```
 mkdir -p ~/voxl_home/ws_indigo/src
 cd ~/voxl_home/ws_indigo/src
+```
+
+### Create sym-link to pkgs
+
+```
+cd ~/voxl_home/ws_indigo/src
+ln -s ../../common_pkgs/catkin_simple catkin_simple
+ln -s ../../common_pkgs/kr_mav_control kr_mav_control
+ln -s ../../common_pkgs/qflight_descriptions qflight_descriptions
+ln -s ../../common_pkgs/snavquad_interface  snavquad_interface
+```
 
 ### Get indigo pacakges
 ```
@@ -166,16 +177,6 @@ docker pull kumarrobotics/voxl:voxl-emulator-v1.2-mrsl
 ## Run the voxl-emulator
 ```
 sudo voxl-docker -i kumarrobotics/voxl:voxl-emulator-v1.2-mrsl -d ~/voxl_home
-```
-
-### Create sym-link to pkgs
-
-```
-cd ~/voxl_home/ws_indigo
-ln -s ~/voxl_home/common_pkgs/catkin_simple catkin_simple
-ln -s ~/voxl_home/common_pkgs/kr_mav_control kr_mav_control
-ln -s ~/voxl_home/common_pkgs/qflight_descriptions qflight_descriptions
-ln -s ~/voxl_home/common_pkgs/snavquad_interface  snavquad_interface
 ```
 
 Compile the indigo workspace in the emulator. Use `catkin build -c`to ignore errors
