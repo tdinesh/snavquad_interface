@@ -57,6 +57,7 @@ fi
 #MAV_TYPE=230
 #MAV_MASS=0.245
 #MAV_BOARD=sdf_tray
+MAV_NAME=dragonfly$MAV_ID
 
 tmux rename-window -t $SESSION_NAME "Ros"
 tmux send-keys -t $SESSION_NAME "roscore" Enter

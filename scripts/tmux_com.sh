@@ -81,7 +81,7 @@ tmux send-keys -t $SESSION_NAME "sws; roscd snavquad_interface/scripts/capture; 
 tmux split-window -t $SESSION_NAME
 tmux send-keys -t $SESSION_NAME "sws; roslaunch kr_wifi_scan wifi_scan.launch"
 tmux split-window -t $SESSION_NAME
-tmux send-keys -t $SESSION_NAME "sws; roslaunch kr_wifi_measurement iperf3.launch"
+tmux send-keys -t $SESSION_NAME "sws; roslaunch kr_wifi_scan iperf3.launch"
 tmux select-layout -t $SESSION_NAME tiled
 
 tmux new-window -t $SESSION_NAME -n "Dock"
