@@ -62,7 +62,8 @@
       <remap from="robot_description" to="board_description"/>
     </node>
 
-    <param name="vehicle_description" textfile="$(find qflight_descriptions)/urdf/$(arg mav_type).urdf"/>
+    <!--<param name="vehicle_description" textfile="$(find qflight_descriptions)/urdf/$(arg mav_type).urdf"/> -->
+    <param name="vehicle_description" command="$(find xacro)/xacro --inorder '$(find qflight_descriptions)/urdf/$(arg mav_type).urdf.xacro' prefix:=$(arg mav_name)"/>
     <node name="vehicle_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
       <remap from="robot_description" to="vehicle_description"/>
       <param name="tf_prefix" value="$(arg mav_name)"/>
