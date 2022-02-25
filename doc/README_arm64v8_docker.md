@@ -200,7 +200,7 @@ Get the ContainerID corresponding to arm64v8/melodic:bionic-melodic
 ```
 sudo docker stop ContainerID
 sudo docker rm ContainerID
-sudo docker rmi arm64v8/melodic:bionic-melodic
+sudodocker rmi arm64v8/melodic:bionic-melodic
 
 cd /mnt/sdcard
 sudo docker load --input arm64v8-noetic-focal_voxl.tar.gz
@@ -216,3 +216,11 @@ sudo docker run -it --privileged \
 sudo docker start voxl_noetic_docker
 sudo docker exec -it voxl_noetic_docker /bin/bash
 ```
+
+### Setting the cameras
+
+Check the configurations from
+https://docs.modalai.com/camera-connections/#camera-ports
+
+Then ex Tracking + TOF
+`voxl-configure-cameras 5`

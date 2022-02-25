@@ -95,7 +95,13 @@ echo "export MAV_ID=$MAV_ID" >> ~/.bashrc
 echo "export MAV_NAME=dragonfly$MAV_ID" >> ~/.bashrc
 echo "export MAV_TYPE=230" >> ~/.bashrc
 echo "export MAV_MASS=0.245" >> ~/.bashrc
-echo "export MAV_BOARD=sdf_tray" >> ~/.bashrc
+echo "export MAV_BOARD=sdf_tray_imu1" >> ~/.bashrc
 echo "export IMU_1_USED=true" >> ~/.bashrc
+echo "export XBEE_BUS=12" >> ~/.bashrc
+echo "export USE_LOG_CAMERA_HEIGHT=false" >> ~/.bashrc
+echo "export LOG_CAMERA_HEIGHT=-3.912" >> ~/.bashrc
+echo "export USE_VIO_MASK=false" >> ~/.bashrc
+echo "export TOF_PITCH=-1.570796" >> ~/.bashrc
 ```
 
+voxl-configure-docker-support.sh
