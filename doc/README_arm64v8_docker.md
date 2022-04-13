@@ -53,6 +53,9 @@ git clone https://github.com/tdinesh/snav_replanning.git -b devel_noetic
 git clone https://github.com/KumarRobotics/kr_mav_control.git
 git clone https://github.com/KumarRobotics/multi_mav_manager.git
 
+cd ~/voxl_home/common_pkgs/apriltag
+git submodule update --init
+
 cd ~/voxl_home/common_pkgs/kr_mav_control
 git submodule update --init
 
