@@ -150,15 +150,12 @@ mkdir -p ~/voxl_home/ws_indigo/src/snap
 cd ~/voxl_home/ws_indigo/src/snap
 ln -s ~/voxl_home/common_pkgs/snap_msgs snap_msgs
 
-git clone https://github.com/ATLFlight/snap_cam_ros
 git clone https://github.com/ATLFlight/snap_cpa
 git clone https://github.com/ATLFlight/snap_vio
 git clone https://github.com/tdinesh/snap_imu.git -b fix/publish_rate
 git clone https://gitlab.com/tdineshd/voxl-cam-ros.git -b devel_cinfo_path
 git clone https://gitlab.com/tdineshd/voxl-hal3-tof-cam-ros.git -b fix/depth_image
 
-cd ~/voxl_home/ws_indigo/src/snap/snap_cam_ros
-git submodule update --init
 cd ~/voxl_home/ws_indigo/src/snap/snav_ros
 git submodule update --init
 cd ~/voxl_home/ws_indigo/src/snap/voxl_cam_ros
