@@ -7,6 +7,7 @@ git clone https://github.com/tynguyen/arm64v8_dockers.git
 
 Install Docker CE
 ```
+cd ~/Downloads/arm64v8_dockers
 bash install_docker_ce.sh
 ```
 To install qemu tools
@@ -194,7 +195,7 @@ It is very important to specify correct fpu flags, otherwise the NEON engine wil
 
 `-march=armv7-a -mfloat-abi=softfp -mfpu=neon-vfpv4`
 
-### Removing old melodic docker on voxl
+### Removing old melodic docker on voxl (Only needed if noetic docker is not setup)
 
 `sudo docker ps -a`
 
