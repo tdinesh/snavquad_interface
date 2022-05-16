@@ -181,8 +181,12 @@ sudo voxl-docker -i kumarrobotics/voxl:voxl-emulator-v1.2-mrsl -d ~/voxl_home
 ```
 
 Compile the indigo workspace in the emulator. Use `catkin build -c`to ignore errors
-
-`source /opt/ros/indigo/setup.bash`
+```
+catkin config -DCMAKE_BUILD_TYPE=Release
+catkin config --install
+source /opt/ros/indigo/setup.bash
+catkin build -c
+```
 
 ###  Note about building packages in voxl emulater
 
