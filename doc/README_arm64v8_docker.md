@@ -140,7 +140,7 @@ git clone https://github.com/ros-perception/image_common.git -b hydro-devel
 git clone https://github.com/ros/xacro.git -b indigo-devel
 git clone https://github.com/ros-perception/vision_opencv.git  -b indigo
 
-git clone https://github.com/ros/geometry2.git -b noetic-devel
+git clone https://github.com/ros/geometry2.git -b melodic-devel
 touch geometry2/geometry2/CATKIN_IGNORE geometry2/test_tf2/CATKIN_IGNORE geometry2/tf2/CATKIN_IGNORE geometry2/tf2_bullet/CATKIN_IGNORE geometry2/tf2_kdl/CATKIN_IGNORE geometry2/tf2_msgs/CATKIN_IGNORE geometry2/tf2_py/CATKIN_IGNORE geometry2/tf2_ros/CATKIN_IGNORE geometry2/tf2_sensor_msgs/CATKIN_IGNORE geometry2/tf2_tools/CATKIN_IGNORE
 
 git clone https://github.com/ros/geometry.git -b indigo-devel
