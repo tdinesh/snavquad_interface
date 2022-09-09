@@ -73,15 +73,12 @@ CONTROL_TOPICS="
 
 UKF_TOPICS="
 /$MAV_NAME/quadrotor_ukf/control_odom
-/$MAV_NAME/quadrotor_ukf/control_odom_throttled
-/$MAV_NAME/quadrotor_ukf/imu_bias"
+/$MAV_NAME/quadrotor_ukf/control_odom_throttled"
 
 SNAV_TOPICS="
 /$MAV_NAME/imu
 /$MAV_NAME/imu_raw_array
 /$MAV_NAME/imu_accel_offset
-/$MAV_NAME/vio/internal_states
-/$MAV_NAME/vio/map_points
 /$MAV_NAME/vio/odometry
 /$MAV_NAME/vio/pose
 /$MAV_NAME/attitude_estimate"
@@ -132,12 +129,10 @@ OTHER_TOPICS="
 "
 
 SBIM_TOPICS="
-/$MAV_NAME/sbim/scan_aggregator/aggregate_scan
-/$MAV_NAME/sbim/layout_extractor_node/cloud_segments
 /$MAV_NAME/sbim/estimate_cov
 "
 
-ALL_TOPICS=$TOPICS$CONTROL_TOPICS$UKF_TOPICS$SNAV_TOPICS$DFC_TOPICS$STEREO_TOPICS$TOF_TOPICS$VICON_TOPICS$EKF_TOPICS$PLANNER_2D_TOPICS$EXP_TOPICS$OTHER_TOPICS$SBIM_TOPICS
+ALL_TOPICS=$TOPICS$UKF_TOPICS$DFC_TOPICS$STEREO_TOPICS$TOF_TOPICS$VICON_TOPICS$EKF_TOPICS$PLANNER_2D_TOPICS$OTHER_TOPICS$SBIM_TOPICS
 
 BAG_STAMP=$(date +%F-%H-%M-%S-%Z)
 CURR_TIMEZONE=$(date +%Z)

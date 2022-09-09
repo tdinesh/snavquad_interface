@@ -7,6 +7,15 @@
   <!-- board: sdf_tray, sdf_tray_45, sdf_pro -->
   <arg name="board" default="$(optenv MAV_BOARD)"/>
   <arg name="imu_1_used" default="$(optenv IMU_1_USED)"/>
+  <arg name="imu_rate" default="150" />  
+
+  <arg name="use_log_camera_height" default="$(optenv USE_LOG_CAMERA_HEIGHT)"/>
+  <arg name="log_camera_height" default="$(optenv LOG_CAMERA_HEIGHT)"/>
+  <arg name="use_vio_mask" default="$(optenv USE_VIO_MASK)"/>
+
+
+  <arg name="vio_mask_filename" default="na" unless="$(arg use_vio_mask)"/>
+  <arg name="vio_mask_filename" default="$(find snavquad_interface)/config/vio_masks/mask_$(arg mav_type).pgm" if="$(arg use_vio_mask)"/> 
 
   <arg name="8074" default="false"/>
   <arg name="pub_odom_base_link" default="false"/>
@@ -17,8 +26,13 @@
   <arg name="frame_rate" default="30" />
   <arg name="width" default="640"/>
   <arg name="height" default="480"/>
-  <arg name="frame_id" default="dfc"/> <!-- transform frame used by TF2 -->
   <arg name="is_cam_master" default="true"/>
+
+  <arg name="launch_prefix" value="nice -n -10"/>
+  <arg name="odom_frame_id" default="$(arg mav_name)/odom"/>
+  <arg name="imu_frame_id" default="$(arg mav_name)/imu"/>
+  <arg name="imu_rotated_frame_id" default="$(arg mav_name)/imu_rotated_base"/>
+  <arg name="cam_frame_id" default="$(arg mav_name)/dfc"/>
 
   <!-- Board/Vehicle URDF -->
   <include file="$(find snavquad_interface)/launch/snav_tf_pub.launch">
@@ -32,9 +46,9 @@
 
   <group ns="$(arg mav_name)">
 
-    <param name="image_raw/compressed/jpeg_quality" value="50"/>
+    <param name="image_raw/compressed/jpeg_quality" value="40"/>
 
-    <node pkg="nodelet" type="nodelet" name="vio_nodelet_man" args="manager" output="screen"/>
+    <node pkg="nodelet" type="nodelet" name="vio_nodelet_man" args="manager" output="screen" launch-prefix="$(arg launch_prefix)"/>
 
     <!-- camera nodelet -->
     <node pkg="nodelet" type="nodelet" name="snap_cam_nodelet"
@@ -45,7 +59,7 @@
         <param name="frame_rate" value="$(arg frame_rate)" />
         <param name="width" value="$(arg width)"/>
         <param name="height" value="$(arg height)"/>
-        <param name="frame_id" value="$(arg frame_id)"/>
+        <param name="frame_id" value="$(arg cam_frame_id)"/>
         <param name="is_cam_master" value="$(arg is_cam_master)"/>
         <param name="format" value="1"/>
         <param name="camera_info_path" value="$(find snavquad_interface)/config/"/>
@@ -61,14 +75,25 @@
       <param name="delta" value="-0.0068"  if="$(arg 8074)"/>
       <param name="delta" value=".002" unless="$(arg 8074)"/>
       <param name="snav_mode" value="true"/>
+
+      <!--<param name="logCameraHeightBootstrap" value="-3.22"/> from log(0.04m)  -->
+      <param name="useLogCameraHeight" value="$(arg use_log_camera_height)"/>     
+      <param name="logCameraHeightBootstrap" value="$(arg log_camera_height)"/> 
+
+      <param name="staticMaskFilename" value="$(arg vio_mask_filename)"/> 
+
     </node>
 
     <!-- fisheye camera info spoofer -->
-    <include file="$(find snavquad_interface)/launch/fisheye_camera_info.launch"/>
+    <include file="$(find snavquad_interface)/launch/fisheye_camera_info.launch">
+      <arg name="mav_name" value="$(arg mav_name)"/>
+    </include>
 
     <!-- imu nodelet -->
     <node pkg="nodelet" type="nodelet" name="snap_imu_nodelet"
           args="load snap_imu/driver vio_nodelet_man" output="screen">
+      <param name="rate" value="$(arg imu_rate)" />
+      <param name="frame_id" value="$(arg imu_frame_id)" />
     </node>
 
     <!-- cpa nodelet -->
@@ -79,7 +104,7 @@
 
     <!-- SNAV VIO injector node -->
     <node pkg="snap_vio" type="snav_vio_injector_node"
-	  name="snav_vio_injector" output="screen"/> -->
+	  name="snav_vio_injector" output="screen"/>
 
     <!-- SNAV ROS
     <node pkg="snav_ros" type="snav_interface_node"
@@ -89,10 +114,12 @@
     <node pkg="quadrotor_ukf"
       type="quadrotor_ukf"
       name="quadrotor_ukf"
-      output="screen">
+      output="screen" launch-prefix="$(arg launch_prefix)">
       <remap from="~odom_slam" to="vio/odometry"/>
       <remap from="~imu" to="imu"/>
-      <param name="frame_id" value="odom"/>
+      <param name="frame_id" value="$(arg odom_frame_id)"/>
+      <param name="imu_rotated_frame_id" value="$(arg imu_rotated_frame_id)" />
+      <param name="imu_frame_id" value="$(arg imu_frame_id)" />
     </node>
 
   </group>

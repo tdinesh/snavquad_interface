@@ -57,7 +57,7 @@ sed -i "s/dragonfly64/$MAV_NAME/g" ~/.ros/$MAV_NAME.rviz
 #sed -i "s/dragonfly18/$MAV_NAME/g" ~/.ros/${DETECTOR_PERSP}
 
 tmux rename-window -t $SESSION_NAME "Main"
-tmux send-keys -t $SESSION_NAME "$SETUP_ROS_STRING; rosrun rqt_mav_manager rqt_mav_manager" Enter
+tmux send-keys -t $SESSION_NAME "$SETUP_ROS_STRING; rosparam set robot_name $MAV_NAME; rosrun rqt_mav_manager rqt_mav_manager" Enter
 tmux split-window -t $SESSION_NAME
 tmux send-keys -t $SESSION_NAME "$SETUP_ROS_STRING; roslaunch snavquad_interface snav_rviz.launch rviz_config:=$RVIZ_CONFIG_FILE" Enter
 #tmux split-window -t $SESSION_NAME

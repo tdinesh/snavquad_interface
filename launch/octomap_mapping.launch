@@ -1,20 +1,38 @@
 <launch>
   <arg name="mav_name" default="$(optenv MAV_NAME)"/>
-  <arg name="pc_topic" default="/$(arg mav_name)/tof/points"/>
-  <arg name="map_frame_id" default="odom"/>
+  <arg name="cam_name" default="tof"/>
+  <arg name="map_frame_id" default="$(arg mav_name)/odom"/>
+  <arg name="base_frame_id" default="$(arg mav_name)/base_link"/>
 
-  <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
-    <param name="resolution" value="0.05" />
+  <!--<arg name="points_topic" default="/$(arg mav_name)/$(arg cam_name)/points_depth"/> -->
+  <arg name="points_topic" default="$(arg cam_name)/radius_outlier_removal/output"/>
 
-    <!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
-    <param name="frame_id" type="string" value="$(arg map_frame_id)" />
 
-    <param name="resolution" type="double" value="0.05" />
+  <group ns="$(arg mav_name)">
+    <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
 
-    <!-- maximum range to integrate (speedup!) -->
-    <param name="sensor_model/max_range" value="5.0" />
+      <!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
+      <param name="frame_id" type="string" value="$(arg map_frame_id)" />
 
-    <!-- data source to integrate (PointCloud2) -->
-    <remap from="cloud_in" to="$(arg pc_topic)" />
-  </node>
+      <param name="resolution" type="double" value="0.05" />
+
+      <param name="base_frame_id" type="string" value="$(arg base_frame_id)" />
+
+      <!-- maximum range to integrate (speedup!) -->
+      <param name="sensor_model/max_range" value="1.5" />
+
+      <param name="latch" type="bool" value="false"/>
+      <param name="filter_ground" type="bool" value="false"/>
+      <param name="ground_filter/distance" value="0.1"/>
+      <param name="ground_filter/plane_distance" value="0.07"/>
+
+      <param name="pointcloud_min_z" value="-0.5"/>
+      <param name="pointcloud_max_z" value="1.7"/>
+      <param name="occupancy_min_z" value="0.5"/>
+      <param name="occupancy_max_z" value="1.7"/>
+
+      <!-- data source to integrate (PointCloud2) -->
+      <remap from="cloud_in" to="$(arg points_topic)" />
+    </node>
+  </group>
 </launch>

@@ -35,12 +35,14 @@
  ****************************************************************************/
 -->
 <launch>
+  <arg name="mav_name" default="$(optenv MAV_NAME)"/>
+
   <node pkg="rostopic" type="rostopic" name="cinfo_spoofer" output="screen"
         args="pub dfc/fisheye/camera_info sensor_msgs/CameraInfo &quot;
 header:&#xD;
   seq: 0&#xD;
   stamp: {secs: 0, nsecs: 0}&#xD;
-  frame_id: &apos;dfc&apos;&#xD;
+  frame_id: &apos;$(arg mav_name)/dfc&apos;&#xD;
 height: 480&#xD;
 width: 640&#xD;
 distortion_model: &apos;fisheye&apos;&#xD;

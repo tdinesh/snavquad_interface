@@ -11,19 +11,29 @@
 <launch>
 
   <arg name="mav_name" default="$(optenv MAV_NAME)"/>
+  <arg name="tof_pitch" default="$(optenv TOF_PITCH)"/>
 
-  <!-- transforms to tilt TOF points and laser scan forward -->
-  <!-- assumes TOF points forward -->
-  <node   pkg="tf2_ros"
-          type="static_transform_publisher"
-          name="base_link_tof_cam"
-          args="0.06353 -0.025 -0.006 -1.570796 0 -1.570796 base_link hal3_tof_camera" />
+  <arg name="tof_frame_id" default="$(arg mav_name)/hal3_tof_camera"/>
 
-  <!-- transforms to tilt TOF points and laser scan forward -->
-  <node   pkg="tf2_ros"
-          type="static_transform_publisher"
-          name="base_link_laser_scan"
-          args="0.0 0.0 0.0 3.14159 0.0 0.0 base_link laser_scan" />
+  <group ns="$(arg mav_name)">
+    <!-- transforms to tilt TOF points and laser scan forward -->
+    <!-- assumes TOF points forward -->
+    <node   pkg="tf2_ros"
+            type="static_transform_publisher"
+            name="base_link_tof_cam"
+            args="0.05 0.0 -0.00 -1.570796 $(arg tof_pitch) -1.570796 $(arg mav_name)/base_link $(arg tof_frame_id)" />
+      <!--
+            #For 230 platform
+            args="0.06353 0.038 -0.02 -1.570796 0 -1.570796 base_link hal3_tof_camera" />
+
+            args="0.05 -0.025 -0.006 -1.570796 0 -1.570796 base_link hal3_tof_camera" /> -->
+
+    <!-- transforms to tilt TOF points and laser scan forward -->
+    <node   pkg="tf2_ros"
+            type="static_transform_publisher"
+            name="base_link_laser_scan"
+            args="0.0 0.0 0.0 3.14159 0.0 0.0 $(arg mav_name)/base_link $(arg mav_name)/laser_scan" />
+  </group>
 
 
   <!-- Arguments for customizing TOF behavior -->
@@ -32,6 +42,7 @@
   <arg name="frame_rate" default="5" />
   <arg name="auto_exposure" default="false" />
   <arg name="exposure_time" default="800" />
+
 
   <!-- scan width only affects the laser scan topic. Sets the lens FOV -->
   <!-- 96 for Sunny wide lens, 62 for Infineon IRS1645C family -->
@@ -51,7 +62,7 @@
   <arg name="publish_ir_image" default="true" />
   <arg name="publish_point_cloud" default="true" />
   <arg name="publish_depth_image" default="true" />
-  <arg name="publish_laser_scan" default="true" />
+  <arg name="publish_laser_scan" default="false" />
 
   <!-- start tof_cam node with all arguments -->
   <group ns="$(arg mav_name)/$(arg namespace)">
@@ -71,6 +82,7 @@
       <param name="publish_laser_scan" value="$(arg publish_laser_scan)" />
       <!-- for now and to stay compatible with older version, we keep the images upside down -->
       <param name="flip_image" value="false" />
+      <param name="tof_frame_id" value="$(arg tof_frame_id)"/>
 
       <remap from="~voxl_ir_image_raw" to="voxl_ir_image_raw"/>
       <remap from="~voxl_depth_image_raw" to="voxl_depth_image_raw"/>

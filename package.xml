@@ -19,7 +19,8 @@
   <depend>snap_msgs</depend>
   <depend>image_transport</depend>
 
-<export>
+  <!--
+  <export>
     <nodelet plugin="${prefix}/nodelet_plugin.xml"/>
-  </export>
+  </export> -->
 </package>
