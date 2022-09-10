@@ -205,7 +205,7 @@ Get the ContainerID corresponding to arm64v8/melodic:bionic-melodic
 ```
 sudo docker stop ContainerID
 sudo docker rm ContainerID
-sudodocker rmi arm64v8/melodic:bionic-melodic
+sudo docker rmi arm64v8/melodic:bionic-melodic
 
 cd /mnt/sdcard
 sudo docker load --input arm64v8-noetic-focal_voxl.tar.gz
