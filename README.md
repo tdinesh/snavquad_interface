@@ -30,9 +30,9 @@ We have three hardware platforms available in the lab for use.
 ```
 ssh root@dragonflyX
 ```
-    * Here X is the ID of the MAV
+* Here X is the ID of the MAV
 
-Run the script as sudo. This automatically restarts snav, launches necessary nodes. Enter `y` after snav restarts.
+This automatically restarts snav, launches necessary nodes. Enter `y` after snav restarts.
 ```
 ./tmux_voxl.sh
 ```
