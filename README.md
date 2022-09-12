@@ -22,27 +22,22 @@ We have three hardware platforms available in the lab for use.
 
 ## Board setup
 
-[Snapdragon Flight](doc/SnapFlightSetup.md)
+[Snapdragon Flight (old board)](doc/SnapFlightSetup.md)
 
 [VOXL Board](doc/VOXLSetup.md)
 
-Compile ROS Packages
-  * Run a fan while compiling (onboard or offboard) to avoid damaging the board.
+## Flying with the VOXL board and 230/DDK (platform).
 ```
-cd ~/ws_ros
-catkin build -c
+ssh root@dragonflyX
 ```
- * Grab a cup of coffee; this will take about 40 minutes.
-
-## Flying with the flight board and DDK (platform).
+    * Here X is the ID of the MAV
 
 Run the script as sudo. This automatically restarts snav, launches necessary nodes. Enter `y` after snav restarts.
 ```
-sudo -s
-./tmux_snav.sh
+./tmux_voxl.sh
 ```
 
-There are helper scripts for ground station computer that sets up `ROS_MASTER_URI` and launches necessary nodes. This assumes `quadrotor_control`  and `snavquad_interface` is compiled in your laptop workspace. For example `dragonfly4` platform Enter the vehicle number accordingly.
+There are helper scripts for ground station computer that sets up `ROS_MASTER_URI` and launches necessary nodes. This assumes `kr_mav_control`  and `snavquad_interface` is compiled in your laptop workspace. For example `dragonfly4` platform Enter the vehicle number accordingly.
 
 ```
 roscd snavquad_interface/scripts

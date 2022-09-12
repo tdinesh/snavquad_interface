@@ -160,4 +160,9 @@ sudo docker exec -it voxl_noetic_docker /bin/bash
 [Docker setup on computer](doc/[README_arm64v8_docker.md)
 
 
-## Sync the ROS packages and test the robot
+## Sync the ROS packages and test the robot 30
+  * Assumes voxl indigo and noetic workspaces are compiled under ~/voxl_home
+```
+roscd snavquad_interface/scripts
+./sync_install.sh 30
+```
