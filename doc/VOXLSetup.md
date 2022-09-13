@@ -13,7 +13,7 @@
 ```
 tar -xvf modalai-2-5-2-1.0.1-b.tar.gz
 cd modalai-2-5-2-1.0.1-b
-install.sh
+./install.sh
 ```
   * When asked
         "Do you want this installer to fetch the latest packages, and automatically install them? (y/n)"
@@ -22,12 +22,15 @@ install.sh
 ## Install voxl utils and other ipk
 
 ```
+tar -xvf voxl_working_ipk.tar.gz
 cd voxl_working_ipk
 ./install.sh --adb
 ```
 
 ## Push precompiled ipks to the board and setup files folder to the board
 ```
+tar -xvf snav_setup.tar.gz
+tar -xvf ipk_emulator_v1.1.tar.gz
 adb push ipk_emulator_v1.1 /home/root
 adb push snav_setup /home/root
 ```
@@ -162,7 +165,7 @@ sudo docker exec -it voxl_noetic_docker /bin/bash
 ```
 
 ## Setup docker on laptop and compile packages
-[Docker setup on computer](doc/[README_arm64v8_docker.md)
+[Docker setup on computer](doc/README_arm64v8_docker.md)
 
 
 ## Sync the ROS packages and test the robot 30
