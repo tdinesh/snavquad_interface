@@ -2,12 +2,18 @@
 
 [ModalAI Technichal Docs](https://docs.modalai.com/)
 
+
+
 ## [Flash the board](https://docs.modalai.com/flash-system-image/)
+
+### Setup ADB
+  https://docs.modalai.com/setup-adb/
+
 ### Get the system image `modalai-2-5-2-1.0.1-b.tar.gz`
 ```
 tar -xvf modalai-2-5-2-1.0.1-b.tar.gz
 cd modalai-2-5-2-1.0.1-b
-python install.py
+install.sh
 ```
   * When asked
         "Do you want this installer to fetch the latest packages, and automatically install them? (y/n)"
