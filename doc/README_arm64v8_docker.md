@@ -163,7 +163,7 @@ git clone https://gitlab.com/tdineshd/voxl-hal3-tof-cam-ros.git -b fix/depth_ima
 
 cd ~/voxl_home/ws_indigo/src/snap/snav_ros
 git submodule update --init
-cd ~/voxl_home/ws_indigo/src/snap/voxl_cam_ros
+cd ~/voxl_home/ws_indigo/src/snap/voxl-cam-ros
 git submodule update --init
 
 cd ~/voxl_home/ws_indigo/
@@ -177,7 +177,7 @@ cd voxl-docker
 
 sudo install -m 0755 files/voxl-docker.sh /usr/local/bin/voxl-docker
 
-docker pull kumarrobotics/voxl:voxl-emulator-v1.2-mrsl
+sudo docker pull kumarrobotics/voxl:voxl-emulator-v1.2-mrsl
 ```
 
 ## Run the voxl-emulator
@@ -187,7 +187,7 @@ sudo voxl-docker -i kumarrobotics/voxl:voxl-emulator-v1.2-mrsl -d ~/voxl_home
 
 Compile the indigo workspace in the emulator. Use `catkin build -c`to ignore errors
 ```
-cd ~/voxl_hoome/ws_indigo
+cd ~/ws_indigo
 catkin config -DCMAKE_BUILD_TYPE=Release
 catkin config --install
 source /opt/ros/indigo/setup.bash
