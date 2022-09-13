@@ -7,7 +7,7 @@
 ## [Flash the board](https://docs.modalai.com/flash-system-image/)
 
 ### Setup ADB
-  https://docs.modalai.com/setup-adb/
+  <a href="https://docs.modalai.com/setup-adb/" target="_blank">Opens in new tab</a>
 
 ### Get the system image `modalai-2-5-2-1.0.1-b.tar.gz`
 ```
@@ -22,7 +22,6 @@ install.sh
 ## Install voxl utils and other ipk
 
 ```
-tar -xvf voxl-min-ipk.tar.gz
 cd voxl_working_ipk
 ./install.sh --adb
 ```
