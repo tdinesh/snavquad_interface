@@ -165,7 +165,7 @@ sudo docker exec -it voxl_noetic_docker /bin/bash
 ```
 
 ## Setup docker on laptop and compile packages
-[Docker setup on computer](doc/README_arm64v8_docker.md)
+[Docker setup on computer](README_arm64v8_docker.md)
 
 
 ## Sync the ROS packages and test the robot 30

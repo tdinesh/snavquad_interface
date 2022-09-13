@@ -20,7 +20,7 @@ sudo apt install qemu-user-static android-tools-adb android-tools-fastboot
 ## Get the arm64v8/noetic-bionic docker
 
 ```
-docker pull kumarrobotics/voxl:arm64v8-noetic_bionic_mrsl
+docker pull kumarrobotics/voxl:arm64v8-noetic_focal_mrsl
 ```
 
 ## (Alternate) Build arm64v8/noetic-bionic on an x86 machine
@@ -78,8 +78,9 @@ ln -s ../../common_pkgs common_pkgs
 
 ### Get noetic packages
 
+```
 git clone https://github.com/tdinesh/ewok.git -b devel_replan_noetic
-
+```
 
 ---
 
@@ -89,13 +90,13 @@ git clone https://github.com/tdinesh/ewok.git -b devel_replan_noetic
 sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 ```
 
-#change the folder location for voxl_home to your own shared folder
+ * change the folder location for voxl_home to your own shared folder
 
 ```
 sudo docker run -it --privileged \
   --net=host --name voxl_noetic_docker \
   -v /dev/ptmx:/opt/ptmx \
-  -v /home/voxl_home:/root/voxl_home:rw \
+  -v ~/voxl_home:/root/voxl_home:rw \
   -w /root/ \
   kumarrobotics/voxl:arm64v8-noetic_focal_mrsl \
   /bin/bash
@@ -107,8 +108,10 @@ sudo docker exec -it voxl_noetic_docker /bin/bash
 Compile the noetic workspace in the docker
 
 ```
+cd ~/voxl_home/ws_noetic
 catkin config -DCMAKE_BUILD_TYPE=Release
 catkin config --install
+catkin build -c
 ```
 
 ---
@@ -130,9 +133,11 @@ ln -s ../../common_pkgs/snavquad_interface  snavquad_interface
 ```
 
 ### Get indigo pacakges
+
+  * Following assumes you have setup ssh-keys for github
 ```
 
-git clone https://github.com/tdinesh/quadrotor_ukf.git -b devel_tf_imu
+git clone git@github.com:tdinesh/quadrotor_ukf.git -b devel_tf_imu
 
 git clone https://github.com/ros/roslint.git
 git clone https://github.com/ros-perception/image_transport_plugins.git -b indigo-devel
@@ -182,6 +187,7 @@ sudo voxl-docker -i kumarrobotics/voxl:voxl-emulator-v1.2-mrsl -d ~/voxl_home
 
 Compile the indigo workspace in the emulator. Use `catkin build -c`to ignore errors
 ```
+cd ~/voxl_hoome/ws_indigo
 catkin config -DCMAKE_BUILD_TYPE=Release
 catkin config --install
 source /opt/ros/indigo/setup.bash
