@@ -55,7 +55,9 @@ exit
 adb reboot && adb wait-for-device
 ssh root@dragonfly30
 ```
- * password `oelinux123`
+  * password `oelinux123`
+  * If ssh fails, likely the hostname is not resolving.
+    `sudo ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf`
 
 
 ## Installing snav and other ipks
