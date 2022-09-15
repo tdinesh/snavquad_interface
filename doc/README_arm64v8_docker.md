@@ -17,13 +17,13 @@ sudo apt install qemu-user-static android-tools-adb android-tools-fastboot
 ```
 ---
 
-## Get the arm64v8/noetic-bionic docker
+### Get the arm64v8/noetic-bionic docker
 
 ```
 docker pull kumarrobotics/voxl:arm64v8-noetic_focal_mrsl
 ```
 
-## (Alternate) Build arm64v8/noetic-bionic on an x86 machine
+#### (Alternate) Build arm64v8/noetic-bionic on an x86 machine
 Make sure the you've installed the prerequisites
 
 Following registers new handlers for ELF binaries built for alternative architectures 
@@ -37,7 +37,7 @@ This will take a while. Grab a coffee!
 
 ---
 
-## Setup common package folder (both for indigo/noetic)
+### Setup common package folder (both for indigo/noetic)
 ```
 mkdir -p ~/voxl_home/common_pkgs
 cd ~/voxl_home/common_pkgs
@@ -64,7 +64,7 @@ cd ~/voxl_home/common_pkgs/multi_mav_manager
 git submodule update --init
 ```
 
-## Setup noetic workspace
+### Setup noetic workspace
 ```
 mkdir -p ~/voxl_home/ws_noetic/src
 cd ~/voxl_home/ws_noetic/src
@@ -84,7 +84,7 @@ git clone https://github.com/tdinesh/ewok.git -b devel_replan_noetic
 
 ---
 
-## Run the arm64v8 noetic docker
+### Run the arm64v8 noetic docker
 
 ```
 sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
@@ -116,7 +116,7 @@ catkin build -c
 
 ---
 
-## Setup indigo workspace
+### Setup indigo workspace
 ```
 mkdir -p ~/voxl_home/ws_indigo/src
 cd ~/voxl_home/ws_indigo/src
@@ -169,7 +169,7 @@ git submodule update --init
 cd ~/voxl_home/ws_indigo/
 ```
 
-## Download and the voxl-emulator docker
+### Download and the voxl-emulator docker
 ```
 cd ~/Downloads
 git clone https://gitlab.com/voxl-public/voxl-docker.git
@@ -180,7 +180,7 @@ sudo install -m 0755 files/voxl-docker.sh /usr/local/bin/voxl-docker
 sudo docker pull kumarrobotics/voxl:voxl-emulator-v1.2-mrsl
 ```
 
-## Run the voxl-emulator
+### Run the voxl-emulator
 ```
 sudo voxl-docker -i kumarrobotics/voxl:voxl-emulator-v1.2-mrsl -d ~/voxl_home
 ```
