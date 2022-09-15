@@ -48,7 +48,7 @@ git clone https://github.com/KumarRobotics/jps3d.git
 git clone https://github.com/ATLFlight/snap_msgs.git
 
 git clone https://github.com/tdinesh/qflight_descriptions.git -b devel_kr
-git clone https://github.com/tdinesh/snavquad_interface.git -b devel_cleanup
+git clone https://github.com/tdinesh/snavquad_interface.git -b devel
 git clone https://github.com/tdinesh/snav_replanning.git -b devel_noetic
 
 git clone https://github.com/KumarRobotics/kr_mav_control.git
@@ -224,6 +224,8 @@ sudo docker run -it --privileged \
   -w /root/ \
   kumarrobotics/voxl:arm64v8-noetic-focal_voxl \
   /bin/bash
+
+exit
 
 sudo docker start voxl_noetic_docker
 sudo docker exec -it voxl_noetic_docker /bin/bash

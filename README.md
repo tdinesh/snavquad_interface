@@ -19,16 +19,21 @@ We have three hardware platforms available in the lab for use.
 
 [VOXL Board](doc/VOXLSetup.md)
 
+## Setup packages on Laptop
+
+[Setup ROS](doc/ROSSetup.md)
+
 ## Flying with the VOXL board and 230/DDK (platform).
 ```
 ssh root@dragonflyX
 ```
-* Here X is the ID of the MAV
+  * Here X is the ID of the MAV
 
 This automatically restarts snav, launches necessary nodes. Enter `y` after snav restarts.
 ```
 ./tmux_voxl.sh
 ```
+  * Switch to the `Kill` tab in the tmux window and enter the session name `tmux_snav`, press Enter to close everything
 
 There are helper scripts for ground station computer that sets up `ROS_MASTER_URI` and launches necessary nodes. This assumes `kr_mav_control`  and `snavquad_interface` is compiled in your laptop workspace. For example `dragonfly4` platform Enter the vehicle number accordingly.
 
@@ -45,3 +50,17 @@ roscd snavquad_interface/scripts/capture
 
 ## Calibrating the cameras.
 [Calibrate](doc/CameraCalib.md)
+
+## Calibrating the IMU
+  * Restart the MAV before IMU calbiration
+  * Below command does a static IMU calibration
+  * Without IMU calibration the leds will be blinking yellow
+  * After calibration the leds will blink blue
+
+```
+systemctl stop snav
+systemctl start snav
+snav_calibration_manager -s
+
+systemctl restart snav
+```
