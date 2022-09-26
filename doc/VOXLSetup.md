@@ -74,7 +74,12 @@ opkg install opencv_3.4.6_8x96.ipk
 opkg install rsync_3.1.2_8x96.ipk
 ```
 
-### [Setting cameras](https://docs.modalai.com/camera-connections/)
+### [Setting cameras](https://docs.modalai.com/configure-cameras/)
+
+Based on the attached camera configurations, choose the correct one
+https://docs.modalai.com/voxl-camera-config/
+
+For only the tracking camera use the following
 `voxl-configure-cameras 3`
 
 This updates the following files

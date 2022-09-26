@@ -113,10 +113,15 @@ catkin config -DCMAKE_BUILD_TYPE=Release
 catkin config --install
 catkin build -c
 ```
+  * Compiling takes rougly 40-50min based on the system
+
 
 ---
 
 ### Setup indigo workspace
+
+Open a new terminal and setup indigo workspace
+  * Note do not run the following instructions in the noetic docker.
 ```
 mkdir -p ~/voxl_home/ws_indigo/src
 cd ~/voxl_home/ws_indigo/src
@@ -161,8 +166,6 @@ git clone https://github.com/tdinesh/snap_imu.git -b fix/publish_rate
 git clone https://gitlab.com/tdineshd/voxl-cam-ros.git -b devel_cinfo_path
 git clone https://gitlab.com/tdineshd/voxl-hal3-tof-cam-ros.git -b fix/depth_image
 
-cd ~/voxl_home/ws_indigo/src/snap/snav_ros
-git submodule update --init
 cd ~/voxl_home/ws_indigo/src/snap/voxl-cam-ros
 git submodule update --init
 
@@ -233,8 +236,9 @@ sudo docker exec -it voxl_noetic_docker /bin/bash
 
 ### Setting the cameras
 
-Check the configurations from
-https://docs.modalai.com/camera-connections/#camera-ports
+Check the camera configurations from
+https://docs.modalai.com/configure-cameras/
+https://docs.modalai.com/voxl-camera-config/
 
 Then ex Tracking + TOF
 `voxl-configure-cameras 5`

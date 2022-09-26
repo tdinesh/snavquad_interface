@@ -14,7 +14,7 @@ sudo apt install ros-${ROS_DISTRO}-octomap-server ros-${ROS_DISTRO}-octomap-ros 
 sudo apt install ros-${ROS_DISTRO}-vision-msgs
 ```
 
-### Install Gazebo 11: (Not needed if “ros-noetic-desktop-full” is installed)
+### Install Gazebo:
 
 ```
 sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
@@ -22,7 +22,7 @@ wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
 
 sudo apt update
 sudo apt install gazebo11
-sudo apt install ros-${ROS_DISTRO}-gazebo11-ros ros-${ROS_DISTRO}-gazebo11-plugins
+sudo apt install ros-${ROS_DISTRO}-gazebo-ros ros-${ROS_DISTRO}-gazebo-plugins
 
 ```
 
@@ -46,10 +46,10 @@ git clone https://github.com/tdinesh/snavquad_interface.git -b devel
 
 ### Compile:
 ```
-  cd ~/ws_kr/src/kr_pkgs/kr_mav_control
+  cd ~/ws_kr/src/kr_mav_control
   git submodule update --init --recursive
 
-  cd ~/ws_kr/src/kr_pkgs/multi_mav_manager
+  cd ~/ws_kr/src/multi_mav_manager
   git submodule update --init --recursive
 
   cd ~/ws_kr
