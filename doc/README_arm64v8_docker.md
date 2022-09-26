@@ -113,7 +113,7 @@ catkin config -DCMAKE_BUILD_TYPE=Release
 catkin config --install
 catkin build -c
 ```
-  * Compiling takes rougly 40-50min based on the system
+  * Compiling takes roughly 40-50min based on the system
 
 
 ---
@@ -197,6 +197,19 @@ catkin config --install
 source /opt/ros/indigo/setup.bash
 catkin build -c
 ```
+  * Compiling takes roughly 20-30min based on the system
+
+### Setting the cameras
+
+Check the camera configurations from
+https://docs.modalai.com/configure-cameras/
+
+https://docs.modalai.com/voxl-camera-config/
+
+Then ex Tracking + TOF
+`voxl-configure-cameras 5`
+
+---
 
 ###  Note about building packages in voxl emulater
 
@@ -234,11 +247,3 @@ sudo docker start voxl_noetic_docker
 sudo docker exec -it voxl_noetic_docker /bin/bash
 ```
 
-### Setting the cameras
-
-Check the camera configurations from
-https://docs.modalai.com/configure-cameras/
-https://docs.modalai.com/voxl-camera-config/
-
-Then ex Tracking + TOF
-`voxl-configure-cameras 5`
