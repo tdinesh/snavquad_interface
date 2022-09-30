@@ -43,7 +43,6 @@ mkdir -p ~/voxl_home/common_pkgs
 cd ~/voxl_home/common_pkgs
 
 git clone https://github.com/tdinesh/apriltag.git
-git clone https://github.com/tdinesh/tag_man.git
 git clone https://github.com/catkin/catkin_simple.git
 git clone https://github.com/KumarRobotics/jps3d.git
 git clone https://github.com/ATLFlight/snap_msgs.git
@@ -81,6 +80,7 @@ ln -s ../../common_pkgs common_pkgs
 
 ```
 git clone https://github.com/tdinesh/ewok.git -b devel_replan_noetic
+git clone https://github.com/tdinesh/tag_man.git
 ```
 
 ---
