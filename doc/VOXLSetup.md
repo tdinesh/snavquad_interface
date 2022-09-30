@@ -72,6 +72,7 @@ opkg install libevent_2.1.11_8x96.ipk
 opkg install tmux_2.1_8x96.ipk
 opkg install opencv_3.4.6_8x96.ipk
 opkg install rsync_3.1.2_8x96.ipk
+pip3 install pyyaml rospkg
 ```
 
 ### [Setting cameras](https://docs.modalai.com/configure-cameras/)
@@ -145,9 +146,30 @@ systemctl restart snav
 ```
 
 ```
+cd ~/
 mkdir -p /data/home_linaro
 ln -s /data/home_linaro/ws_indigo/install/share/snavquad_interface/scripts/tmux_voxl.sh tmux_voxl.sh
 ln -s ~/ws_ros/install/share/snavquad_interface/scripts/capture/record.sh
+```
+
+### Create bashrc for docker, Set environment variable based on vehicle ID, example 30
+```
+export MAV_ID=30
+
+echo "" > /data/home_linaro/.bashrc_voxl
+
+echo "source ~/home_linaro/ws_noetic/install/setup.bash" >> /data/home_linaro/.bashrc_voxl
+echo "export MAV_ID=$MAV_ID" >> /data/home_linaro/.bashrc_voxl
+echo "export MAV_NAME=dragonfly$MAV_ID" >> /data/home_linaro/.bashrc_voxl
+echo "export MAV_TYPE=230" >> /data/home_linaro/.bashrc_voxl
+echo "export MAV_MASS=0.245" >> /data/home_linaro/.bashrc_voxl
+echo "export MAV_BOARD=sdf_pro_imu1" >> /data/home_linaro/.bashrc_voxl
+echo "export IMU_1_USED=true" >> /data/home_linaro/.bashrc_voxl
+echo "export XBEE_BUS=12" >> /data/home_linaro/.bashrc_voxl
+echo "export USE_LOG_CAMERA_HEIGHT=false" >> /data/home_linaro/.bashrc_voxl
+echo "export LOG_CAMERA_HEIGHT=-3.912" >> /data/home_linaro/.bashrc_voxl
+echo "export USE_VIO_MASK=false" >> /data/home_linaro/.bashrc_voxl
+echo "export TOF_PITCH=-1.570796" >> /data/home_linaro/.bashrc_voxl
 ```
 
 ### Configure docker and Load Noetic arm64v8-noetic-focal_voxl.tar.gz docker from SD card

@@ -29,7 +29,7 @@ ssh root@dragonflyX
 ```
   * Here X is the ID of the MAV
 
-This automatically restarts snav, launches necessary nodes. Enter `y` after snav restarts.
+This automatically restarts snav, launches necessary nodes.
 ```
 ./tmux_voxl.sh
 ```
